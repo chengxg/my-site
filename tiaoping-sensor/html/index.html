@@ -1,0 +1,1237 @@
+<!DOCTYPE html>
+<html>
+
+  <head lang="en">
+    <meta charset="UTF-8" />
+    <title>3D打印机调平传感器</title>
+    <link href="./js/reset.min.css" rel="stylesheet">
+    <script src="./js/vue.global.min.js"></script>
+    <script src="./js/echarts.min.js"></script>
+    <script src="./js/dayjs_plugin.min.js"></script>
+    <script src="./js/antd.min.js"></script>
+    <style>
+      #app {
+        display: flex;
+        flex-direction: row;
+        height: 100vh;
+        background-color: #f0f0f0;
+      }
+
+      .left-serial {
+        width: 220px;
+        height: 100%;
+        padding: 10px 5px;
+        background-color: #fff;
+      }
+
+      .ant-form-item {
+        margin-bottom: 5px;
+      }
+
+      .right-content {
+        margin-left: 5px;
+        flex: 1;
+        height: 100%;
+      }
+
+      #chart {
+        background-color: #fff;
+        min-height: 300px;
+      }
+
+      .item-tag {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        margin-left: 15px;
+        height: 30px;
+        width: 100px;
+        font-size: 18px;
+        font-weight: bold;
+        color: #fff;
+        user-select: none;
+        cursor: pointer;
+        border-radius: 5px;
+      }
+
+      .red500 {
+        background-color: #f44336;
+      }
+
+      .green600 {
+        background-color: #43a047;
+      }
+
+      .brown500 {
+        background-color: #795548;
+      }
+
+      .gray200 {
+        background-color: #eee;
+      }
+
+      .form-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 5px 5px;
+      }
+
+      .form-item:hover {
+        background-color: #f0f0f0;
+      }
+
+      .form-item-lable {
+        text-align: right;
+        width: 85px;
+        font-size: 16px;
+        font-weight: bold;
+        user-select: none;
+      }
+
+      .form-item-cnt {
+        flex: 1;
+        text-align: left;
+        margin-left: 5px;
+
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+      }
+
+      .btn-icon {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 2px 5px;
+      }
+
+      .btn-icon svg {
+        width: 16px;
+        height: 16px;
+        color: #fff;
+        fill: #fff;
+      }
+    </style>
+    <style>
+      .sensor-card-list {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        align-items: flex-start;
+        padding: 5px;
+        background-color: #fff;
+      }
+
+      .sensor-card {
+        position: relative;
+        width: 100%;
+        width: 200px;
+        height: 80px;
+        user-select: none;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        margin-right: 10px;
+      }
+
+      .sensor-card .sensor-name {
+        position: absolute;
+        width: 80px;
+        height: 24px;
+        top: 10px;
+        left: 10px;
+        font-size: 16px;
+        font-weight: bold;
+        color: #666;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+      }
+
+      .sensor-card .sensor-index {
+        position: absolute;
+        width: 24px;
+        height: 24px;
+        padding: 0 5px;
+        top: 10px;
+        left: 10px;
+        font-size: 16px;
+        font-weight: bold;
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 100%;
+      }
+
+      .sensor-card .sensor-diff-value {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 22px;
+        width: 80px;
+        font-weight: bold;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        color: #512da8;
+      }
+
+      .sensor-card .sensor-param {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 18px;
+        width: 120px;
+        height: 24px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        color: white;
+      }
+
+      .sensor-card .sensor-param-rate {
+        width: 60px;
+        height: 24px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #607d8b;
+      }
+
+      .sensor-card .sensor-param-base {
+        flex: 1;
+        height: 24px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .sensor-card .sensor-base-value,
+      .sensor-card .sensor-current-value {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        font-size: 22px;
+        width: 80px;
+        font-weight: bold;
+      }
+
+      .sensor-card .sensor-base-value {
+        bottom: 10px;
+        left: 10px;
+        color: #43a047;
+        justify-content: flex-start;
+      }
+
+      .sensor-card .sensor-current-value {
+        bottom: 10px;
+        right: 10px;
+        color: #f44336;
+        justify-content: flex-end;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="app">
+      <div class="left-serial">
+        <div style="font-size: 18px;font-weight: bold;text-align: center;color: #512da8;margin-bottom: 18px;">3D打印机调平传感器</div>
+        <div class="form-item">
+          <div class="form-item-lable">串口连接</div>
+          <div class="form-item-cnt">
+            <a-button-group>
+              <a-button class="btn-icon" style="width: 50px;" type="primary" @click="serialToggleOpen">
+                {{serial.open ? "关闭" : "打开" }}
+              </a-button>
+              <a-button class="btn-icon" style="width: 50px;" type="primary" @click="serialToggleStop" :disabled="!serial.open">
+                {{ serial.stop ? "恢复" : "暂停" }}
+              </a-button>
+            </a-button-group>
+          </div>
+        </div>
+        <div class="form-item">
+          <div class="form-item-lable">波特率</div>
+          <div class="form-item-cnt">
+            <a-select v-model:value="serial.baudRate" :disabled="!serial.suport || serial.open" style="width: 100px;">
+              <a-select-option v-for="item in serialOptions.baudRateOptions" :key="item.value" :value="item.value">{{item.label}}</a-select-option>
+            </a-select>
+          </div>
+        </div>
+        <div class="form-item">
+          <div class="form-item-lable">同步时间</div>
+          <div class="form-item-cnt">
+            <a-select v-model:value="appData.triggerSyncStatusInterval" :disabled="!serial.suport || !serial.open"
+              @change="commandMethods.setAutoSyncDeiveStatus" style="width: 100px;">
+              <a-select-option v-for=" item in appData.triggerSyncStatusOptions" :key="item.value" :value="item.value">{{item.label}}</a-select-option>
+            </a-select>
+          </div>
+        </div>
+        <div class="form-item">
+          <div class="form-item-lable">触发高阈值</div>
+          <div class="form-item-cnt">
+            <a-popover title="设置触发高阈值" trigger="hover" placement="right" @open-change="updateConfigInput">
+              <template #content>
+                <a-input-number v-model:value="deviceState.inputTrigThresholdHigh" @change="changeDeviceParams" style="width: 100%;" :min="0"
+                  :max="6500"></a-input-number>
+              </template>
+              <div class="item-tag green600">
+                {{deviceState.trigThresholdHigh}}
+              </div>
+            </a-popover>
+          </div>
+        </div>
+        <div class="form-item">
+          <div class="form-item-lable">触发低阈值</div>
+          <div class="form-item-cnt">
+            <a-popover title="设置触发低阈值" trigger="hover" placement="right" @open-change="updateConfigInput">
+              <template #content>
+                <a-input-number v-model:value="deviceState.inputTrigThresholdLow" @change="changeDeviceParams" style="width: 100%;" :min="0"
+                  :max="6500"></a-input-number>
+              </template>
+              <div class="item-tag red500">
+                {{deviceState.trigThresholdLow}}
+              </div>
+            </a-popover>
+          </div>
+        </div>
+        <div class="form-item">
+          <div class="form-item-lable">校准偏差</div>
+          <div class="form-item-cnt">
+            <a-popover title="设置自动校准偏差" trigger="hover" placement="right" @open-Change="updateConfigInput">
+              <template #content>
+                <a-input-number v-model:value="deviceState.inputCalibrationError" @change="changeDeviceParams" style="width: 100%;" :min="0"
+                  :max="6500"></a-input-number>
+              </template>
+              <div class="item-tag brown500">
+                {{deviceState.calibrationError}}
+              </div>
+            </a-popover>
+          </div>
+        </div>
+        <div class="form-item">
+          <div class="form-item-lable">刷新率</div>
+          <div class="form-item-cnt">
+            <div class="item-tag gray200" style="color:#333;">
+              {{deviceState.loopRate}} k/s
+            </div>
+          </div>
+        </div>
+        <div class="form-item">
+          <div class="form-item-lable">程序下载</div>
+          <div class="form-item-cnt">
+            <a class="item-tag gray200" style="color: #f44336;" href="../tiaoping-sensor.zip" download="tiaoping-sensor.zip">
+              下载
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="right-content">
+        <div class="sensor-card-list">
+          <div class="sensor-card">
+            <div class="sensor-name" style="width: 100px;">传感器总值</div>
+            <div class="sensor-diff-value">
+              <a-popover title="总差值" trigger="hover" placement="right">
+                <template #content>
+                  <div>currentValue-compareValue={{formatValue(deviceState.currentValue - deviceState.compareValue,0)}}</div>
+                </template>
+                {{formatValue(deviceState.currentValue - deviceState.compareValue,0)}}
+              </a-popover>
+            </div>
+            <div class="sensor-base-value">
+              <a-popover title="静止时总基准值" trigger="hover" placement="right">
+                <template #content>
+                  <div>
+                    <div>compareValue=</div>
+                    <div>(adc1Init*adc1Rate+adc1Base)+</div>
+                    <div>(adc2Init*adc2Rate+adc2Base)+</div>
+                    <div>(adc3Init*adc3Rate+adc3Base)+</div>
+                    <div>(adc4Init*adc4Rate+adc4Base)</div>
+                  </div>
+                </template>
+                {{formatValue(deviceState.compareValue,1)}}
+              </a-popover>
+            </div>
+            <div class="sensor-current-value">
+              <a-popover title="当前总值" trigger="hover" placement="right">
+                <template #content>
+                  <div>
+                    <div>currentValue=</div>
+                    <div>(adc1*adc1Rate+adc1Base)+</div>
+                    <div>(adc2*adc2Rate+adc2Base)+</div>
+                    <div>(adc3*adc3Rate+adc3Base)+</div>
+                    <div>(adc4*adc4Rate+adc4Base)</div>
+                  </div>
+                </template>
+                {{formatValue(deviceState.currentValue,1)}}
+              </a-popover>
+            </div>
+          </div>
+          <div class="sensor-card" v-for="(item,index) in deviceState.channels" :key="index">
+            <div class="sensor-index" :style="{'background-color': item.color}">
+              {{index+1}}
+            </div>
+            <a-popover :title="`传感器${index+1}参数`" trigger="hover" placement="right" @open-change="updateConfigInput">
+              <template #content>
+                <div>
+                  放大倍率adc{{index+1}}Rate:
+                  <a-input-number v-model:value="item.inputAdcRate" @change="changeDeviceParams" style="width: 100%;" :min="0" :max="50" :step="0.1" />
+                </div>
+                <div>
+                  偏移adc{{index+1}}Base:
+                  <a-input-number v-model:value="item.inputAdcBase" @change="changeDeviceParams" style="width: 100%;" :min="-2000" :max="2000" :step="1" />
+                </div>
+              </template>
+              <div class="sensor-param">
+                <div class="sensor-param-rate">×{{item.adcRate}}</div>
+                <div class="sensor-param-base" :style="{'background-color': item.color}">
+                  {{item.adcBase}}
+                </div>
+              </div>
+            </a-popover>
+            <div class="sensor-base-value">
+              <a-popover :title="`传感器${index+1}比较值`" trigger="hover" placement="right" @open-change="updateConfigInput">
+                <template #content>
+                  adc{{index+1}}Init
+                </template>
+                {{item.adcInit}}
+              </a-popover>
+            </div>
+            <div class="sensor-current-value">
+              <a-popover :title="`传感器${index+1}当前读数值`" trigger="hover" placement="right" @open-change="updateConfigInput">
+                <template #content>
+                  adc{{index+1}}
+                </template>
+                {{item.adc}}
+              </a-popover>
+            </div>
+          </div>
+        </div>
+        <div id="chart" style="width: 100%; height: calc(100vh - 90px);"></div>
+      </div>
+    </div>
+
+    <script>
+      function useCicleFIFO(bufferSize) {
+        let buffer = [];
+        let headPos = 0;
+        let tailPos = 0;
+
+        function push(data) {
+          buffer[tailPos] = data;         //从尾部追加
+          if (++tailPos >= bufferSize) { //尾节点偏移
+            tailPos = 0;
+          }
+          if (tailPos == headPos) {
+            if (++headPos >= bufferSize) {
+              headPos = 0;
+            }
+          }
+        }
+
+        function pop() {
+          let data = null;
+          //如果头尾接触表示缓冲区为空
+          if (headPos != tailPos) {
+            data = buffer[headPos];
+            if (++headPos >= bufferSize) {
+              headPos = 0;
+            }
+          }
+          return data;
+        }
+
+        function clear() {
+          head = 0;
+          tail = 0;
+          count = 0;
+          buffer = []
+        }
+
+        function getCount() {
+          if (tailPos >= headPos) {
+            return tailPos - headPos
+          } else {
+            return bufferSize - headPos + tailPos
+          }
+        }
+
+        function toArrayData() {
+          let arr = []
+          if (tailPos >= headPos) {
+            for (let i = headPos; i < tailPos; i++) {
+              arr.push(buffer[i])
+            }
+          } else {
+            for (let i = headPos; i < bufferSize; i++) {
+              arr.push(buffer[i])
+            }
+            for (let i = 0; i < tailPos; i++) {
+              arr.push(buffer[i])
+            }
+          }
+          return arr
+        }
+
+        return {
+          push,
+          pop,
+          clear,
+          getCount,
+          toArrayData
+        }
+      }
+      function useSerial() {
+        const { ref, reactive } = Vue
+        let port = null;
+        let writer = null;
+        let reader = null;
+        let readDataCallback = null; // 读取数据回调
+        let serialOpenCallback = null; // 串口打开回调
+
+        let serial = reactive({
+          name: "",
+          baudRate: 1000000,
+          dataBits: 8, // 7 or 8
+          stopBits: 1, // 1 or 2
+          parity: "none", // "none", "even", "odd
+          bufferSize: 1024,
+          state: "", // closed, opening, opened
+          suport: "serial" in navigator,
+          open: false, // 串口是否打开
+          stop: false, // 是否停止读取数据
+        })
+
+        let serialOptions = reactive({
+          baudRateOptions: [
+            { label: 9600, value: 9600 },
+            { label: 19200, value: 19200 },
+            { label: 38400, value: 38400 },
+            { label: 57600, value: 57600 },
+            { label: 115200, value: 115200 },
+            { label: 128000, value: 128000 },
+            { label: 230400, value: 230400 },
+            { label: 921600, value: 921600 },
+            { label: 1000000, value: 1000000 },
+            { label: 1200000, value: 1200000 },
+            { label: 1500000, value: 1500000 },
+            { label: 2000000, value: 2000000 },
+          ],
+          dataBitsOptions: [
+            { label: 7, value: 7 },
+            { label: 8, value: 8 },
+          ],
+          stopBitsOptions: [
+            { label: 1, value: 1 },
+            { label: 2, value: 2 },
+          ],
+          parityOptions: [
+            { label: "无", value: "none" },
+            { label: "奇", value: "even" },
+            { label: "偶", value: "odd" },
+          ],
+        })
+
+        async function initPort() {
+          const ports = await navigator.serial.getPorts();
+          console.log(ports)
+          let cacheCOMInfo = localStorage.getItem("COMInfo")
+          if (cacheCOMInfo) {
+            let cacheCOMInfoObj = JSON.parse(cacheCOMInfo)
+            serial.name = cacheCOMInfoObj.name
+            serial.baudRate = cacheCOMInfoObj.baudRate
+            serial.dataBits = cacheCOMInfoObj.dataBits
+            serial.stopBits = cacheCOMInfoObj.stopBits
+            serial.parity = cacheCOMInfoObj.parity
+            serial.bufferSize = cacheCOMInfoObj.bufferSize
+          }
+        }
+
+        function saveCOMInfo() {
+          let cacheCOMInfo = {
+            name: serial.name,
+            baudRate: serial.baudRate,
+            dataBits: serial.dataBits,
+            stopBits: serial.stopBits,
+            parity: serial.parity,
+            bufferSize: serial.bufferSize
+          }
+          localStorage.setItem("COMInfo", JSON.stringify(cacheCOMInfo))
+        }
+
+        async function openPort() {
+          if (!("serial" in navigator)) {
+            return
+          }
+          // 获取用户之前授予该网站访问权限的所有串口。
+          const ports = await navigator.serial.getPorts();
+          console.log(ports)
+          port = await navigator.serial.requestPort();
+          console.log(port)
+          // 等待串口打开
+          await port.open({
+            baudRate: serial.baudRate,
+            dataBits: serial.dataBits,
+            stopBits: serial.stopBits,
+            parity: serial.parity,
+            bufferSize: serial.bufferSize,
+          });
+          writer = await port.writable.getWriter()
+          reader = await port.readable.getReader()
+          serial.open = true
+          serial.stop = false
+          saveCOMInfo()
+          serialOpenCallback && serialOpenCallback()
+          try {
+            while (true) {
+              const { value, done } = await reader.read();
+              if (done) {
+                writer.releaseLock();
+                reader.releaseLock();
+                break;
+              }
+              if (!serial.stop) {
+                readDataCallback && readDataCallback(value)
+              }
+            }
+          } catch (error) {
+            console.log(error)
+          } finally {
+            writer.releaseLock();
+            reader.releaseLock();
+          }
+        }
+
+        function setReadDataCallback(callback) {
+          readDataCallback = callback
+        }
+
+        function setSerialOpenCallback(callback) {
+          serialOpenCallback = callback
+        }
+
+        async function closePort() {
+          if (port) {
+            serial.open = false;
+            serial.stop = true;
+            try {
+              await writer.abort();
+              await reader.cancel();
+              await port.close();
+            } catch (error) {
+              console.log(error);
+            } finally {
+              writer.releaseLock();
+              reader.releaseLock();
+            }
+          }
+        }
+
+        function serialWriteData(data) {
+          if (writer) {
+            // console.log("send", data)
+            writer.write(data)
+          }
+        }
+
+        function serialToggleStop() {
+          serial.stop = !serial.stop
+        }
+
+        return {
+          serial,
+          serialOptions,
+          initPort,
+          openPort,
+          closePort,
+          serialWriteData,
+          serialToggleStop,
+          setReadDataCallback,
+          setSerialOpenCallback
+        }
+      }
+      function useMyCommand() {
+        let command = {
+          Start1: 0xf0,
+          Start2: 0xf1,
+          End1: 0xe0,
+          End2: 0xe1,
+          isStart: false,
+          count: 0,
+          bufferSize: 64,
+          buffer: new Array(64),
+        }
+        let commandCallback = null;
+
+        function addCommandData(tempData) {
+          if (!command.isStart) {
+            if (command.count == 0 && tempData != command.Start1) {
+              return;
+            }
+            command.count++;
+            if (command.count == 2) {
+              if (command.Start2 == tempData) {
+                command.isStart = true;
+                command.count = 0;
+              } else {
+                command.count = 0;
+                if (tempData == command.Start1) {
+                  command.count++;
+                }
+              }
+            }
+            if (command.count > 2) {
+              command.count = 0;
+              command.isStart = false;
+            }
+            return;
+          }
+
+          if (command.count >= command.bufferSize) {
+            command.count = 0;
+            command.isStart = false;
+          }
+
+          command.buffer[command.count] = tempData;
+          command.count++;
+
+          if (command.isStart && command.count >= 4) {
+            // 检测结束
+            if (tempData == command.End2 && command.buffer[command.count - 2] == command.End1) {
+              // 长度位
+              if (command.buffer[command.count - 3] == command.count - 3) {
+                if (typeof commandCallback == "function") {
+                  // console.log("recv", command.buffer, command.count - 3)
+                  commandCallback(command.buffer, command.count - 3);
+                }
+                command.isStart = false;
+                command.count = 0;
+              }
+            }
+          }
+        }
+
+        function getCheckSum(buffer, start, end) {
+          let i = 0;
+          let sum = 0;
+          for (i = start; i < end; i++) {
+            sum += buffer[i];
+          }
+          return sum % 256;
+        }
+
+        function createdCommandData(dataArr) {
+          let len = dataArr.length;
+          let buffer = new Uint8Array(len + 6);
+          let i = 0;
+          buffer[i++] = command.Start1;
+          buffer[i++] = command.Start2;
+          for (let j = 0; j < len; j++) {
+            buffer[i++] = dataArr[j];
+          }
+          buffer[i++] = getCheckSum(buffer, 2, i)
+          buffer[i] = i - 2;
+          i++;
+          buffer[i++] = command.End1;
+          buffer[i++] = command.End2;
+          return buffer;
+        }
+
+        function setResolveCommandCallback(callback) {
+          commandCallback = callback
+        }
+
+        return {
+          addCommandData,
+          createdCommandData,
+          setResolveCommandCallback
+        }
+      }
+      function useChart() {
+        let updateViewTimeId = 0;
+        let lastUpdateViewTime = Date.now();
+        let chart = null;
+        let MaxDataSize = 5000;
+        let chartData = {
+          y1Data: [],
+          y2Data: [],
+          y3Data: [],
+          y4Data: [],
+        }
+        let chart1CicleFIFO = useCicleFIFO(MaxDataSize)
+        let chart2CicleFIFO = useCicleFIFO(MaxDataSize)
+        let chart3CicleFIFO = useCicleFIFO(MaxDataSize)
+        let chart4CicleFIFO = useCicleFIFO(MaxDataSize)
+        let chartCicleFIFOs = [chart1CicleFIFO, chart2CicleFIFO, chart3CicleFIFO, chart4CicleFIFO]
+
+        /* setInterval(() => {
+          addChartData(Math.random() * 1000, Math.random() * 1000, Math.random() * 1000, Math.random() * 1000)
+        }, 10) */
+
+        let chartOptions = {
+          title: {
+            text: '传感器实时数值 adc*rate+base'
+          },
+          grid: {
+            top: 40,
+            left: 50,
+            right: 40,
+            bottom: 50
+          },
+          animation: false,
+          color: ['#039be5', '#4caf50', '#ff9800', '#f44336'],
+          tooltip: {
+            trigger: 'axis',
+          },
+          legend: {
+            // type: 'plain',
+            // icon: "rect",
+            data: ['y1', 'y2', 'y3', 'y4']
+          },
+          xAxis: {
+            type: 'category',
+            splitLine: {
+              show: true
+            },
+            minorTick: {
+              show: true
+            },
+            minorSplitLine: {
+              show: true
+            },
+            min: 0,
+            max: MaxDataSize,
+            splitNumber: 5,
+          },
+          yAxis: {
+            type: 'value',
+            min: -1000,
+            max: 5000,
+            splitNumber: 10,
+            splitLine: {
+              show: true
+            },
+            minorTick: {
+              show: true
+            },
+            minorSplitLine: {
+              show: true
+            }
+          },
+          series: [{
+            name: 'y1',
+            type: 'line',
+            showSymbol: false,
+            clip: true,
+            data: chartData.y1Data,
+            sampling: "lttb", // 采样优化
+          }, {
+            name: 'y2',
+            type: 'line',
+            showSymbol: false,
+            clip: true,
+            data: chartData.y2Data,
+            sampling: "lttb", // 采样优化
+          }, {
+            name: 'y3',
+            type: 'line',
+            showSymbol: false,
+            clip: true,
+            data: chartData.y3Data,
+            sampling: "lttb", // 采样优化
+          }, {
+            name: 'y4',
+            type: 'line',
+            showSymbol: false,
+            clip: true,
+            data: chartData.y4Data,
+            sampling: "lttb", // 采样优化
+          }],
+          dataZoom: [
+            {
+              show: true,
+              type: 'inside',
+              filterMode: 'none',
+              xAxisIndex: [0],
+              startValue: 0,
+              endValue: MaxDataSize
+            },
+            {
+              show: true,
+              type: 'inside',
+              filterMode: 'none',
+              yAxisIndex: [0],
+              startValue: 0,
+              endValue: 5000
+            }
+          ],
+        }
+
+        function initChart() {
+          chart = echarts.init(document.getElementById('chart'));
+          chart.setOption(chartOptions);
+          window.addEventListener("resize", () => {
+            chart.resize()
+          })
+        }
+
+        function addChartData(y1, y2, y3, y4) {
+          chart1CicleFIFO.push(y1)
+          chart2CicleFIFO.push(y2)
+          chart3CicleFIFO.push(y3)
+          chart4CicleFIFO.push(y4)
+
+          let t = Date.now()
+          if (t - lastUpdateViewTime > 300) {
+            clearTimeout(updateViewTimeId)
+            lastUpdateViewTime = t
+            updateChartView()
+          } else {
+            clearTimeout(updateViewTimeId)
+            updateViewTimeId = setTimeout(() => {
+              lastUpdateViewTime = t
+              updateChartView()
+            }, 300)
+          }
+        }
+
+        function updateChartView() {
+          if (!chart) {
+            return
+          }
+          chart.setOption({
+            series: chartCicleFIFOs.map((item, index) => {
+              return {
+                data: item.toArrayData().map((item, index) => {
+                  return [index, item]
+                }),
+                sampling: "lttb", // 采样优化
+              }
+            })
+          });
+        }
+
+        return {
+          initChart,
+          addChartData,
+        }
+      }
+    </script>
+
+    <script>
+      ; (function init() {
+        const { createApp, ref, reactive, onMounted, computed, onUnmounted } = Vue
+
+        const app = createApp({
+          name: "app",
+          components: {},
+          setup(props, context) {
+            let {
+              serial,
+              serialOptions,
+              initPort,
+              openPort,
+              closePort,
+              serialWriteData,
+              serialToggleStop,
+              setReadDataCallback,
+              setSerialOpenCallback,
+            } = useSerial()
+            let {
+              addCommandData,
+              createdCommandData,
+              setResolveCommandCallback
+            } = useMyCommand()
+            let { initChart, addChartData } = useChart()
+            // 设备状态
+            let deviceState = reactive({
+              version: 1,
+              channels: [
+                { adcRate: 0, adcBase: 0, adcInit: 0, adc: 0, inputAdcRate: 0, inputAdcBase: 0, color: '#039be5' },
+                { adcRate: 0, adcBase: 0, adcInit: 0, adc: 0, inputAdcRate: 0, inputAdcBase: 0, color: '#4caf50' },
+                { adcRate: 0, adcBase: 0, adcInit: 0, adc: 0, inputAdcRate: 0, inputAdcBase: 0, color: '#ff9800' },
+                { adcRate: 0, adcBase: 0, adcInit: 0, adc: 0, inputAdcRate: 0, inputAdcBase: 0, color: '#f44336' },
+              ],
+              trigThresholdHigh: 0, // 信号输出触发阈值
+              trigThresholdLow: 0, // 信号输出触发阈值
+              calibrationError: 0, // 小于这个值就自动校准
+              loopCount: 0, // 循环次数
+              curTime: 0, // 单片机时间
+
+              loopRate: 0, // loop循环速率 (curTime - lastTime) / (loopCount - lastLoopCount)
+              currentValue: 0, // 总触发阈值 adcxRate * adcx + adcxBase
+              compareValue: 0, // 比较值 adcxRate * initxADC + adcxBase
+
+              inputTrigThresholdHigh: 0,
+              inputTrigThresholdLow: 0,
+              inputCalibrationError: 0,
+            })
+            let appData = reactive({
+              triggerSyncStatusTimeId: 0,
+              triggerSyncStatusInterval: 50, // 每隔多少毫秒同步一次状态
+              triggerSyncStatusOptions: [
+                { label: "0.25ms", value: 0.25 },
+                { label: "0.5ms", value: 0.5 },
+                { label: "1ms", value: 1 },
+                { label: "2ms", value: 2 },
+                { label: "5ms", value: 5 },
+                { label: "10ms", value: 10 },
+                { label: "20ms", value: 20 },
+                { label: "50ms", value: 50 },
+                { label: "100ms", value: 100 },
+                { label: "200ms", value: 200 },
+                { label: "500ms", value: 500 },
+              ],
+              lastAddSampleTime: Date.now(), // 上次添加采样数据的时间
+              autoGetDeviceParamsTimeId: 0, // 自动刷新配置参数的定时器
+            })
+
+            let commandMethods = {
+              setAutoSyncDeiveStatus() {
+                commandMethods.triggerUpdateDeviceStatus()
+                clearInterval(appData.triggerSyncStatusTimeId)
+                appData.triggerSyncStatusTimeId = setInterval(() => {
+                  commandMethods.triggerUpdateDeviceStatus()
+                }, 2000)
+              },
+              setAutoGetDeviceParams() {
+                commandMethods.getDeviceParams()
+                clearInterval(appData.autoGetDeviceParamsTimeId)
+                appData.autoGetDeviceParamsTimeId = setInterval(() => {
+                  commandMethods.getDeviceParams()
+                }, 1000)
+              },
+              triggerUpdateDeviceStatus() {
+                if (!serial.open) {
+                  return
+                }
+                let triggerSyncStatusInterval = Math.round(appData.triggerSyncStatusInterval * 4)
+                let buffer = [
+                  0x01, 0x02,
+                  // 发送的时间间隔
+                  Math.floor(triggerSyncStatusInterval / 256),
+                  triggerSyncStatusInterval % 256
+                ]
+                //触发自动发送当前值
+                // f0 f1 01 02 00 00 05 e0 e1
+                serialWriteData(createdCommandData(buffer))
+              },
+              updateDeviceStatus(dataArr) {
+                // 赋值到js变量里
+                let i = 2;
+                let adc1 = (dataArr[i++] << 8) + dataArr[i++];
+                let adc2 = (dataArr[i++] << 8) + dataArr[i++];
+                let adc3 = (dataArr[i++] << 8) + dataArr[i++];
+                let adc4 = (dataArr[i++] << 8) + dataArr[i++];
+
+                let adc1Value = adc1 * deviceState.channels[0].adcRate + deviceState.channels[0].adcBase
+                let adc2Value = adc2 * deviceState.channels[1].adcRate + deviceState.channels[1].adcBase
+                let adc3Value = adc3 * deviceState.channels[2].adcRate + deviceState.channels[2].adcBase
+                let adc4Value = adc4 * deviceState.channels[3].adcRate + deviceState.channels[3].adcBase
+                adc1Value = Math.round(adc1Value)
+                adc2Value = Math.round(adc2Value)
+                adc3Value = Math.round(adc3Value)
+                adc4Value = Math.round(adc4Value)
+
+                // 添加到图表里
+                addChartData(adc1Value, adc2Value, adc3Value, adc4Value)
+                let t = Date.now()
+                if (t - appData.lastAddSampleTime > 300) {
+                  appData.lastAddSampleTime = t
+                  deviceState.channels[0].adc = adc1
+                  deviceState.channels[1].adc = adc2
+                  deviceState.channels[2].adc = adc3
+                  deviceState.channels[3].adc = adc4
+                  deviceState.currentValue = adc1Value + adc2Value + adc3Value + adc4Value
+                }
+              },
+              updateDeviceParams(dataArr) {
+                let i = 2;
+                let version = dataArr[i++];
+                let adc1Rate = dataArr[i++] / 10;
+                let adc2Rate = dataArr[i++] / 10;
+                let adc3Rate = dataArr[i++] / 10;
+                let adc4Rate = dataArr[i++] / 10;
+                // adc1Base, adc2Base, adc3Base, adc4Base
+                let adc1Base = (dataArr[i++] << 8) + dataArr[i++] - 32768;
+                let adc2Base = (dataArr[i++] << 8) + dataArr[i++] - 32768;
+                let adc3Base = (dataArr[i++] << 8) + dataArr[i++] - 32768;
+                let adc4Base = (dataArr[i++] << 8) + dataArr[i++] - 32768;
+                let adc1Init = (dataArr[i++] << 8) + dataArr[i++];
+                let adc2Init = (dataArr[i++] << 8) + dataArr[i++];
+                let adc3Init = (dataArr[i++] << 8) + dataArr[i++];
+                let adc4Init = (dataArr[i++] << 8) + dataArr[i++];
+                // trigThresholdHigh, trigThresholdLow, calibrationError
+                let trigThresholdHigh = Math.round(((dataArr[i++] << 8) + dataArr[i++]) / 10);
+                let trigThresholdLow = Math.round(((dataArr[i++] << 8) + dataArr[i++]) / 10);
+                let calibrationError = Math.round(((dataArr[i++] << 8) + dataArr[i++]) / 10);
+                //  curTime, loopCount
+                let curTime = (dataArr[i++] << 24) + (dataArr[i++] << 16) + (dataArr[i++] << 8) + dataArr[i++];
+                let loopCount = (dataArr[i++] << 24) + (dataArr[i++] << 16) + (dataArr[i++] << 8) + dataArr[i++];
+
+                deviceState.version = version
+                deviceState.channels[0].adcRate = adc1Rate
+                deviceState.channels[1].adcRate = adc2Rate
+                deviceState.channels[2].adcRate = adc3Rate
+                deviceState.channels[3].adcRate = adc4Rate
+                deviceState.channels[0].adcBase = adc1Base
+                deviceState.channels[1].adcBase = adc2Base
+                deviceState.channels[2].adcBase = adc3Base
+                deviceState.channels[3].adcBase = adc4Base
+                deviceState.channels[0].adcInit = adc1Init
+                deviceState.channels[1].adcInit = adc2Init
+                deviceState.channels[2].adcInit = adc3Init
+                deviceState.channels[3].adcInit = adc4Init
+                deviceState.trigThresholdHigh = trigThresholdHigh
+                deviceState.trigThresholdLow = trigThresholdLow
+                deviceState.calibrationError = calibrationError
+
+                deviceState.compareValue = adc1Rate * adc1Init + adc1Base + adc2Rate * adc2Init + adc2Base + adc3Rate * adc3Init + adc3Base + adc4Rate * adc4Init + adc4Base;
+                deviceState.loopRate = ((loopCount - deviceState.loopCount) / ((curTime - deviceState.curTime) / 1000)).toFixed(2)
+                deviceState.loopCount = loopCount
+                deviceState.curTime = curTime
+              },
+              writeDeviceParams() {
+                if (!serial.open) {
+                  return
+                }
+                let inputAdc1Rate = deviceState.channels[0].inputAdcRate * 10
+                let inputAdc2Rate = deviceState.channels[1].inputAdcRate * 10
+                let inputAdc3Rate = deviceState.channels[2].inputAdcRate * 10
+                let inputAdc4Rate = deviceState.channels[3].inputAdcRate * 10
+                let adc1Base = deviceState.channels[0].inputAdcBase * 1 + 32768
+                let adc2Base = deviceState.channels[1].inputAdcBase * 1 + 32768
+                let adc3Base = deviceState.channels[2].inputAdcBase * 1 + 32768
+                let adc4Base = deviceState.channels[3].inputAdcBase * 1 + 32768
+                let inputTrigThresholdHigh = deviceState.inputTrigThresholdHigh * 10
+                let inputTrigThresholdLow = deviceState.inputTrigThresholdLow * 10
+                let inputCalibrationError = deviceState.inputCalibrationError * 10
+                if (inputTrigThresholdHigh > 65535) {
+                  inputTrigThresholdHigh = 65535
+                }
+                if (inputTrigThresholdLow > 65535) {
+                  inputTrigThresholdLow = 65535
+                }
+                if (inputCalibrationError > 65535) {
+                  inputCalibrationError = 65535
+                }
+
+                let buffer = [0x03, 0x02]
+                let i = 2;
+                buffer[i++] = inputAdc1Rate
+                buffer[i++] = inputAdc2Rate
+                buffer[i++] = inputAdc3Rate
+                buffer[i++] = inputAdc4Rate
+                buffer[i++] = adc1Base >> 8
+                buffer[i++] = adc1Base & 0xff
+                buffer[i++] = adc2Base >> 8
+                buffer[i++] = adc2Base & 0xff
+                buffer[i++] = adc3Base >> 8
+                buffer[i++] = adc3Base & 0xff
+                buffer[i++] = adc4Base >> 8
+                buffer[i++] = adc4Base & 0xff
+                buffer[i++] = inputTrigThresholdHigh >> 8
+                buffer[i++] = inputTrigThresholdHigh & 0xff
+                buffer[i++] = inputTrigThresholdLow >> 8
+                buffer[i++] = inputTrigThresholdLow & 0xff
+                buffer[i++] = inputCalibrationError >> 8
+                buffer[i++] = inputCalibrationError & 0xff
+
+                // 设置配置参数
+                // f0 f1 03 02 ... e0 e1
+                serialWriteData(createdCommandData(buffer))
+              },
+              getDeviceParams() {
+                if (!serial.open) {
+                  return
+                }
+                let buffer = [0x02, 0x02]
+                // 读取配置参数
+                // f0 f1 02 02 ... e0 e1
+                serialWriteData(createdCommandData(buffer))
+              },
+            }
+
+            function changeDeviceParams() {
+              commandMethods.writeDeviceParams()
+            }
+
+            function updateConfigInput() {
+              deviceState.channels[0].inputAdcRate = deviceState.channels[0].adcRate
+              deviceState.channels[1].inputAdcRate = deviceState.channels[1].adcRate
+              deviceState.channels[2].inputAdcRate = deviceState.channels[2].adcRate
+              deviceState.channels[3].inputAdcRate = deviceState.channels[3].adcRate
+              deviceState.channels[0].inputAdcBase = deviceState.channels[0].adcBase
+              deviceState.channels[1].inputAdcBase = deviceState.channels[1].adcBase
+              deviceState.channels[2].inputAdcBase = deviceState.channels[2].adcBase
+              deviceState.channels[3].inputAdcBase = deviceState.channels[3].adcBase
+              deviceState.inputTrigThresholdHigh = deviceState.trigThresholdHigh
+              deviceState.inputTrigThresholdLow = deviceState.trigThresholdLow
+              deviceState.inputCalibrationError = deviceState.calibrationError
+            }
+
+            function serialToggleOpen() {
+              if (serial.open) {
+                closePort()
+              } else {
+                openPort()
+              }
+            }
+
+            function formatValue(value, fixed = 1) {
+              return Number(value).toFixed(fixed)
+            }
+
+            onMounted(() => {
+              initPort()
+              initChart()
+              setSerialOpenCallback(() => {
+                commandMethods.setAutoSyncDeiveStatus()
+                commandMethods.setAutoGetDeviceParams()
+              })
+              setReadDataCallback((uint8Value) => {
+                for (let i = 0; i < uint8Value.length; i++) {
+                  addCommandData(uint8Value[i])
+                }
+              })
+              setResolveCommandCallback((dataArr, length) => {
+                // 当前ADC读数值
+                if (dataArr[0] == 0x01 && dataArr[1] == 0x01) {
+                  commandMethods.updateDeviceStatus(dataArr)
+                }
+                // 当前配置参数
+                if (dataArr[0] == 0x02 && dataArr[1] == 0x01) {
+                  commandMethods.updateDeviceParams(dataArr)
+                }
+              })
+            })
+
+            onUnmounted(() => {
+              clearInterval(appData.syncTimeId)
+            })
+
+            return {
+              serial,
+              serialOptions,
+              serialToggleStop,
+              serialToggleOpen,
+              deviceState,
+              appData,
+              commandMethods,
+              changeDeviceParams,
+              updateConfigInput,
+              formatValue
+            }
+          },
+        })
+        app.use(antd)
+        app.mount("#app")
+      })()
+    </script>
+  </body>
+
+</html>
