@@ -322,6 +322,14 @@
           </div>
         </div>
         <div class="form-item">
+          <div class="form-item-lable">最大间隔</div>
+          <div class="form-item-cnt">
+            <div class="item-tag gray200" style="color:#333;">
+              {{deviceState.maxLoopTime}} us
+            </div>
+          </div>
+        </div>
+        <div class="form-item">
           <div class="form-item-lable">程序下载</div>
           <div class="form-item-cnt">
             <a class="item-tag gray200" style="color: #f44336;" href="../tiaoping-sensor.zip" download="tiaoping-sensor.zip">
@@ -515,6 +523,7 @@
             { label: 115200, value: 115200 },
             { label: 128000, value: 128000 },
             { label: 230400, value: 230400 },
+            { label: 500000, value: 500000 },
             { label: 921600, value: 921600 },
             { label: 1000000, value: 1000000 },
             { label: 1200000, value: 1200000 },
@@ -961,6 +970,7 @@
               calibrationError: 0, // 小于这个值就自动校准
               loopCount: 0, // 循环次数
               curTime: 0, // 单片机时间
+              maxLoopTime: 0, // 最大循环时间
 
               loopRate: 0, // loop循环速率 (curTime - lastTime) / (loopCount - lastLoopCount)
               currentValue: 0, // 总触发阈值 adcxRate * adcx + adcxBase
@@ -972,7 +982,7 @@
             })
             let appData = reactive({
               triggerSyncStatusTimeId: 0,
-              triggerSyncStatusInterval: 50, // 每隔多少毫秒同步一次状态
+              triggerSyncStatusInterval: 1, // 每隔多少毫秒同步一次状态
               triggerSyncStatusOptions: [
                 { label: "0.25ms", value: 0.25 },
                 { label: "0.5ms", value: 0.5 },
@@ -997,13 +1007,9 @@
                 appData.triggerSyncStatusTimeId = setInterval(() => {
                   commandMethods.triggerUpdateDeviceStatus()
                 }, 2000)
-              },
-              setAutoGetDeviceParams() {
-                commandMethods.getDeviceParams()
-                clearInterval(appData.autoGetDeviceParamsTimeId)
-                appData.autoGetDeviceParamsTimeId = setInterval(() => {
+                setTimeout(() => {
                   commandMethods.getDeviceParams()
-                }, 1000)
+                }, 100)
               },
               triggerUpdateDeviceStatus() {
                 if (!serial.open) {
@@ -1072,6 +1078,7 @@
                 //  curTime, loopCount
                 let curTime = (dataArr[i++] << 24) + (dataArr[i++] << 16) + (dataArr[i++] << 8) + dataArr[i++];
                 let loopCount = (dataArr[i++] << 24) + (dataArr[i++] << 16) + (dataArr[i++] << 8) + dataArr[i++];
+                let maxLoopTime = (dataArr[i++] << 8) + dataArr[i++];
 
                 deviceState.version = version
                 deviceState.channels[0].adcRate = adc1Rate
@@ -1094,6 +1101,28 @@
                 deviceState.loopRate = ((loopCount - deviceState.loopCount) / ((curTime - deviceState.curTime) / 1000)).toFixed(2)
                 deviceState.loopCount = loopCount
                 deviceState.curTime = curTime
+                deviceState.maxLoopTime = maxLoopTime
+              },
+              updateDeviceParams2(dataArr) {
+                let i = 2;
+
+                let adc1Init = (dataArr[i++] << 8) + dataArr[i++];
+                let adc2Init = (dataArr[i++] << 8) + dataArr[i++];
+                let adc3Init = (dataArr[i++] << 8) + dataArr[i++];
+                let adc4Init = (dataArr[i++] << 8) + dataArr[i++];
+                //  curTime, loopCount
+                let curTime = (dataArr[i++] << 24) + (dataArr[i++] << 16) + (dataArr[i++] << 8) + dataArr[i++];
+                let loopCount = (dataArr[i++] << 24) + (dataArr[i++] << 16) + (dataArr[i++] << 8) + dataArr[i++];
+                let maxLoopTime = (dataArr[i++] << 8) + dataArr[i++];
+
+                deviceState.channels[0].adcInit = adc1Init
+                deviceState.channels[1].adcInit = adc2Init
+                deviceState.channels[2].adcInit = adc3Init
+                deviceState.channels[3].adcInit = adc4Init
+                deviceState.loopRate = ((loopCount - deviceState.loopCount) / ((curTime - deviceState.curTime) / 1000)).toFixed(2)
+                deviceState.loopCount = loopCount
+                deviceState.curTime = curTime
+                deviceState.maxLoopTime = maxLoopTime
               },
               writeDeviceParams() {
                 if (!serial.open) {
@@ -1144,6 +1173,9 @@
                 // 设置配置参数
                 // f0 f1 03 02 ... e0 e1
                 serialWriteData(createdCommandData(buffer))
+                setTimeout(() => {
+                  commandMethods.getDeviceParams()
+                }, 20)
               },
               getDeviceParams() {
                 if (!serial.open) {
@@ -1191,7 +1223,6 @@
               initChart()
               setSerialOpenCallback(() => {
                 commandMethods.setAutoSyncDeiveStatus()
-                commandMethods.setAutoGetDeviceParams()
               })
               setReadDataCallback((uint8Value) => {
                 for (let i = 0; i < uint8Value.length; i++) {
@@ -1206,6 +1237,10 @@
                 // 当前配置参数
                 if (dataArr[0] == 0x02 && dataArr[1] == 0x01) {
                   commandMethods.updateDeviceParams(dataArr)
+                }
+                // 当前配置参数2
+                if (dataArr[0] == 0x02 && dataArr[1] == 0x03) {
+                  commandMethods.updateDeviceParams2(dataArr)
                 }
               })
             })

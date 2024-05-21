@@ -20,17 +20,24 @@ uint32 sys_clk = 24000000; // 设置PWM、定时器、串口、EEPROM频率参�
 #include "myLib/MyCommand.h"
 #include "myLib/JSTime.h"
 
-#define ADC1_PIN ADC_P14    // ADC通道1
-#define ADC2_PIN ADC_P10    // ADC通道2
+// 引脚定义
+#define ADC1_PIN ADC_P10    // ADC通道1
+#define ADC2_PIN ADC_P14    // ADC通道2
 #define ADC3_PIN ADC_P15    // ADC通道3
 #define ADC4_PIN ADC_P11    // ADC通道4
 #define PROBE_OUT_PIN P2_2  // 信号输出
 #define PROBE_OUT2_PIN P2_3 // 信号输出 反相
-#define LED_PIN P2_0        // 状态指示灯
-#define LED2_PIN P2_1       // 信号输出指示灯
+#define LED_PIN P2_1        // 状态指示灯
+#define LED2_PIN P2_0       // 信号输出指示灯
 
-uint8 version = 0x01; // 程序版本号
-uint32 loopCount = 0; // 程序循环次数
+uint8 version = 0x01;    // 程序版本号
+uint32 loopCount = 0;    // 程序循环次数
+uint32 lastLoopTime = 0; // 上次检测时间
+uint32 curLoopTime = 0;  // 当前检测时间
+uint32 maxTempTime = 0;  // 单次最大循环间隔时间
+uint32 maxLoopTime = 0;  // 单次最大循环间隔时间
+uint32 maxLoopTime2 = 0; // 单次最大循环间隔时间
+uint8 cmdData[50] = {0};
 
 uint16 adc1Init = 0; // adc通道初始值
 uint16 adc2Init = 0;
@@ -56,16 +63,16 @@ int32 tempDiffValue = 0;         // 当前值与初始值的差 currentValue - c
 uint16 trigThresholdHigh = 3400; // 信号输出触发阈值 高 数值扩大了10倍
 uint16 trigThresholdLow = 3000;  // 信号输出触发阈值 低 数值扩大了10倍
 
-#define ADCSampleSize 8 // adc采样数量
+#define ADCSampleSize 5 // adc采样数量
 uint16 adc1Arr[ADCSampleSize] = {0};
 uint16 adc2Arr[ADCSampleSize] = {0};
 uint16 adc3Arr[ADCSampleSize] = {0};
 uint16 adc4Arr[ADCSampleSize] = {0};
 
 // 热床静止自动校准
-#define CalibrationSize 30
+#define CalibrationSize 20
 uint8 addCalibrationIndex = 0;
-uint16 calibrationError = 800; // 检测到这些CalibrationSize数两两之间的差, 小于这个就自动校准
+uint16 calibrationError = 500; // 检测到这些CalibrationSize数两两之间的差, 小于这个就自动校准
 uint32 calibrationArr[CalibrationSize] = {0};
 
 uint32 led1TimeId = 0;                  // led1的定时器id
@@ -99,7 +106,6 @@ uint8 getCheckSum(uint8 *buffer, uint8 start, uint8 end)
 void sendConfigParams()
 {
   uint8 i = 0;
-  uint8 cmdData[50] = {0};
   uint32 curTime = micros();
   cmdData[i++] = uartCommand.Start1;
   cmdData[i++] = uartCommand.Start2;
@@ -146,6 +152,9 @@ void sendConfigParams()
   cmdData[i++] = loopCount >> 16;
   cmdData[i++] = loopCount >> 8;
   cmdData[i++] = loopCount & 0x000000ff;
+  // maxLoopTime
+  cmdData[i++] = maxLoopTime >> 8;
+  cmdData[i++] = maxLoopTime & 0x00ff;
 
   cmdData[i++] = getCheckSum(cmdData, 2, i); // 校验和
   cmdData[i++] = i - 2;
@@ -154,60 +163,103 @@ void sendConfigParams()
 
   uart1WriteBuf(cmdData, i);
 }
+
+void sendConfigParams2()
+{
+  uint8 i = 0;
+  uint32 curTime = micros();
+  cmdData[i++] = uartCommand.Start1;
+  cmdData[i++] = uartCommand.Start2;
+  cmdData[i++] = 0x02;
+  cmdData[i++] = 0x03;
+
+  // adc1Init, adc2Init, adc3Init, adc4Init
+  cmdData[i++] = adc1Init >> 8;
+  cmdData[i++] = adc1Init & 0x00ff;
+  cmdData[i++] = adc2Init >> 8;
+  cmdData[i++] = adc2Init & 0x00ff;
+  cmdData[i++] = adc3Init >> 8;
+  cmdData[i++] = adc3Init & 0x00ff;
+  cmdData[i++] = adc4Init >> 8;
+  cmdData[i++] = adc4Init & 0x00ff;
+
+  // micros()
+  cmdData[i++] = curTime >> 24;
+  cmdData[i++] = curTime >> 16;
+  cmdData[i++] = curTime >> 8;
+  cmdData[i++] = curTime & 0x000000ff;
+  // loopCount
+  cmdData[i++] = loopCount >> 24;
+  cmdData[i++] = loopCount >> 16;
+  cmdData[i++] = loopCount >> 8;
+  cmdData[i++] = loopCount & 0x000000ff;
+  // maxLoopTime
+  cmdData[i++] = maxLoopTime >> 8;
+  cmdData[i++] = maxLoopTime & 0x00ff;
+
+  cmdData[i++] = 0;
+
+  cmdData[i++] = getCheckSum(cmdData, 2, i); // 校验和
+  cmdData[i++] = i - 2;
+  cmdData[i++] = uartCommand.End1;
+  cmdData[i++] = uartCommand.End2;
+
+  maxLoopTime = 0;
+  uart1WriteBuf(cmdData, i);
+}
+
 // 保存配置到EEPROM
 void saveConfigToEEPROM()
 {
   uint8 i = 0;
-  uint8 buffer[32] = {0};
-  buffer[i++] = 0xf0; // 标识
-  buffer[i++] = 0xf1;
-  buffer[i++] = version; // 程序版本号
-  buffer[i++] = adc1Rate;
-  buffer[i++] = adc2Rate;
-  buffer[i++] = adc3Rate;
-  buffer[i++] = adc4Rate;
-  buffer[i++] = adc1Base >> 8;
-  buffer[i++] = adc1Base & 0x00ff;
-  buffer[i++] = adc2Base >> 8;
-  buffer[i++] = adc2Base & 0x00ff;
-  buffer[i++] = adc3Base >> 8;
-  buffer[i++] = adc3Base & 0x00ff;
-  buffer[i++] = adc4Base >> 8;
-  buffer[i++] = adc4Base & 0x00ff;
-  buffer[i++] = trigThresholdHigh >> 8;
-  buffer[i++] = trigThresholdHigh & 0x00ff;
-  buffer[i++] = trigThresholdLow >> 8;
-  buffer[i++] = trigThresholdLow & 0x00ff;
-  buffer[i++] = calibrationError >> 8;
-  buffer[i++] = calibrationError & 0x00ff;
+  cmdData[i++] = 0xf0; // 标识
+  cmdData[i++] = 0xf1;
+  cmdData[i++] = version; // 程序版本号
+  cmdData[i++] = adc1Rate;
+  cmdData[i++] = adc2Rate;
+  cmdData[i++] = adc3Rate;
+  cmdData[i++] = adc4Rate;
+  cmdData[i++] = adc1Base >> 8;
+  cmdData[i++] = adc1Base & 0x00ff;
+  cmdData[i++] = adc2Base >> 8;
+  cmdData[i++] = adc2Base & 0x00ff;
+  cmdData[i++] = adc3Base >> 8;
+  cmdData[i++] = adc3Base & 0x00ff;
+  cmdData[i++] = adc4Base >> 8;
+  cmdData[i++] = adc4Base & 0x00ff;
+  cmdData[i++] = trigThresholdHigh >> 8;
+  cmdData[i++] = trigThresholdHigh & 0x00ff;
+  cmdData[i++] = trigThresholdLow >> 8;
+  cmdData[i++] = trigThresholdLow & 0x00ff;
+  cmdData[i++] = calibrationError >> 8;
+  cmdData[i++] = calibrationError & 0x00ff;
 
-  eeprom_sector_erase(0);      // EEPROM擦除指定地址所在扇区
-  eeprom_write(0, buffer, 32); // EEPROM写数据
+  eeprom_sector_erase(0);       // EEPROM擦除指定地址所在扇区
+  eeprom_write(0, cmdData, 32); // EEPROM写数据
 }
 // 从EEPROM读取配置
 void readConfigFromEEPROM()
 {
   uint8 i = 0;
-  uint8 buffer[32] = {0};
-  eeprom_read(0, buffer, 32); // EEPROM读数据
-  uart1WriteBuf(buffer, 32);
-  if (buffer[0] == 0xf0 && buffer[1] == 0xf1)
+  eeprom_read(0, cmdData, 32); // EEPROM读数据
+  uart1WriteBuf(cmdData, 32);
+  if (cmdData[0] == 0xf0 && cmdData[1] == 0xf1)
   {
     // 程序版本号
-    if (buffer[2] == version)
+    if (cmdData[2] == version)
     {
       i = 3;
-      adc1Rate = buffer[i++];
-      adc2Rate = buffer[i++];
-      adc3Rate = buffer[i++];
-      adc4Rate = buffer[i++];
-      adc1Base = (buffer[i++] << 8) | buffer[i++];
-      adc2Base = (buffer[i++] << 8) | buffer[i++];
-      adc3Base = (buffer[i++] << 8) | buffer[i++];
-      adc4Base = (buffer[i++] << 8) | buffer[i++];
-      trigThresholdHigh = (buffer[i++] << 8) | buffer[i++];
-      trigThresholdLow = (buffer[i++] << 8) | buffer[i++];
-      calibrationError = (buffer[i++] << 8) | buffer[i++];
+      adc1Rate = cmdData[i++];
+      adc2Rate = cmdData[i++];
+      adc3Rate = cmdData[i++];
+      adc4Rate = cmdData[i++];
+      adc1Base = (cmdData[i++] << 8) | cmdData[i++];
+      adc2Base = (cmdData[i++] << 8) | cmdData[i++];
+      adc3Base = (cmdData[i++] << 8) | cmdData[i++];
+      adc4Base = (cmdData[i++] << 8) | cmdData[i++];
+      trigThresholdHigh = (cmdData[i++] << 8) | cmdData[i++];
+      trigThresholdLow = (cmdData[i++] << 8) | cmdData[i++];
+      calibrationError = (cmdData[i++] << 8) | cmdData[i++];
     }
   }
 }
@@ -239,7 +291,6 @@ void sendProgramStatus()
 {
   uint8 i = 0;
   uint32 curTime = micros();
-  uint8 cmdData[20] = {0};
   cmdData[i++] = uartCommand.Start1;
   cmdData[i++] = uartCommand.Start2;
   cmdData[i++] = 0x01;
@@ -280,11 +331,10 @@ void autoSendStateTimeoutCallback()
 }
 void receiveUartDataCallback(uint8 *buffer, uint8 length)
 {
-  // 读取ADC值
+  // 自动发送ADC值
   // f0 f1 01 02 00 00 05 e0 e1
   if (buffer[0] == 0x01 && buffer[1] == 0x02)
   {
-    sendProgramStatus();
     // 自动发送状态的时间间隔
     autoSendStateTime = (buffer[2] << 8) | buffer[3];
     if (autoSendStateTime > 0)
@@ -309,12 +359,14 @@ void receiveUartDataCallback(uint8 *buffer, uint8 length)
         lastAutoSendStateTime = 0;
       }
     }
+
+    setTimeout(sendConfigParams, 1);
   }
   // 读取配置参数
   // f0 f1 02 02 03 e0 e1
   else if (buffer[0] == 0x02 && buffer[1] == 0x02)
   {
-    sendConfigParams();
+    setTimeout(sendConfigParams, 1);
   }
   // 设置配置参数, 参数数值就是 读取配置参数的参数
   else if (buffer[0] == 0x03 && buffer[1] == 0x02)
@@ -326,7 +378,7 @@ void receiveUartDataCallback(uint8 *buffer, uint8 length)
 uint16 my_adc_read(ADC_Name adcn)
 {
   // adc取一次丢掉, 再获取一次
-  adc_read(adcn);
+  // adc_read(adcn);
   return adc_read(adcn);
 }
 
@@ -391,46 +443,52 @@ void initADC()
       adc4Arr[i] = my_adc_read(ADC4_PIN);
     }
   }
+  compareValue = 0;
   if (adc1Rate != 0)
   {
     adc1Init = average_without_min_max(adc1Arr, ADCSampleSize);
+    compareValue += adc1Init * adc1Rate;
   }
   if (adc2Rate != 0)
   {
     adc2Init = average_without_min_max(adc2Arr, ADCSampleSize);
+    compareValue += adc2Init * adc2Rate;
   }
   if (adc3Rate != 0)
   {
     adc3Init = average_without_min_max(adc3Arr, ADCSampleSize);
+    compareValue += adc3Init * adc3Rate;
   }
   if (adc4Rate != 0)
   {
     adc4Init = average_without_min_max(adc4Arr, ADCSampleSize);
+    compareValue += adc4Init * adc4Rate;
   }
-  compareValue = adc1Init * adc1Rate + adc2Init * adc2Rate + adc3Init * adc3Rate +
-                 adc4Init * adc4Rate;
 }
 
 void getADC()
 {
+  currentValue = 0;
   if (adc1Rate != 0)
   {
     adc1 = my_adc_read(ADC1_PIN);
+    currentValue += adc1 * adc1Rate;
   }
   if (adc2Rate != 0)
   {
     adc2 = my_adc_read(ADC2_PIN);
+    currentValue += adc2 * adc2Rate;
   }
   if (adc3Rate != 0)
   {
     adc3 = my_adc_read(ADC3_PIN);
+    currentValue += adc3 * adc3Rate;
   }
   if (adc4Rate != 0)
   {
     adc4 = my_adc_read(ADC4_PIN);
+    currentValue += adc4 * adc4Rate;
   }
-  currentValue =
-      adc1 * adc1Rate + adc2 * adc2Rate + adc3 * adc3Rate + adc4 * adc4Rate;
 }
 
 void getADCAverage()
@@ -455,24 +513,27 @@ void getADCAverage()
       adc4Arr[i] = my_adc_read(ADC4_PIN);
     }
   }
+  currentValue = 0;
   if (adc1Rate != 0)
   {
-    adc1 = average_without_min_max(adc1Arr, ADCSampleSize);
+    adc1 = average_arr(adc1Arr, ADCSampleSize);
+    currentValue += adc1 * adc1Rate;
   }
   if (adc2Rate != 0)
   {
-    adc2 = average_without_min_max(adc2Arr, ADCSampleSize);
+    adc2 = average_arr(adc2Arr, ADCSampleSize);
+    currentValue += adc2 * adc2Rate;
   }
   if (adc3Rate != 0)
   {
-    adc3 = average_without_min_max(adc3Arr, ADCSampleSize);
+    adc3 = average_arr(adc3Arr, ADCSampleSize);
+    currentValue += adc3 * adc3Rate;
   }
   if (adc4Rate != 0)
   {
-    adc4 = average_without_min_max(adc4Arr, ADCSampleSize);
+    adc4 = average_arr(adc4Arr, ADCSampleSize);
+    currentValue += adc4 * adc4Rate;
   }
-  currentValue =
-      adc1 * adc1Rate + adc2 * adc2Rate + adc3 * adc3Rate + adc4 * adc4Rate;
 }
 
 void autoInitADC()
@@ -527,7 +588,8 @@ void bedOutputSign()
   tempDiffValue = currentValue - compareValue;
   if (tempDiffValue >= trigThresholdHigh)
   {
-    getADCAverage();
+    // getADCAverage();
+    getADC();
     tempDiffValue = currentValue - compareValue;
     if (tempDiffValue >= trigThresholdHigh)
     {
@@ -574,10 +636,6 @@ void setLed1State(uint8 led1State)
   }
 }
 
-void mytask1()
-{
-}
-
 void setup()
 {
   rcclock_set_irc(1);
@@ -589,6 +647,7 @@ void setup()
   P2M0 |= 0x04; // 推挽输出
   P2M1 &= ~0x08;
   P2M0 |= 0x08; // 推挽输出
+
   P3M1 |= 0x04;
   P3M0 &= ~0x04;                                                 // P3.2 高阻输入
   uart_init(UART_1, UART1_RX_P30, UART1_TX_P31, 1000000, TIM_1); // 初始化串口
@@ -598,8 +657,10 @@ void setup()
   adc_init(ADC4_PIN, ADC_SYSclk_DIV_2, ADC_12BIT);
   JSTime_init();
   initUartCommand(receiveUartDataCallback);
-  ES = 1; // 允许串行口中断
-  EA = 1; // 允许总中断
+  ES = 1;      // 允许串行口中断
+  EA = 1;      // 允许总中断
+  IPH &= 0xEF; // 设置定时器0的中断的优先级为高
+  IP &= 0xEF;  // 设置定时器0的中断的优先级为高
   delay(500);
   readConfigFromEEPROM();
   initADC();
@@ -628,6 +689,16 @@ void uartLoopRead()
 
 void loop()
 {
+  curLoopTime = micros();
+  if (curLoopTime > lastLoopTime)
+  {
+    maxTempTime = curLoopTime - lastLoopTime;
+    if (maxTempTime < 30000 && maxTempTime > maxLoopTime)
+    {
+      maxLoopTime = maxTempTime;
+    }
+  }
+  lastLoopTime = curLoopTime;
   JSTime_refresh();
   bedOutputSign();
   ispDowbload();
@@ -638,6 +709,7 @@ void loop()
 void main(void)
 {
   setup();
+  lastLoopTime = micros();
   while (1)
   {
     loop();

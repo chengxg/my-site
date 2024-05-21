@@ -13,6 +13,7 @@ unsigned long JSTime_createIntervalTimeId = 1;
 
 unsigned long micros() {
   // 系统微秒计时
+  // (globeTime*65536+(TH0-0)*256+(TL0-0))/2
   return (globeTime << 15) + ((TH0 << 8 | TL0) >> 1);
 }
 void T_IRQ0(void) interrupt 1 using 1 { globeTime++; }
@@ -25,6 +26,8 @@ void Timer0_Init(void) // 32768微秒@24.000MHz
   TF0 = 0;      // 清除TF0标志
   TR0 = 1;      // 定时器0开始计时
   ET0 = 1;      // 打开定时器0中断
+  IPH |= 0x02;    // 设置定时器0的中断的优先级为高
+  IP |= 0x02;    // 设置定时器0的中断的优先级为高
 }
 
 // 定时器初始化函数
