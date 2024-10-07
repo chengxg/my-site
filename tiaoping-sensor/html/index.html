@@ -242,7 +242,15 @@
       <div class="left-serial">
         <div style="font-size: 18px;font-weight: bold;text-align: center;color: #512da8;margin-bottom: 18px;">3D打印机调平传感器</div>
         <div class="form-item">
-          <div class="form-item-lable">串口连接</div>
+          <div class="form-item-lable">
+            <a-popover title="串口连接" trigger="hover" placement="right">
+              <template #content>
+                stm32f103c8t6支持usb虚拟串口, 直接连接就行<br>
+                stc32g8k64需要外接ch340 usb转串口模块<br>
+              </template>
+              串口连接
+            </a-popover>
+          </div>
           <div class="form-item-cnt">
             <a-button-group>
               <a-button class="btn-icon" style="width: 50px;" type="primary" @click="serialToggleOpen">
@@ -255,7 +263,16 @@
           </div>
         </div>
         <div class="form-item">
-          <div class="form-item-lable">波特率</div>
+          <div class="form-item-lable">
+            <a-popover title="波特率" trigger="hover" placement="right">
+              <template #content>
+                波特率越高, 传输速度越快<br>
+                stm32f103c8t6支持任意波特率, 一般就用1M就行<br>
+                stc32g8k64支持的波特率固定, 需要改代码, 默认1M<br>
+              </template>
+              波特率
+            </a-popover>
+          </div>
           <div class="form-item-cnt">
             <a-select v-model:value="serial.baudRate" :disabled="!serial.suport || serial.open" style="width: 100px;">
               <a-select-option v-for="item in serialOptions.baudRateOptions" :key="item.value" :value="item.value">{{item.label}}</a-select-option>
@@ -263,7 +280,15 @@
           </div>
         </div>
         <div class="form-item">
-          <div class="form-item-lable">同步时间</div>
+          <div class="form-item-lable">
+            <a-popover title="同步时间" trigger="hover" placement="right">
+              <template #content>
+                设置传感器每隔多长时间往页面发送一次数据<br>
+                断开连接后, 会自动停止发送数据<br>
+              </template>
+              同步时间
+            </a-popover>
+          </div>
           <div class="form-item-cnt">
             <a-select v-model:value="appData.triggerSyncStatusInterval" :disabled="!serial.suport || !serial.open"
               @change="commandMethods.setAutoSyncDeiveStatus" style="width: 100px;">
@@ -272,7 +297,14 @@
           </div>
         </div>
         <div class="form-item">
-          <div class="form-item-lable">触发高阈值</div>
+          <div class="form-item-lable">
+            <a-popover title="触发高阈值" trigger="hover" placement="right">
+              <template #content>
+                指的是当压力信号从低到高变化时, 高于这个值才触发限位<br>
+              </template>
+              触发高阈值
+            </a-popover>
+          </div>
           <div class="form-item-cnt">
             <a-popover title="设置触发高阈值" trigger="hover" placement="right" @open-change="updateConfigInput">
               <template #content>
@@ -286,7 +318,14 @@
           </div>
         </div>
         <div class="form-item">
-          <div class="form-item-lable">触发低阈值</div>
+          <div class="form-item-lable">
+            <a-popover title="触发低阈值" trigger="hover" placement="right">
+              <template #content>
+                指的是当压力信号从高到低变化时, 低于这个值才解除触发限位<br>
+              </template>
+              触发低阈值
+            </a-popover>
+          </div>
           <div class="form-item-cnt">
             <a-popover title="设置触发低阈值" trigger="hover" placement="right" @open-change="updateConfigInput">
               <template #content>
@@ -300,7 +339,14 @@
           </div>
         </div>
         <div class="form-item">
-          <div class="form-item-lable">校准偏差</div>
+          <div class="form-item-lable">
+            <a-popover title="校准偏差" trigger="hover" placement="right">
+              <template #content>
+                指的是检测热床静止时, 数据的波动小于这个数值就自动校准比较值<br>
+              </template>
+              校准偏差
+            </a-popover>
+          </div>
           <div class="form-item-cnt">
             <a-popover title="设置自动校准偏差" trigger="hover" placement="right" @open-Change="updateConfigInput">
               <template #content>
@@ -314,7 +360,14 @@
           </div>
         </div>
         <div class="form-item">
-          <div class="form-item-lable">刷新率</div>
+          <div class="form-item-lable">
+            <a-popover title="刷新率" trigger="hover" placement="right">
+              <template #content>
+                指的是程序每秒循环检测的次数<br>
+              </template>
+              刷新率
+            </a-popover>
+          </div>
           <div class="form-item-cnt">
             <div class="item-tag gray200" style="color:#333;">
               {{deviceState.loopRate}} k/s
@@ -322,7 +375,15 @@
           </div>
         </div>
         <div class="form-item">
-          <div class="form-item-lable">最大间隔</div>
+          <div class="form-item-lable">
+            <a-popover title="最大间隔" trigger="hover" placement="right">
+              <template #content>
+                指的是程序每次循环之间最大的间隔时间<br>
+                有数据收发时, 间隔时间会变大<br>
+              </template>
+              最大间隔
+            </a-popover>
+          </div>
           <div class="form-item-cnt">
             <div class="item-tag gray200" style="color:#333;">
               {{deviceState.maxLoopTime}} us
@@ -385,13 +446,20 @@
             </div>
             <a-popover :title="`传感器${index+1}参数`" trigger="hover" placement="right" @open-change="updateConfigInput">
               <template #content>
-                <div>
-                  放大倍率adc{{index+1}}Rate:
-                  <a-input-number v-model:value="item.inputAdcRate" @change="changeDeviceParams" style="width: 100%;" :min="0" :max="50" :step="0.1" />
-                </div>
-                <div>
-                  偏移adc{{index+1}}Base:
-                  <a-input-number v-model:value="item.inputAdcBase" @change="changeDeviceParams" style="width: 100%;" :min="-2000" :max="2000" :step="1" />
+                <div style="width: 540px;">
+                  <div>
+                    1. 放大倍率是在每个通道是独立的情况时, 用于平衡各个通道的差异<br>
+                    2. 现在我的电路都是并联的, 所以放大倍率就是1, 使用时只会使用其中的一个通道<br>
+                    3. 设置为0时, 就禁用这个通道
+                  </div>
+                  <div style="margin-top: 10px;">
+                    放大倍率adc{{index+1}}Rate:<br>
+                    <a-input-number v-model:value="item.inputAdcRate" @change="changeDeviceParams" style="width: 200px;" :min="0" :max="50" :step="0.1" />
+                  </div>
+                  <div>
+                    偏移adc{{index+1}}Base:<br>
+                    <a-input-number v-model:value="item.inputAdcBase" @change="changeDeviceParams" style="width: 200px;" :min="-2000" :max="2000" :step="1" />
+                  </div>
                 </div>
               </template>
               <div class="sensor-param">
@@ -516,15 +584,8 @@
 
         let serialOptions = reactive({
           baudRateOptions: [
-            { label: 9600, value: 9600 },
-            { label: 19200, value: 19200 },
-            { label: 38400, value: 38400 },
-            { label: 57600, value: 57600 },
             { label: 115200, value: 115200 },
-            { label: 128000, value: 128000 },
-            { label: 230400, value: 230400 },
             { label: 500000, value: 500000 },
-            { label: 921600, value: 921600 },
             { label: 1000000, value: 1000000 },
             { label: 1200000, value: 1200000 },
             { label: 1500000, value: 1500000 },
