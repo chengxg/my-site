@@ -1,0 +1,223 @@
+#app {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+  background-color: #f0f0f0;
+  overflow: hidden;
+}
+
+.left-content {
+  width: 220px;
+  height: 100%;
+  padding: 10px 5px;
+  background-color: #fff;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+.ant-form-item {
+  margin-bottom: 5px;
+}
+
+.right-content {
+  margin-left: 5px;
+  flex: 1;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+#chart {
+  background-color: #fff;
+  min-height: 300px;
+  flex: 1;
+  width: 100%;
+}
+
+.item-tag {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-left: 0;
+  height: 30px;
+  width: 100%;
+  font-size: 18px;
+  font-weight: bold;
+  color: #fff;
+  user-select: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.power-state-tag {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-left: 0;
+  height: 30px;
+  width: 50px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #fff;
+  user-select: none;
+  cursor: pointer;
+}
+
+.red500 {
+  background-color: #f44336;
+  color: #fff;
+}
+
+.green600 {
+  background-color: #43a047;
+  color: #fff;
+}
+
+.brown500 {
+  background-color: #795548;
+  color: #fff;
+}
+
+.gray200 {
+  background-color: #eee;
+  color: #333;
+}
+
+.form-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 5px;
+}
+
+.form-item:hover {
+  background-color: #f0f0f0;
+}
+
+.form-item-lable {
+  text-align: right;
+  width: 85px;
+  font-size: 16px;
+  font-weight: bold;
+  user-select: none;
+}
+
+.form-item-cnt {
+  flex: 1;
+  text-align: left;
+  margin-left: 10px;
+
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.btn-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2px 5px;
+}
+
+.btn-icon svg {
+  width: 16px;
+  height: 16px;
+  color: #fff;
+  fill: #fff;
+}
+
+.sensor-card-list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding: 5px;
+  background-color: #fff;
+  width: 100%;
+}
+
+.sensor-card {
+  position: relative;
+  width: 100%;
+  width: 300px;
+  user-select: none;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  padding: 4px 8px;
+}
+
+.sensor-card.blue-card {
+  border: 2px solid #039be5;
+}
+
+.sensor-card.blue-card .card-title {
+  color: #039be5;
+}
+
+.sensor-card.orange-card {
+  border: 2px solid #ff9800;
+}
+
+.sensor-card.orange-card .card-title {
+  color: #ff9800;
+}
+
+.sensor-card.green-card {
+  border: 2px solid #4caf50;
+}
+
+.sensor-card.green-card .card-title {
+  color: #4caf50;
+}
+
+.sensor-card .card-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.sensor-card .card-row:last-child {
+  margin-bottom: 0;
+}
+
+.sensor-card .card-info-item {
+  height: 32px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  font-size: 16px;
+  font-weight: bold;
+  color: #666;
+}
+
+.sensor-card .item-btn:hover {
+  cursor: pointer;
+  color: #333;
+}
+
+.sensor-card .item-btn:active {
+  cursor: pointer;
+  color: #111;
+}
+
+.sensor-card .card-title {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.sensor-card .card-current-value {
+  margin-left: 10px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #666;
+}
+
+.menu-item-active {
+  color: #1890ff;
+}

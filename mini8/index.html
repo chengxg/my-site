@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+
+  <head lang="zh-CN">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <meta charset="UTF-8" />
+    <title>3d打印机 stm32高性能迷你8轴主板</title>
+    <link href="./css/reset.min.css" rel="stylesheet">
+    <link href="./css/index.css" rel="stylesheet">
+    <script src="./lib/vue.global.min.js"></script>
+    <script src="./lib/echarts.min.js"></script>
+    <script src="./lib/dataTool.min.js"></script>
+    <script src="./lib/dayjs_plugin.min.js"></script>
+    <script src="./lib/antd.min.js"></script>
+  </head>
+
+  <body>
+    <div id="app">
+      <a-config-provider :getPopupContainer="getPopupContainer">
+        <div class="left-content">
+          <div style="font-size: 18px;font-weight: bold;text-align: center;color: #512da8;margin-bottom: 18px;">迷你8轴主板电源监控</div>
+          <div class="form-item">
+            <div class="form-item-lable">
+              <a-popover title="串口连接" trigger="hover" placement="right">
+                <template #content>
+                  需要外接ch340,ch343等usb转串口模块<br>
+                  ch340在1M波特率下容易导致电脑蓝屏<br>
+                </template>
+                串口连接
+              </a-popover>
+            </div>
+            <div class="form-item-cnt">
+              <a-button class="btn-icon" style="width: 100%;" type="primary" :danger="serial.open" @click="serialToggleOpen">
+                {{serial.open ? "关闭" : "打开" }}
+              </a-button>
+            </div>
+          </div>
+          <div class="form-item">
+            <div class="form-item-lable">
+              <a-popover title="波特率" trigger="hover" placement="right">
+                <template #content>
+                  波特率越高, 传输速度越快<br>
+                  一般就用1M就行<br>
+                </template>
+                波特率
+              </a-popover>
+            </div>
+            <div class="form-item-cnt">
+              <a-select :value="serial.baudRate" style="width: 100%;" @change="commandMethods.updateUart1Baud">
+                <a-select-option v-for="item in serialOptions.baudRateOptions" :key="item.value" :value="item.value">{{item.label}}</a-select-option>
+              </a-select>
+            </div>
+          </div>
+          <div class="form-item">
+            <div class="form-item-lable">
+              <a-popover title="串口连接" trigger="hover" placement="right">
+                <template #content>
+                  当使用stc isp下载程序时, 需要重启单片机复位才能下载程序<br>
+                  可以先点这个按钮重启下, 会延时10s自动重启单片机<br>
+                </template>
+                延时重启
+              </a-popover>
+            </div>
+            <div class="form-item-cnt">
+              <a-button class="btn-icon" style="width: 100%;" type="primary" @click="commandMethods.rebootChip">
+                重启单片机
+              </a-button>
+            </div>
+          </div>
+          <div class="form-item">
+            <div class="form-item-lable">
+              运行时间
+            </div>
+            <div class="form-item-cnt">
+              <div class="item-tag green600">
+                {{state.formatCurTime}}
+              </div>
+            </div>
+          </div>
+          <div class="form-item">
+            <div class="form-item-lable">
+              <a-popover title="刷新率" trigger="hover" placement="right">
+                <template #content>
+                  指的是程序每秒循环检测的次数<br>
+                  检测GPIO保护电压固定为100khz<br>
+                </template>
+                刷新率
+              </a-popover>
+            </div>
+            <div class="form-item-cnt">
+              <div class="item-tag gray200">
+                {{state.loopRate}} k/s
+              </div>
+            </div>
+          </div>
+          <div class="form-item">
+            <div class="form-item-lable">
+              <a-popover title="最大间隔" trigger="hover" placement="right">
+                <template #content>
+                  指的是程序每次循环之间最大的间隔时间<br>
+                  有数据收发时, 间隔时间会变大<br>
+                </template>
+                最大间隔
+              </a-popover>
+            </div>
+            <div class="form-item-cnt">
+              <div class="item-tag gray200" style="color:#333;">
+                {{state.maxLoopTime}} us
+              </div>
+            </div>
+          </div>
+          <div class="form-item">
+            <div class="form-item-lable">项目地址</div>
+            <div class="form-item-cnt">
+              <a class="item-tag gray200" style="color: #f44336;" href="https://oshwhub.com/cxg01/3d-da-yin-ji-mini-8-zhou-shuang-ceng-zhu-ban-kai-yuan">
+                前往
+              </a>
+            </div>
+          </div>
+          <div class="form-item" v-if="state.debugInt1 || state.debugInt2">
+            debugInt1: {{state.debugInt1}}<br>
+            debugInt2: {{state.debugInt2}}
+          </div>
+        </div>
+        <div class="right-content">
+          <div class="sensor-card-list">
+            <div class="sensor-card blue-card" style="width: 200px;">
+              <div class="card-row">
+                <div class="card-info-item">
+                  <div class="card-title">采样控制</div>
+                </div>
+                <div class="card-info-item">
+                  <a-tooltip>
+                    <template #title>按空格键快读开始和暂停</template>
+                    <a-button size="small" type="primary" :disabled="!serial.open" :danger="state.isStartSample" @click="updateMethods.updateIsStartSample">
+                      {{ state.isStartSample ? "暂停采样" : "开始采样" }}
+                    </a-button>
+                  </a-tooltip>
+                </div>
+              </div>
+              <div class="card-row">
+                <div class="card-info-item item-btn">
+                  <a-dropdown>
+                    <a class="ant-dropdown-link" @click.prevent>
+                      采样速率 {{state.adcSampleInterval}}ms
+                    </a>
+                    <template #overlay>
+                      <a-menu @click="(item) => updateMethods.updateSampleInterval(item.key)">
+                        <a-menu-item v-for="item in state.ADCSampleIntervalOptions" :key="item.value">
+                          <span :class="{'menu-item-active': state.adcSampleInterval==item.value}">{{item.label}}</span>
+                        </a-menu-item>
+                      </a-menu>
+                    </template>
+                  </a-dropdown>
+                </div>
+              </div>
+            </div>
+            <div class="sensor-card blue-card">
+              <div class="card-row">
+                <div class="card-info-item">
+                  <div class="card-title">GPIO保护</div>
+                  <div class="card-current-value">{{state.adc1FormatValue}}V</div>
+                </div>
+                <div class="card-info-item">
+                  <a-button v-if="state.isProtect" type="primary" size="small" danger @click="commandMethods.controlProtect">解除保护</a-button>
+                </div>
+              </div>
+              <div class="card-row">
+                <div class="card-info-item">
+                  波形采样
+                  <a-switch style="margin-left: 10px;" v-model:checked="state.adc1SampleEnable" @change="commandMethods.updateADCSampleParams" />
+                </div>
+                <div class="card-info-item item-btn">
+                  <a-dropdown>
+                    <a class="ant-dropdown-link" @click.prevent>
+                      IO保护阈值 {{state.TrigFormatValue}}V
+                    </a>
+                    <template #overlay>
+                      <a-menu @click="(item) => updateMethods.updateTrigADCValue(item.key)">
+                        <a-menu-item v-for="item in state.TrigAdcOptions" :key="item.value">
+                          <span :class="{'menu-item-active': state.TrigFormatValue==item.value}">{{item.label}}</span>
+                        </a-menu-item>
+                      </a-menu>
+                    </template>
+                  </a-dropdown>
+                </div>
+              </div>
+            </div>
+            <div class="sensor-card green-card">
+              <div class="card-row">
+                <div class="card-info-item">
+                  <div class="card-title">24V电源</div>
+                  <div class="card-current-value">{{state.adc2FormatValue}}V</div>
+                </div>
+                <div class="card-info-item">
+                  <a-button v-if="state.SHUT_24V_PIN" type="primary" size="small" danger @click="commandMethods.control24VPower">关闭</a-button>
+                  <a-button v-else type="primary" size="small" :disabled="!!state.isProtect" @click="commandMethods.control24VPower">开启</a-button>
+                </div>
+              </div>
+              <div class="card-row">
+                <div class="card-info-item">
+                  波形采样 <a-switch style="margin-left: 10px;" v-model:checked="state.adc2SampleEnable" @change="commandMethods.updateADCSampleParams" />
+                </div>
+                <div class="card-info-item"></div>
+              </div>
+            </div>
+            <div class="sensor-card orange-card">
+              <div class="card-row">
+                <div class="card-info-item">
+                  <div class="card-title">5V电源</div>
+                  <div class="card-current-value">{{state.adc3FormatValue}}V</div>
+                </div>
+                <div class="card-info-item">
+                  <a-button v-if="state.SHUT_5V_PIN" type="primary" size="small" danger @click="commandMethods.control5VPower">关闭</a-button>
+                  <a-button v-else type="primary" size="small" @click="commandMethods.control5VPower" :disabled="!!state.isProtect">开启</a-button>
+                </div>
+              </div>
+              <div class="card-row">
+                <div class="card-info-item">
+                  波形采样 <a-switch style="margin-left: 10px;" v-model:checked="state.adc3SampleEnable" @change="commandMethods.updateADCSampleParams" />
+                </div>
+                <div class="card-info-item"></div>
+              </div>
+            </div>
+          </div>
+          <div id="chart"></div>
+        </div>
+      </a-config-provider>
+    </div>
+
+    <script src="./js/chart.js"></script>
+    <script src="./js/index.js"></script>
+  </body>
+
+</html>
