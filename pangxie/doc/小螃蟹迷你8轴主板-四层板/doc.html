@@ -1,0 +1,104 @@
+<div class="detail_tinymce-content__PdW9_ tinymce-content">
+  <h1 title="3D打印主板-stm32高性能迷你8轴主板"><span style="font-size:18pt">是双层板&nbsp;<a title="3D打印主板-stm32高性能迷你8轴主板"
+        href="https://oshwhub.com/cxg01/3d-da-yin-ji-mini-8-zhou-shuang-ceng-zhu-ban-kai-yuan" target="_blank"
+        rel="noopener">3D打印主板-stm32高性能迷你8轴主板</a>&nbsp;的升级版本</span></h1>
+  <p><strong><span style="font-size:18pt">正式起名为: <span style="color:#843fa1">小螃蟹主板</span></span></strong></p>
+  <p><span style="font-size:14pt;color:#e03e2d"><strong>核心板和底板均为四层板</strong></span></p>
+  <p><span style="font-size:14pt"><strong>工程来源变更原理等请看旧版工程描述</strong></span></p>
+  <p>&nbsp;</p>
+  <p><span style="font-size:14pt;color:#000000"><strong><span style="font-size:18pt">核心板:</span></strong></span></p>
+  <p><span style="font-size:12pt"><strong>核心板GPIO保护升级, 除can和USB端子无GPIO保护外, 其余引脚也有GPIO保护, IO过压会触发底板自动关机</strong></span></p>
+  <p><span style="font-size:12pt"><strong>核心板mcu依然采用stm32h750VBT6, usb转串口芯片换成了ch343p, CAN通信芯片换成了TJA1051T/3</strong></span></p>
+  <p><span style="font-size:12pt"><strong>核心板叠了两层插件端子,需要先焊接背面的端子, 把端子的引脚剪短不露头再焊接</strong></span></p>
+  <p><span style="font-size:12pt"><strong>核心板的USB/CAN/串口, <span style="font-size:12pt">无需调整线序对接</span>&nbsp; </strong></span><a
+      title="3D打印CAN工具头-stm32f446小螃蟹满配工具头" href="https://oshwhub.com/cxg01/3d-da-yin-stm32f446-xiao-pang-xie-man-pei-gong-ju-tou"><strong><span
+          style="font-size:14pt">3D打印CAN工具头-stm32f446小螃蟹满配工具头</span></strong></a></p>
+  <p><strong><span style="font-size:12pt;color:#e67e23">1. 2个3pin端子, 可以用于限位, 5V供电输出</span></strong></p>
+  <p><strong><span style="font-size:12pt;color:#e67e23">2.&nbsp; 4个2pin温控端子, 可以用于限位</span></strong></p>
+  <p><strong><span style="font-size:12pt;color:#e67e23">3.&nbsp; 4个4pin端子,&nbsp; 1个ch343p uart接口, 1个usb接口, 1个can接口, 1个I2C接口</span></strong></p>
+  <p><strong><span style="font-size:12pt;color:#e67e23">4. 1个USB typeA母座</span></strong></p>
+  <p>&nbsp;</p>
+  <p><span style="color:#000000;font-size:18pt"><strong>底板:</strong></span></p>
+  <p><span style="color:#000000"><strong><span style="font-size:12pt">底板布局优化, 砍掉了驱动跳线选择改为背面焊接跳线选择UART/SPI/普通模式, step1,step2改成了独立EN</span></strong></span></p>
+  <p><span style="color:#000000"><strong><span style="font-size:12pt">如果使用旧版本的核心板,需要飞一条线来使能step1的EN</span></strong></span></p>
+  <p><span style="color:#000000"><strong><span style="font-size:12pt">底板单片机stc32g8k64 5V控制引脚改动, 避免开机时5V电源闪烁一下</span></strong></span></p>
+  <p><span style="color:#000000"><strong><span style="font-size:12pt">底板的35V电容都换成了插件电容, 容易焊接, 容量更大</span></strong></span></p>
+  <p>&nbsp;</p>
+  <p><span style="color:#000000"><strong><span style="font-size:12pt">1.&nbsp; 6个限位端子, <span style="color:#e67e23">STOP1和STOP2供电为12V/24V切换输出, IO有二极管隔离, 可以高压输入,
+            <span style="color:#e03e2d">STOP3,STOP4 为2PIN限位端子,与STEP1/STEP2驱动的无限位归零共用, <span
+                style="color:#236fa1">STOP5,STOP6为3PIN限位端子5V供电输出</span></span></span></span></strong></span></p>
+  <p><span style="color:#000000"><strong><span style="font-size:12pt">2. 4个可控风扇端子, <span style="color:#e03e2d">FAN1,FAN2为5V/12V/24V切换供电, <span
+              style="color:#236fa1">FAN3,FAN4为24V固定供电</span></span></span></strong></span></p>
+  <p><span style="color:#000000"><strong><span style="font-size:12pt"><span style="color:#e03e2d"><span style="color:#236fa1"><span style="color:#000000">3.
+                8个步进电机驱动, <span style="color:#e03e2d">前6个支持UART/SPI/普通模式</span>,<span style="color:#236fa1">
+                  后两个只支持UART模式</span></span></span></span></span></strong></span></p>
+  <p><span style="color:#000000"><strong><span style="font-size:12pt">4. 2个大功率加热棒, 需要单独供电, 需要焊接引出</span></strong></span></p>
+  <p><strong>5. 电源监控上位机页面地址不变, 线上访问地址:&nbsp;<a href="https://demo.chengxg.top/mini8/">https://demo.chengxg.top/mini8/</a></strong></p>
+  <p>&nbsp;</p>
+  <p><span style="color:#000000"><strong><span style="font-size:12pt">MCU引脚定义</span></strong></span></p>
+  <div>
+    <blockquote>
+      <div><span style="font-size:12pt;color:#843fa1">[board_pins mcu_pins]</span></div>
+      <div><span style="font-size:12pt;color:#843fa1">mcu: mcu # stm32h750 V2核心板</span></div>
+      <div><span style="font-size:12pt;color:#843fa1">aliases:</span></div>
+      <div><span style="font-size:12pt;color:#843fa1">&nbsp; &nbsp; # step1-step6支持spi, spi_bus: spi2</span></div>
+      <div><span style="font-size:12pt;color:#843fa1">&nbsp; &nbsp; DIR1=PD3, STEP1=PD4, UART1=PD2, EN1=PD6, &nbsp; # step1 &nbsp;</span></div>
+      <div><span style="font-size:12pt;color:#843fa1">&nbsp; &nbsp; DIR2=PC8, STEP2=PC12, UART2=PD0, , EN2=PD1,&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # step2</span>
+      </div>
+      <div><span style="font-size:12pt;color:#843fa1">&nbsp; &nbsp; DIR3=PC9, STEP3=PD8, UART3=PD14, EN3=PB1, &nbsp;# step3</span></div>
+      <div><span style="font-size:12pt;color:#843fa1">&nbsp; &nbsp; DIR4=PC6, STEP4=PD13, UART4=PD12, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# step4
+          EN与step3共用</span></div>
+      <div><span style="font-size:12pt;color:#843fa1">&nbsp; &nbsp; DIR5=PE14, STEP5=PD15, UART5=PD9, EN5=PB2, # step5</span></div>
+      <div><span style="font-size:12pt;color:#843fa1">&nbsp; &nbsp; DIR6=PC5, STEP6=PB12, UART6=PB0, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # step6
+          EN与step5共用</span></div>
+      <div><span style="font-size:12pt;color:#843fa1">&nbsp; &nbsp; DIR7=PA5, STEP7=PA6, UART7=PA7, EN7=PC4, &nbsp; # step7</span></div>
+      <div><span style="font-size:12pt;color:#843fa1">&nbsp; &nbsp; DIR8=PA2, STEP8=PA3, UART8=PA1, EN8=PA0, &nbsp; # step8</span></div>
+      <div><span style="font-size:12pt;color:#843fa1">&nbsp; &nbsp; FAN1=PA8, FAN2=PC7, FAN3=PA10, FAN4=PA9, &nbsp; # FAN1, FAN2支持5V/12V/24V电压切换</span></div>
+      <div><span style="font-size:12pt;color:#843fa1">&nbsp; &nbsp; STOP1=PA4, STOP2=PE12, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# 限位 3PIN STOP1,STOP2
+          支持高压输入,二极管输入隔离,支持12V和24V供电输出,</span></div>
+      <div><span style="font-size:12pt;color:#843fa1">&nbsp; &nbsp; STOP3=PE13, STOP4=PE11, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # 限位 2PIN step1,step2无限位归零</span>
+      </div>
+      <div><span style="font-size:12pt;color:#843fa1">&nbsp; &nbsp; STOP5=PE10, STOP6=PE9, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# 限位 3PIN 5V供电输出</span>
+      </div>
+      <div><span style="font-size:12pt;color:#843fa1">&nbsp; &nbsp; STOP7=PB7, STOP8=PB6, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # 核心板上, 限位 5V供电输出</span>
+      </div>
+      <div><span style="font-size:12pt;color:#843fa1">&nbsp; &nbsp; T1=PC0, T2=PC3, T3=PC1, T4=PC2, &nbsp; # 核心板上, 温控</span></div>
+      <div><span style="font-size:12pt;color:#843fa1">&nbsp; &nbsp; H1=PD11, H2=PD10, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # 加热 H1大功率</span>
+      </div>
+      <div><span style="font-size:12pt;color:#843fa1">&nbsp; &nbsp; LED=PB4, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+          &nbsp;# klipper运行指示 !PB4</span></div>
+      <div><span style="font-size:12pt;color:#843fa1">&nbsp; &nbsp; SDA=PB11, SCL=PB10, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # 核心板上, I2C接口
+          i2c_bus:i2c2</span></div>
+      <div><span style="font-size:12pt;color:#843fa1">&nbsp; &nbsp; SHUT=PD7 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+          &nbsp;# 高电平 自动关机</span></div>
+    </blockquote>
+  </div>
+  <p>&nbsp;</p>
+  <p><span style="font-size:24pt"><strong>工程先开源, 文档再补充......</strong></span></p>
+  <p>&nbsp;</p>
+  <p><span style="color:#000000"><strong><span style="font-size:12pt"><span style="color:#e03e2d"><span style="color:#236fa1"><span style="color:#000000"><span
+                  style="color:#236fa1"><img src="https://image.lceda.cn/oshwhub/pullImage/ffd4b9b1e18c4ba084fc2a3c7c6b1b14.jpg" alt="" width="800"
+                    height="600"></span></span></span></span></span></strong></span></p>
+  <p>&nbsp;</p>
+  <p><span style="color:#000000"><strong><span style="font-size:12pt"><span style="color:#e03e2d"><span style="color:#236fa1"><span style="color:#000000"><span
+                  style="color:#236fa1"><img src="https://image.lceda.cn/oshwhub/pullImage/0122af86a49e4802bd39909487d35ef6.jpg" alt="" width="800"
+                    height="600"></span></span></span></span></span></strong></span></p>
+  <p>&nbsp;</p>
+  <p><span style="color:#000000"><strong><span style="font-size:12pt"><span style="color:#e03e2d"><span style="color:#236fa1"><span style="color:#000000"><span
+                  style="color:#236fa1"><img src="https://image.lceda.cn/oshwhub/pullImage/1926d893326342048be150385f6e9848.jpg" alt="" width="800"
+                    height="600"></span></span></span></span></span></strong></span></p>
+  <p>&nbsp;</p>
+  <p><span style="color:#000000"><strong><span style="font-size:12pt"><span style="color:#e03e2d"><span style="color:#236fa1"><span style="color:#000000"><span
+                  style="color:#236fa1"><img src="https://image.lceda.cn/oshwhub/pullImage/910b8c3572314ac4816f34c24fc8c3ee.jpg" alt="" width="800"
+                    height="600"></span></span></span></span></span></strong></span></p>
+  <p>&nbsp;</p>
+  <p><span style="color:#000000"><strong><span style="font-size:12pt"><span style="color:#e03e2d"><span style="color:#236fa1"><span style="color:#000000"><span
+                  style="color:#236fa1"><img src="https://image.lceda.cn/oshwhub/pullImage/7dd7907a676a40edab95d8c646c7f619.jpg" alt="" width="800"
+                    height="600"></span></span></span></span></span></strong></span></p>
+  <p>&nbsp;</p>
+  <p><span style="color:#000000"><strong><span style="font-size:12pt"><span style="color:#e03e2d"><span style="color:#236fa1"><span style="color:#000000"><span
+                  style="color:#236fa1"><img src="https://image.lceda.cn/oshwhub/pullImage/2a634a5ec5dd4cdbb74b1c527298f377.png" alt="" width="800"
+                    height="623"></span></span></span></span></span></strong></span></p>
+  <p>&nbsp;</p>
+  <p><img src="https://image.lceda.cn/oshwhub/pullImage/0d071904fc1044e39f65587ca50449dd.png"></p>
+</div>

@@ -1,0 +1,140 @@
+<div class="detail_tinymce-content__PdW9_ tinymce-content">
+  <p>diy 3D打印机称重压力调平传感器, 称重压力热床是目前为数不多的靠谱的喷嘴限位的传感器方案, 其他的比如喷头上的压电震动传感器,压力薄膜传感器安装没那么稳定, 不靠谱,有撞机的风险.</p>
+  <p>提供基于谷歌浏览器的上位机可视化页面, 都不用安装,直接打开网址就可以了 <a href="https://demo.chengxg.top/tiaoping-sensor/html/index.html" target="_blank"
+      rel="noopener">https://demo.chengxg.top/tiaoping-sensor/html/index.html</a></p>
+  <p>&nbsp;</p>
+  <p>硬件采用stc32g8k64芯片主频设置为24M, 这个单片机连晶振都不需要, 最小系统极为简单, 其ADC采集频率达800K,别看这个芯片是C251架构,运算能力不行, 比起esp32, esp8266等的adc要强不少, 足以满足该需求</p>
+  <p>元器件都采用0805的电容电阻,焊接简单,总成本10元左右</p>
+  <p>视频介绍: &nbsp; <a
+      href="https://www.bilibili.com/video/BV1RZgFeTE9K/?spm_id_from=333.999.0.0&amp;vd_source=80c1c161f08d9d188b6befe8e1a3d23a">https://www.bilibili.com/video/BV1RZgFeTE9K/?spm_id_from=333.999.0.0&amp;vd_source=80c1c161f08d9d188b6befe8e1a3d23a</a>
+  </p>
+  <p>每隔一定时间检测到adc变化数值小于一定数值, 就认为热床静止, 就自动设为校准值</p>
+  <p>最快可以设置0.25ms发送一次adc数据到页面, 可以查看调平过程中的波形,以确定最佳的触发力度, 程序代码全程异步无阻塞执行, 即使以如此高的频率发送数据也不影响调平精度</p>
+  <p>该模块与谷歌浏览器通信需要一个usb转串口模块, 通信波特率1M</p>
+  <p>该模块提供四挡放大倍率50,200,1000,5000倍放大, 根据实际情况选择一个通道即可, 只需把通道的放大倍率设置为0, 就可以禁用该通道, 启用的通道数量越少, 刷新率越高, 四通道同时启用时刷新率高达15k/s, 只启用一个通道刷新率达30k/s</p>
+  <p>&nbsp;</p>
+  <p><span style="color:#e03e2d"><strong>通信波特率比较高, 需要用ch340芯片的usb转串口模块连接该模块, 用其他芯片的usb转串口模块可能连接不上</strong></span></p>
+  <p><span style="color:#000000"><strong>由于限位信号输出串接了一个100欧的电阻, 可能在有的主板上无法触发限位, 需要将这个电阻改小才行</strong></span></p>
+  <p>&nbsp;</p>
+  <p><img src="//image.lceda.cn/pullimage/JoZUGTVk92mJyQBt6xaAjpMYlolHgVtFz50wHi5g.png"></p>
+  <p>&nbsp;</p>
+  <p>&nbsp;</p>
+  <p>&nbsp;</p>
+  <p>&nbsp;</p>
+  <p>&nbsp;</p>
+  <p>&nbsp;</p>
+  <p><img src="//image.lceda.cn/pullimage/jWm1QYRHMlkMuxtCu8jcXy3xbFjqFbMRs8wArd2y.jpeg" width="689" height="516"></p>
+  <p>&nbsp;</p>
+  <p><strong>天问block代码编译</strong></p>
+  <p><strong><img src="//image.lceda.cn/oshwhub/2305b00f40624698a1451e2c16023508.jpg"></strong></p>
+  <p>&nbsp;</p>
+  <p><strong>STC-ISP 下载</strong></p>
+  <p><img src="//image.lceda.cn/oshwhub/13480db300d54c088c3231254f60a003.jpg"></p>
+  <p>&nbsp;</p>
+  <p>&nbsp;</p>
+  <p><strong>2024-10-07更新</strong></p>
+  <p>程序代码移植到stm32f072c8t6上了, 主频48M,框架代码由stm32cubeMX生成, 开发工具为vscode上的platfotmIO, 易用性提高, 成本降低, 性能提升, 程序刷新速率提升至50k/s, 串口数据传输采用usb虚拟串口, 不用ch340了, 而且通信波特率任意可调,
+    砍掉了一个放大200倍的通道</p>
+  <p><img src="//image.lceda.cn/oshwhub/769afaaba64d4e8eae2ab03832e5a3f3.png"></p>
+  <p>程序下载采用stmcubeprogramming</p>
+  <p><img src="//image.lceda.cn/oshwhub/8fe4262c47354eae90eb9f961b594688.png"></p>
+  <p><img src="//image.lceda.cn/oshwhub/00e86d536d654df8af0d850bc2b21807.jpg"></p>
+  <p>&nbsp;</p>
+  <p>&nbsp;</p>
+  <p>&nbsp;</p>
+  <p><strong>-----------------------<span style="font-size:18pt">&nbsp;<span style="color:#169179">2025-05-05重大更新&nbsp; 新一代的压力调平传感器</span></span><span
+        style="color:#169179">-</span>-------------------</strong></p>
+  <p>&nbsp;</p>
+  <p>&nbsp;</p>
+  <p><span style="font-size:14pt;color:#169179">本次全新升级, 只保留一个采样通道, 采用两级INA180A2来级联放大,&nbsp; 最高放大倍数为2500倍, 兼具精度和数据波动, 采用两阶RC滤波器, 大大减小数据波动, 数据波动在无干扰情况下为±4,
+      在有干扰情况下仅±10, 可以使用更低的触发值, 软件方面升级很大, 性能更高, 操作更方便.</span></p>
+  <p>&nbsp;</p>
+  <ul>
+    <li><span style="font-size:14pt;color:#169179">1. 采用两级INA180A2运算放大器, 并添加一个反相通道, 不再区分信号输入的正和负, 有些传感器零点漂移大, 很可能零点会反转, INA180A2放大器价格更低</span></li>
+    <li><span style="font-size:14pt;color:#b96ad9">2. pcb面积大大减小, 以压力头适配为准, 通过集线器兼容到压力床.</span></li>
+    <li><span style="font-size:14pt;color:#169179">3. 实验性支持四线probe, 类似fly新出的ALPS压力调平, 可以使用probe的activate_gcode和deactivate_gcode来主动控制probe使能, 可以实现仅在探测Z的时候启动探测,
+        大大减小XY移动过程中造成的干扰, 可以更改触发方向, 有些传感器安装上之后, 受力之后读数会变小, 这时你需要调整触发方向</span></li>
+    <li><span style="font-size:14pt;color:#b96ad9">4. 全新的上位机UI界面, 基于谷歌浏览器, UI美观, 运行流畅, 不用安装软件,&nbsp; 参数调节更简单, 参数更多, 支持按钮调节挡触发阈值, 各项操作逻辑更人性化, 优化echarts图表,
+        实现最大可以存储120s的波形数据, 数据总量可达1200万数据, 每秒新增100k数据, 实时刷新波形数据, 流畅运行, 可以用于超高速应变片数据采集</span></li>
+    <li><span style="font-size:14pt;color:#169179">5.固件代码优化, 检测触发速度达到了200k/s, 数据输出速度最高可达100k/s, 刷新速度远超cs1237方案, 串口通信采用2M波特率, USB转串口芯片采用AI8H2k12U, win10,
+        win11免驱动支持</span></li>
+    <li><span style="font-size:14pt;color:#b96ad9">6. 加入数据导入导出功能,&nbsp; 实测单点探测精度相当高, probe速度在30mm/s的探测条件下, 单点探测精度为0.003750, 5mm每秒探测速度下出现0.00125的概率很大,
+        可以分析具体波动数据, 实现定量研究某些问题, diy模块到达拓竹的水准不是梦</span></li>
+    <li><span style="color:#169179"><span style="font-size:14pt">7.数据读数小于50, 大于4000,强制输出限位信号, 加入看门狗定时器功能, 防止单片机死机造成事故,加强保护功能</span></span></li>
+    <li><span style="font-size:14pt;color:#b96ad9">8.mcu换回stc32g8k64, 采用tssop20封装, 容易焊接, 价格便宜, stc isp下载运行频率设置为40M, 全寄存器编程, 运行效率吊打库函数的stm32f072c8t6,
+        而且ADC精度也优于stm32f072c8t6, 集成AI8H2k12U USB转串口, 相比ch340价格更低, 性能更高, 而且还不会导致电脑蓝屏, 实现了<strong><span
+            style="color:#169179">200k/s</span></strong>的刷新率和2M波特率的满带宽实时数据传输</span></li>
+    <li><span style="font-size:14pt"><span style="color:#169179">9.添加一个按钮, 用于通过按钮调节触发阈值, 类似air001的方案</span> &nbsp;<a
+          href="https://oshwhub.com/aoang/air001_bedprobe">https://oshwhub.com/aoang/air001_bedprobe</a></span></li>
+    <li><span style="font-size:14pt"><span style="color:#b96ad9">10. 网页托管在GitHub上, 国内访问速度慢, 可以下载下来在本地打开网页, 页面访问地址</span> <a
+          href="http://demo.chengxg.top/tiaoping-sensor2/">https://demo.chengxg.top/tiaoping-sensor2/</a></span></li>
+    <li><span style="font-size:14pt;color:#169179">11.可以通过更换其他的INA180A1(放大20倍), INA180A3(放大100倍), INA180A4(放大200倍)组合成其他的放大倍数, 放大倍数越大, 波动越大, 受零点的漂移影响越大,
+        默认是两个INA180A2 50*50的组合, 也可修改两个运算放大器之间的RC值改变灵敏度, 电阻越小灵敏度越高, 越容易受到干扰</span></li>
+    <li><span style="font-size:14pt;color:#b96ad9">12. 带TVS保护, 输入电压不能超过7V, typec输入有二极管隔离, usb电源跟主板电源隔离, 无需担心电脑的安全</span></li>
+    <li><span style="font-size:14pt;color:#169179">13.程序第一次下载时需要<span style="color:#e03e2d">短路</span>如图所示的电容, 让单片机重启复位下才能下载程序, 以后再次下载程序时,
+        可以使用上位机软件点击"重启单片机"按钮来复位</span></li>
+    <li><span style="font-size:14pt;color:#b96ad9">14.正常工作时, led1每1s闪烁一次,&nbsp; 每100us获取一个数据, 3s内每个数据的波动范围小于清零偏差时, 会自动清零, 会以采样数据点的平均值作为清零值, 此时led1会快速闪烁几次表示清零,
+        led2为触发状态指示灯</span></li>
+  </ul>
+  <p><img src="https://image.lceda.cn/oshwhub/pullImage/3c69e7974c054801ba07adb28f291fdd.png" alt="" width="800" height="450"></p>
+  <p><img src="https://image.lceda.cn/oshwhub/pullImage/f75aeb68c3a24d7a9a2c40a276a39c59.png" alt="" width="800" height="562"></p>
+  <p><img src="https://image.lceda.cn/oshwhub/pullImage/ff5c6651bae74c7a8cea3f94ffe559a7.png" alt="" width="800" height="387"></p>
+  <p><img src="https://image.lceda.cn/oshwhub/pullImage/c7bff731b64f46e4ad990ab3245ae535.jpg" alt="" width="800" height="600"></p>
+  <p><img src="https://image.lceda.cn/oshwhub/pullImage/31a0b4059fa046788f6b7d6aa76a0847.png" alt="" width="800" height="382"></p>
+  <p><img src="https://image.lceda.cn/oshwhub/pullImage/f9967b29b6704a999df69727d0dead48.png" alt="" width="800" height="602"></p>
+  <p><strong>-----------------------<span style="font-size:18pt">&nbsp;<span style="color:#169179">2025-08-31更新&nbsp; 新一代的压力调平传感器
+          CS1237版,LDC1612版</span></span><span style="color:#169179">-</span>-------------------</strong></p>
+  <p>&nbsp;</p>
+  <p><span style="color:#b96ad9;font-size:18pt">CS1237版实现了多个芯片并联加快采样速率, 采用REF303电压基准源数据波动很小, 相比运算放大器版灵敏度高,线性度好, 测量范围广, 就是采样速率低, klipper probe最高精度比运算放大器版略低,
+      但是也足够了, 最高精度0.00375还是能达到的, 可以只焊接一个CS1237, 跟两个CS1237并联差距不大</span></p>
+  <ul>
+    <li><span style="font-size:14pt;color:#e67e23">加入了滤波功能,开启滤波可以有效减小数据波动, 但是会加大延迟</span></li>
+    <li><span style="font-size:14pt;color:#e67e23">加入了清零时间设置, 可以设置在多少秒内, 数据的波动小于设置的清零偏差时, 会自动清零</span></li>
+    <li><span style="color:#843fa1"><span style="font-size:14pt">数据保护, 当读取的数据绝对值小于30, 或者大于10000时, 认为数据异常, 触发限位输出</span></span></li>
+    <li><span style="font-size:14pt;color:#843fa1">当超过20ms未读取到数据时, 认为CS1237芯片有问题, 触发限位输出</span></li>
+    <li><span style="font-size:14pt;color:#843fa1">当读取的数据长时间没有变化时, 也认为CS1237芯片有问题, 触发限位输出</span></li>
+    <li><span style="font-size:14pt;color:#169179">压力床在使用多个传感器并联时需要单个接入看数据是否一致, 需要注意数据的正负,受力后数据的变化方向, 是否一致</span></li>
+    <li><span style="font-size:14pt;color:#169179">电子称传感器的安装方向不能看标的安装方向, 要以实际的数据为准, 不要出现不受力时负的, 受力后是正的情况</span></li>
+    <li><span style="font-size:14pt;color:#e67e23">压力传感器干扰客观存在, 热床的干扰问题, 干扰分为pwm干扰和交流干扰, pwm干扰可以通过热床接地解决, 交流干扰是接地时引入的, 需要将直流电源的GND和地线进行耦合, 如果波动不大可以不做处理</span>
+    </li>
+    <li><span style="font-size:14pt;color:#e67e23">PWM干扰容易观察, 交流干扰通过拔掉笔记本电脑的电源才能发现, 不拔掉笔记本的电源的话, 就通过笔记本USB口接地了,这就是为什么有的人会出现插上USB没干扰, 拔掉USB会出现干扰的问题</span></li>
+    <li><span style="font-size:14pt;color:#e67e23">无干扰时数据波动为8以下, 有交流干扰时数据波动为20, 有PWM干扰时数据波动为50, 既有交流干扰又有PWM干扰时数据波动为30, 可见只有PWM干扰时影响最大, 总之热床接地就能很好的解决问题</span>
+    </li>
+  </ul>
+  <p><span style="color:#b96ad9;font-size:18pt"><img src="https://image.lceda.cn/oshwhub/pullImage/be3d8fbefbd74e958e401de5e246b2e4.png" alt="" width="800"
+        height="799"></span></p>
+  <p><span style="color:#b96ad9;font-size:18pt"><img src="https://image.lceda.cn/oshwhub/pullImage/d5891e453b4f4a898cd7e140c9468c69.png" alt="" width="800"
+        height="591"></span></p>
+  <p><span style="color:#b96ad9;font-size:18pt"><img src="https://image.lceda.cn/oshwhub/pullImage/a053e99c8d824110a96e91a115f52c86.png" alt="" width="800"
+        height="495"></span></p>
+  <p><span style="color:#b96ad9;font-size:18pt"><img src="https://image.lceda.cn/oshwhub/pullImage/5cd8a493bac445f29fd09306d4b40a20.png" alt="" width="800"
+        height="490"></span></p>
+  <p><span style="color:#b96ad9;font-size:18pt"><img src="https://image.lceda.cn/oshwhub/pullImage/b60a31eeaa8e42d696dbdf1aa7d491fa.png" alt="" width="800"
+        height="509"></span></p>
+  <p><span style="color:#b96ad9;font-size:18pt"><img src="https://image.lceda.cn/oshwhub/pullImage/91513b4cb205474c916ba89371f51f7c.png" alt="" width="800"
+        height="605"></span></p>
+  <p>&nbsp;</p>
+  <p><span style="font-size:18pt;color:#ba372a">LDC1612版实现了一个接近开关的功能, 既可以使用无接触限位(普通接近开关), 也就可以实现喷嘴限位(类似IDM的touch功能)<br>喷嘴限位通过检测数据上升的变化, 当喷嘴喷到热床时,
+      数据会停止上升,此刻就会触发限位, 对喷嘴和pei板的清洁要求还是很高的,可以用, 不如压力调平稳妥, 该版本仅作探索</span></p>
+  <p><span style="font-size:14pt;color:#169179">使用时需要先把线圈放在喷嘴附近, 在喷嘴上方2mm左右的位置, 然后移动热床, 将热床放在距离喷嘴1mm左右位置, 将此时的读数作为触发阈值, 也就是接近开关的功能, 当传感器读数大于触发阈值时就触发输出限位,
+      当使用喷嘴限位时, 在读数大于触发阈值且数据持续上升时, 直到数据不再增加或略微减小时, 就认为喷嘴接触了热床, 此时触发输出限位</span></p>
+  <p><span style="font-size:14pt;color:#169179">模式控制就是可以通过一个IO来控制模块当前是使用喷嘴触发还是使用无接触触发, 这样可以实现在在网床和调平时使用无接触限位, 在Z归零时使用喷嘴限位</span></p>
+  <p><img src="https://image.lceda.cn/oshwhub/pullImage/2872a7fb551a46c88ee1c6076e45c11d.png" alt="" width="800" height="799"></p>
+  <p><img src="https://image.lceda.cn/oshwhub/pullImage/a7bd04263abd4da885365da91bf2f2f1.png" alt="" width="800" height="506"></p>
+  <p><img src="https://image.lceda.cn/oshwhub/pullImage/57684525bfc44648b2d4fab0a2341be4.png" alt="" width="800" height="408"></p>
+  <p><img src="https://image.lceda.cn/oshwhub/pullImage/cd168553071a4639b5d16ad2e209dfc6.png" alt="" width="800" height="385"></p>
+  <p>&nbsp;</p>
+  <p><strong>-----------------------<span style="font-size:18pt">&nbsp;<span style="color:#169179">2026-02-13更新&nbsp; 新一代的压力调平传感器
+          CS1237版+集线器拼版</span></span><span style="color:#169179">-</span>-------------------</strong></p>
+  <p><span style="font-size:14pt;color:#843fa1"><strong>1. 把集线器跟压力模块拼版, 中间有线连接,&nbsp; 用于压力床时直接并联连接, 便于接线, 用于压力头时可以从中间掰开, 减小体积</strong></span></p>
+  <p><span style="font-size:14pt;color:#843fa1"><strong>2. cs1237版提供一个数据可以跨零点的固件, 对于一些零点不确定的传感器特别有用, 以前的版本也可以用</strong></span></p>
+  <p><span style="font-size:14pt;color:#843fa1"><strong>3. 这个是用立创EDA专业版画的, 以附件文件的形式提供工程文件</strong></span></p>
+  <p><span style="font-size:14pt;color:#843fa1"><strong>4. 小更新, 模块的固定螺丝孔不与GND相连, 其他地方一样, 集线板加了一个接地点通过一个电容和电阻跟板子的GND相连, 集线板的XH2.54端子既可以是贴片的也可以是插件的,
+        其他详细内容看上边的描述</strong></span></p>
+  <p>&nbsp;</p>
+  <p><img src="https://image.lceda.cn/oshwhub/pullImage/d5de0399e587469d863c4d28c8fef1f9.jpg" alt="" width="800" height="600"></p>
+  <p><span style="font-size:14pt"><strong><img src="https://image.lceda.cn/oshwhub/pullImage/f058483a117d487dae284c722f095401.png" alt="" width="800"
+          height="425"></strong></span></p>
+  <p><span style="font-size:14pt"><strong><img src="https://image.lceda.cn/oshwhub/pullImage/a5515efdc20842e4ac5363e23ffbed40.png" alt="" width="800"
+          height="364"></strong></span></p>
+</div>

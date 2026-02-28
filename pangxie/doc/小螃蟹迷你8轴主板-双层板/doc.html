@@ -1,0 +1,213 @@
+<div class="detail_tinymce-content__PdW9_ tinymce-content">
+  <ul>
+    <li style="line-height:1.5">1. 这是一块迷你的8轴主板, 主板尺寸为100mm*75mm, 使用一个8cm静音风扇散热足够了</li>
+    <li style="line-height:1.5">2. 这是一个带有保护的板子, 驱动上的gpio具有过压保护功能, 能够直接抗住24V的冲击, 意味着一个驱动炸了, 板子不烧, 并且其他的驱动也没事, 主板支持自动关机</li>
+    <li style="line-height:1.5">3. 8轴驱动, 前6轴支持普通模式, uart和spi模式, 后两轴支持uart模式</li>
+    <li style="line-height:1.5">4. 核心板由stm32f446rct6和stm32f072c8t6组成, stm32f446rct6是主要控制器, stm32f072c8t6实现了独立can通信</li>
+    <li style="line-height:1.5">5. 主板共有6个限位, 其中三个与无限位归零共用, 一个支持高压输入</li>
+    <li style="line-height:1.5">6. 主板有四路可控风扇, 其中两路支持24V和12V电压</li>
+    <li style="line-height:1.5">7. 两路温控, 不够可以用驱动来扩展温控和风扇</li>
+    <li style="line-height:1.5">8. 两路热端输出, 一路大功率热端, 两路热端均需要焊接引出</li>
+    <li style="line-height:1.5">9. 板子集成ch334r usb hub芯片, 一路连接ch340N usb转串口输出, 可以直接用来连接工具头, 一路连接主控stmf446rct6, 一路连接stm32f72c8t6用作can输出,一路通过usb输出接其他设备</li>
+  </ul>
+  <p>&nbsp;</p>
+  <ul>
+    <li style="line-height:1.5"><strong>特殊的电路保护设计, 拥有数量极多的tvs, 24V,12V和5V电源均有tvs保护, gpio由srv05四路静电保护tvs保护, 每个srv05可以保护4个gpio, 实测srv05钳位电压为7V, 底板集成STC8G1K08A
+        sop8封装的单片机来监控gpio引脚的电压, 当gpio上电压高于一定电压时, 会立刻切断24V和5V电源来达到保护效果, 同时会打开泄放mos来把24V电容里的电量泄放到地, 进一步减少对mcu的影响</strong></li>
+    <li style="line-height:1.5">我们使用tmc2209驱动模块在使能时引脚电压会达到4V, 其他的驱动跟mcu直连的主板是比较容易损坏的, mcu引脚电压一般为3,3V, 驱动模块的通信电压是高于3.3V的, 只不过电流小, 对mcu的影响不大, 但是会存在烧mcu的风险,
+      我这个方案将对mcu 引脚过压起到了很好的保护</li>
+    <li style="line-height:1.5"><strong>底板上的stc8g1k08A单片机, 采用<span style="color:#3598db">天问block</span>来编译, 采用<span style="color:#3598db">stc isp</span>来下载,
+        主频选择24M, 型号选择为stc8g1k08A-sop8</strong></li>
+    <li style="line-height:1.5"><strong>核心板上的stm32f072c8t6和stm32f446rct6采用stm32programmer下载, 下载方式为dfu模式</strong></li>
+    <li style="line-height:1.5">step7可以用来扩展spi通信</li>
+    <li style="line-height:1.5">step8可以用来扩展风扇和温控</li>
+    <li style="line-height:1.5">主板焊接好之后应该往<strong>stc8g1k08A</strong>里写入程序才能正常开机</li>
+    <li style="line-height:1.5">驱动扩展板包含uart转rs232通信模块, step7 spi通信扩展模块, step8 2路温控和2路风扇扩展模块</li>
+    <li><span style="color:#3598db"><strong><span style="color:#000000">如何测试24V电压直通io的保护功能:</span> 用一根杜邦线连接驱动位的右上角引脚VCC 24V,
+          另一端插入到驱动位左侧的通信引脚上(step,dir,en和spi引脚上都可以), 此时主板应该会立刻触发关机<span style="color:#e03e2d">(先不插入核心板进行测试, 测试没问题后再插入核心板进行测试(烧了我不负责))</span></strong></span></li>
+    <li style="line-height:2"><span style="color:#e03e2d"><strong>核心板上的排针要使用14mm的加长版排针, 否则高度不够</strong></span></li>
+    <li style="line-height:2"><span style="color:#e03e2d"><strong>100uf 35V的贴片电容可以把底座去掉转直插电容, 这样容易焊接</strong></span></li>
+    <li style="line-height:2"><span style="background-color:#ffffff;color:#e03e2d"><strong>板子分为核心板和底板, 板子pcb均为双层板, 尺寸限制为10cm以内, 降低打</strong></span><strong
+        style="color:#e03e2d">样成本</strong></li>
+    <li style="line-height:2"><strong style="color:#e03e2d"><strong>标准版工程只能放一块电路板, 这里我把多块板子放在一个工程里了, 看哪个就把哪个单独复制出来修改</strong></strong></li>
+    <li style="line-height:2"><span style="color:#000000"><strong><strong>如果遇到开机卡死无法开机的情况, 是某些模块在上电时不稳定, io会窜入高压, 可以适当改改代码,
+            在开机的时候不检测过压保护</strong></strong></span></li>
+    <li style="line-height:2"><span style="color:#000000"><strong><strong>底板元器件都在背面，插件都在正面，维修时那可是很方便的</strong></strong></span></li>
+  </ul>
+  <p>&nbsp;</p>
+  <p><span style="font-size:18pt;color:#2dc26b"><strong><strong>2024-11-17更新:</strong></strong></span></p>
+  <p><span style="font-size:18pt;color:#2dc26b"><strong><strong>新增stm32H7核心板, 使用stm32h750VET6就行, 价格还便宜, 板载两路uart串口通信, 一路桥接can通信接口, 其余几乎与stm32f446核心板相同,
+          底板共用</strong></strong></span></p>
+  <p>&nbsp;</p>
+  <p><span style="background-color:#ffffff;color:#b96ad9;font-size:18pt"><strong>2024-12-02更新<span style="font-size:18pt">:</span> 添加串口通信工具头</strong></span></p>
+  <p><span style="color:#b96ad9">在can工具头大行其道的情况下, 咱就用串口来通信, 主控采用stm32f072c8t6, 采用stm32f103c8t6也可以, 使用串口来下载程序和klipper通信, 告别can工具头的各种UUID难找, 断联的问题。&nbsp;</span>
+  </p>
+  <p><span style="color:#b96ad9">有4个风扇, 3个限位, 2个温控, 1个仓温, 1个tmc2226驱动, 1个加热棒, 1个ADXL345加速度计, 成本略高, 但是焊接无难度。</span><br><span
+      style="color:#b96ad9">完美搭配该迷你8轴主板。</span></p>
+  <p>&nbsp;</p>
+  <p><span style="background-color:#ffffff;color:#e67e23;font-size:18pt"><strong>2025-01-22更新<span style="font-size:18pt">:</span>&nbsp;优化布局</strong></span></p>
+  <p><span style="color:#e67e23">1. 优化底板布局, 优化电源管理, 24V电源和5V电源启动独立控制, 先启动5V电源, 再缓启动24V电源, stc8g1k08A代码更新不适配之前的版本</span></p>
+  <p><span style="color:#e67e23">2. 优化stm32h750核心板布局</span></p>
+  <p><span style="color:#e67e23">3. 优化串口通信工具头布局, 外形改了, 接线端子也改了</span></p>
+  <p>&nbsp;</p>
+  <p><span style="background-color:#ffffff;color:#169179;font-size:18pt"><strong>2025-03-15更新<span style="font-size:18pt">:</span> 添加新版本的8轴底板,
+        接口不变</strong></span></p>
+  <p><span style="color:#169179">1. 电源监控单片机由<strong>STC8G1K08A sop8升级为stc32g8k64 tssop20, 下载主频设置为40M</strong></span></p>
+  <p><span style="color:#169179">2. step3,step4支持48V高压驱动, <span style="color:#e03e2d">高压驱动慎用, gpio过压, 主板无法主动关闭48V</span></span></p>
+  <p><span style="color:#169179">3. 预留往核心板提供24V供电的端子, 以适应下一步新的核心板</span></p>
+  <p><span style="color:#169179">4. 8轴底板支持电源监控功能, 24V电源开启实现缓启动, LED灯条电源也能使用</span></p>
+  <p><span style="color:#169179">5. 新增现代化UI的web电源监控上位机可视化页面, 能够清晰的看到24V,5V电源的波动情况, 最高10khz波形输出, 外接ch340,ch343等高速usb转串口即可使用, 线上访问地址: <a
+        href="https://demo.chengxg.top/mini8/">https://demo.chengxg.top/mini8/</a></span></p>
+  <p><span style="color:#169179">6. 板子经过优化,&nbsp; 支持嘉立创沉金pcb免费打样</span></p>
+  <p><span style="color:#169179"><img src="https://image.lceda.cn/oshwhub/pullImage/0d071904fc1044e39f65587ca50449dd.png" alt="" width="800"
+        height="393"></span></p>
+  <p><img src="https://image.lceda.cn/oshwhub/pullImage/a19b3a6de5564d4a83e4da5af9160ce2.png" alt="" width="800" height="559"></p>
+  <p><img src="https://image.lceda.cn/oshwhub/pullImage/42c1df99862f4e698a4a1db972fa227b.jpg" alt="" width="800" height="600"></p>
+  <p><img src="https://image.lceda.cn/oshwhub/pullImage/7935c6f49ba848dd8e9b6115d110969a.jpg" alt="" width="800" height="600"></p>
+  <p>&nbsp;</p>
+  <p>&nbsp;</p>
+  <p><span style="font-size:24pt"><strong>100%开源, 有原理图, pcb和原理图一一对应</strong></span></p>
+  <p><span style="font-size:14pt">立创开源地址: &nbsp;<a
+        href="https://oshwhub.com/cxg01/3d-da-yin-ji-mini-8-zhou-shuang-ceng-zhu-ban-kai-yuan"><u>https://oshwhub.com/cxg01/3d-da-yin-ji-mini-8-zhou-shuang-ceng-zhu-ban-kai-yuan</u></a></span>
+  </p>
+  <p><span style="font-size:14pt">视频介绍:&nbsp; <a
+        href="https://www.bilibili.com/video/BV1ujDdYMEgG/?share_source=copy_web&amp;vd_source=99f64753fb7bdbc889f06b65fd51952f">https://www.bilibili.com/video/BV1ujDdYMEgG/?share_source=copy_web&amp;vd_source=99f64753fb7bdbc889f06b65fd51952f</a></span>
+  </p>
+  <p>&nbsp;</p>
+  <p><span style="color:#e03e2d"><strong><span style="font-size:18pt">不定时更新, 自己克隆项目, 保存资料, 避免看不了, 打样哪个就导出哪个板子</span></strong></span></p>
+  <p>&nbsp;</p>
+  <p><strong><span style="font-size:18pt">板子引脚定义:</span></strong></p>
+  <div>
+    <div>
+      <div>
+        <div><span style="color:#000000;background-color:#c2e0f4"><code>[board_pins mcu_pins]</code></span></div>
+        <div><span style="color:#000000;background-color:#c2e0f4"><code>mcu: mcu &nbsp; &nbsp; # stm32f446核心板 stm32f446rct6引脚定义</code></span></div>
+        <div><span style="color:#000000;background-color:#c2e0f4"><code>aliases:</code></span></div>
+        <div><span
+            style="color:#000000;background-color:#c2e0f4"><code>&nbsp; &nbsp; DIR1=PB8, STEP1=PB9, UART1=PB7, EN1=PB6,&nbsp; &nbsp; &nbsp;# step1</code></span>
+        </div>
+        <div><span
+            style="color:#000000;background-color:#c2e0f4"><code>&nbsp; &nbsp; DIR2=PD2, STEP2=PB4, UART2=PB5,&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# step2 EN与 step1共用</code></span>
+        </div>
+        <div><span
+            style="color:#000000;background-color:#c2e0f4"><code>&nbsp; &nbsp; DIR3=PB3, STEP3=PA13, UART3=PC10, EN3=PB1,&nbsp; &nbsp; # step3</code></span>
+        </div>
+        <div><span
+            style="color:#000000;background-color:#c2e0f4"><code>&nbsp; &nbsp; DIR4=PA15, STEP4=PA14, UART4=PC7,&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # step4 EN与 step3共用</code></span>
+        </div>
+        <div><span
+            style="color:#000000;background-color:#c2e0f4"><code>&nbsp; &nbsp; DIR5=PB10, STEP5=PC8, UART5=PC6, EN5=PB2,&nbsp; &nbsp; &nbsp;# step5</code></span>
+        </div>
+        <div><span
+            style="color:#000000;background-color:#c2e0f4"><code>&nbsp; &nbsp; DIR6=PC5, STEP6=PB12, UART6=PB0,&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # step6 EN与 step5共用</code></span>
+        </div>
+        <div><span
+            style="color:#000000;background-color:#c2e0f4"><code>&nbsp; &nbsp; DIR7=PA5, STEP7=PA6, UART7=PA7, EN7=PC4,&nbsp; &nbsp; &nbsp;# step7</code></span>
+        </div>
+        <div><span
+            style="color:#000000;background-color:#c2e0f4"><code>&nbsp; &nbsp; DIR8=PC2, STEP8=PA3, UART8=PA1, EN8=PA0,&nbsp; &nbsp; &nbsp;# step8</code></span>
+        </div>
+        <div><span
+            style="color:#000000;background-color:#c2e0f4"><code>&nbsp; &nbsp; FAN1=PA8, FAN2=PC9, FAN3=PA10, FAN4=PA9,&nbsp; &nbsp; &nbsp;# 风扇</code></span>
+        </div>
+        <div><span
+            style="color:#000000;background-color:#c2e0f4"><code>&nbsp; &nbsp; STOP1=PA4, STOP2=PC14, STOP3=PC15, STOP4=PC13, STOP5=PC3, STOP6=PA2, # 限位</code></span>
+        </div>
+        <div><span
+            style="color:#000000;background-color:#c2e0f4"><code>&nbsp; &nbsp; T1=PC0, T2=PC1,&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # 温控</code></span>
+        </div>
+        <div><span
+            style="color:#000000;background-color:#c2e0f4"><code>&nbsp; &nbsp; H1=PC12, H2=PC11,&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# 加热</code></span>
+        </div>
+        <div><span style="color:#000000;background-color:#c2e0f4"><code>&nbsp; &nbsp;</code></span></div>
+        <div><span style="color:#000000;background-color:#c2e0f4"><code>[board_pins mcu2_pins]</code></span></div>
+        <div><span style="color:#000000;background-color:#c2e0f4"><code>mcu: mcu2 &nbsp; &nbsp; &nbsp;# stm32f446核心板 stm32f072c8t6引脚定义</code></span></div>
+        <div><span style="color:#000000;background-color:#c2e0f4"><code>aliases:</code></span></div>
+        <div><span
+            style="color:#000000;background-color:#c2e0f4"><code>&nbsp; &nbsp; SHUT=PA14, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# 设置高电平 自动关机</code></span>
+        </div>
+        <div><span
+            style="color:#000000;background-color:#c2e0f4"><code>&nbsp; &nbsp; LED1=PA7, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # klipper运行指示, 低电平亮灯</code></span>
+        </div>
+        <div><span style="color:#000000;background-color:#c2e0f4"><code>&nbsp; &nbsp; CAN_RX=PB8, CAN_TX=PB9, # can通信引脚</code></span></div>
+        <div><span style="color:#000000;background-color:#c2e0f4"><code>&nbsp; &nbsp; RX=PA10, TX=PA9, &nbsp; &nbsp; &nbsp; &nbsp;# 串口引脚</code></span></div>
+        <div><span style="color:#000000;background-color:#c2e0f4"><code>&nbsp; &nbsp; SDA=PB11, SCL=PB10, &nbsp; &nbsp; # I2C引</code></span></div>
+      </div>
+    </div>
+  </div>
+  <p>&nbsp;</p>
+  <div>
+    <div><span style="color:#e03e2d;background-color:#fbeeb8">[board_pins mcu_pins]</span></div>
+    <div><span style="color:#e03e2d;background-color:#fbeeb8">mcu: mcu # stm32h750核心板</span></div>
+    <div><span style="color:#e03e2d;background-color:#fbeeb8">aliases:</span></div>
+    <div><span style="color:#e03e2d;background-color:#fbeeb8">&nbsp; &nbsp; DIR1=PD4, STEP1=PD5, UART1=PB7, EN1=PB6, &nbsp; # step1 &nbsp;step1-step6支持spi,
+        spi_bus: spi2</span></div>
+    <div><span style="color:#e03e2d;background-color:#fbeeb8">&nbsp; &nbsp; DIR2=PD2, STEP2=PB4, UART2=PB5, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# step2 EN与
+        step1共用</span></div>
+    <div><span style="color:#e03e2d;background-color:#fbeeb8">&nbsp; &nbsp; DIR3=PB3, STEP3=PA13, UART3=PC10, EN3=PB1, # step3</span></div>
+    <div><span style="color:#e03e2d;background-color:#fbeeb8">&nbsp; &nbsp; DIR4=PA15, STEP4=PA14, UART4=PC7, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# step4 EN与
+        step3共用</span></div>
+    <div><span style="color:#e03e2d;background-color:#fbeeb8">&nbsp; &nbsp; DIR5=PB10, STEP5=PC8, UART5=PC6, EN5=PB2, &nbsp;# step5</span></div>
+    <div><span style="color:#e03e2d;background-color:#fbeeb8">&nbsp; &nbsp; DIR6=PC5, STEP6=PB12, UART6=PB0, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # step6 EN与
+        step5共用</span></div>
+    <div><span style="color:#e03e2d;background-color:#fbeeb8">&nbsp; &nbsp; DIR7=PA5, STEP7=PA6, UART7=PA7, EN7=PC4, &nbsp; # step7</span></div>
+    <div><span style="color:#e03e2d;background-color:#fbeeb8">&nbsp; &nbsp; DIR8=PC2, STEP8=PA3, UART8=PA1, EN8=PA0, &nbsp; # step8</span></div>
+    <div><span style="color:#e03e2d;background-color:#fbeeb8">&nbsp; &nbsp; FAN1=PA8, FAN2=PC9, FAN3=PA10, FAN4=PA9, &nbsp; # FAN1, FAN2支持12V和24V电压</span></div>
+    <div><span style="color:#e03e2d;background-color:#fbeeb8">&nbsp; &nbsp; STOP1=PA4, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# 限位
+        STOP1支持高压输入,二极管输入隔离,支持12V和24V供电,</span></div>
+    <div><span style="color:#e03e2d;background-color:#fbeeb8">&nbsp; &nbsp; STOP2=PC14, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # 限位 5V供电输出,
+        二极管输入隔离</span></div>
+    <div><span style="color:#e03e2d;background-color:#fbeeb8">&nbsp; &nbsp; STOP3=PC15, STOP4=PC13, &nbsp; # 限位 2PIN,step1,step2无限位归零</span></div>
+    <div><span style="color:#e03e2d;background-color:#fbeeb8">&nbsp; &nbsp; STOP5=PC3, STOP6=PA2, &nbsp; &nbsp; # 限位 5V供电输出</span></div>
+    <div><span style="color:#e03e2d;background-color:#fbeeb8">&nbsp; &nbsp; T1=PC0, T2=PC1, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # 温控</span></div>
+    <div><span style="color:#e03e2d;background-color:#fbeeb8">&nbsp; &nbsp; H1=PC12, H2=PC11, &nbsp; &nbsp; &nbsp; &nbsp; # 加热</span></div>
+    <div><span style="color:#e03e2d;background-color:#fbeeb8">&nbsp; &nbsp; SHUT=PD6, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # 高电平 自动关机</span>
+    </div>
+  </div>
+  <p>&nbsp;</p>
+  <div>
+    <div><span style="background-color:#f8cac6;color:#843fa1">[board_pins toolhead_pins_f072]</span></div>
+    <div><span style="background-color:#f8cac6;color:#843fa1">mcu: toolhead # stm32f072串口通信工具头</span></div>
+    <div><span style="background-color:#f8cac6;color:#843fa1">aliases:</span></div>
+    <div><span style="background-color:#f8cac6;color:#843fa1">&nbsp; &nbsp; H1=PB14, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# 加热</span></div>
+    <div><span style="background-color:#f8cac6;color:#843fa1">&nbsp; &nbsp; FAN1=PB8,FAN2=PC13,FAN3=PC14,FAN4=PB7, &nbsp;# 风扇</span></div>
+    <div><span style="background-color:#f8cac6;color:#843fa1">&nbsp; &nbsp; STOP1=PB6,STOP2=PC15,STOP3=PA3, &nbsp; &nbsp; &nbsp; &nbsp; # 限位</span></div>
+    <div><span style="background-color:#f8cac6;color:#843fa1">&nbsp; &nbsp; T1=PA1,T2=PA2,T3=PA4, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+        # 温控 T3为仓温检测</span></div>
+    <div><span style="background-color:#f8cac6;color:#843fa1">&nbsp; &nbsp; EN1=PB4,DIR1=PA14,STEP1=PA15,UART1=PB3, # tmc2226步进电机驱动</span></div>
+    <div><span style="background-color:#f8cac6;color:#843fa1">&nbsp; &nbsp; LED=PB5, # klipper运行指示灯</span></div>
+  </div>
+  <p>&nbsp;</p>
+  <p><strong style="color:#e03e2d"><img src="//image.lceda.cn/oshwhub/b28789b90aa642f4aaf880dc82bc3cef.png" alt="" width="800" height="452"></strong></p>
+  <p><strong style="color:#e03e2d"><img src="https://image.lceda.cn/oshwhub/pullImage/d2607040443a40ad856eb102e680764d.png" alt="" width="800"
+        height="617"></strong></p>
+  <p><img src="https://image.lceda.cn/oshwhub/pullImage/0ff0f77618e9497396b847480b5a4aff.png" alt="" width="800" height="1103"></p>
+  <p><strong style="color:#e03e2d"><img src="//image.lceda.cn/oshwhub/37c05a37fea14a989366ff8e2f2a1bd2.png" alt="" width="800" height="534"></strong></p>
+  <p><strong style="color:#e03e2d"><img src="https://image.lceda.cn/oshwhub/pullImage/c1a20b07c53943609eb5c995963a7c6e.png" alt="" width="800"
+        height="514"><br></strong></p>
+  <p><strong style="color:#e03e2d"><img src="https://image.lceda.cn/oshwhub/pullImage/a696f26c5d9548a8aa6e60a32423583f.png" alt="" width="800"
+        height="590"></strong></p>
+  <p><strong style="color:#e03e2d"><img src="https://image.lceda.cn/oshwhub/pullImage/389820ce516a4bf7bc2a753ef6c2bf04.png" alt="" width="800"
+        height="545"></strong></p>
+  <p><strong style="color:#e03e2d"><img src="//image.lceda.cn/oshwhub/0a9689dfceba4a50b44998fc37f1d7b1.png" alt="" width="800" height="777"></strong></p>
+  <p><span style="background-color:#ffffff;color:#e03e2d"><strong><img src="//image.lceda.cn/oshwhub/7495a29c0abc40ecbe55d6be05d0c654.jpg" alt="" width="800"
+          height="600"></strong></span></p>
+  <p><img src="//image.lceda.cn/oshwhub/593ecc1ba0834339a0828c7219170ac7.jpg" alt="" width="800" height="600"></p>
+  <p><img src="https://image.lceda.cn/oshwhub/pullImage/63695001eced418b9604b4f475962d0a.jpg" alt="" width="800" height="600"></p>
+  <p><span style="background-color:#ffffff;color:#e03e2d"><strong><img src="https://image.lceda.cn/oshwhub/pullImage/6c21362140b54c2b8dbac54debb96d53.jpg"
+          alt="" width="800" height="1093"></strong></span></p>
+  <p><span style="background-color:#ffffff;color:#e03e2d"><strong><img src="//image.lceda.cn/oshwhub/33ee37a7c2954e13b3eb8ac0309a8dab.png" alt="" width="800"
+          height="426"></strong></span></p>
+  <p><span style="background-color:#ffffff;color:#e03e2d"><strong><img src="//image.lceda.cn/oshwhub/c1e7cb078c214f0ebbd3f1237c0bff9c.png" alt="" width="800"
+          height="563"></strong></span></p>
+  <p>&nbsp;</p>
+  <p><span style="background-color:#ffffff;color:#e03e2d"><strong><img src="https://image.lceda.cn/oshwhub/pullImage/fe09300b4c0a40b78344641c429cbfbc.png"
+          alt="" width="800" height="406"></strong></span></p>
+  <p><span style="background-color:#ffffff;color:#e03e2d"><strong><img src="https://image.lceda.cn/oshwhub/pullImage/e6c3105b169c44e89cdaf0731fc80d49.png"
+          alt="" width="800" height="427"></strong></span></p>
+  <p><span style="background-color:#ffffff;color:#e03e2d"><strong><img src="https://image.lceda.cn/oshwhub/pullImage/2d8f8f1e37ea402cb5f6d719a0c95870.png"
+          alt="" width="800" height="448"></strong></span></p>
+  <p><span style="background-color:#ffffff;color:#e03e2d"><strong><img src="https://image.lceda.cn/oshwhub/pullImage/a8538dd71820422d9a9ba9cb12e92107.png"
+          alt="" width="800" height="462"></strong></span></p>
+</div>
