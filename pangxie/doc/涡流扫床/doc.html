@@ -10,13 +10,12 @@
           style="color: #e03e2d;">lis2dw</span>加速度传感器和<span style="color: #e03e2d;">AHT20</span>温度传感器, 这三个芯片共用I2C通信,&nbsp; 接线最少, 板子制作成本很低, 只需10元,&nbsp;
         加速度计放在线圈上, 离喷嘴近, 共振补偿效果好,&nbsp;<span style="color: #000000;">其中<span style="color: #e03e2d;">AHT20</span>需要升级到最新的klipper版本才能使用;</span></strong></span>
   </div>
-  <div style="line-height: 2;"><span style="font-size: 14pt;"><strong>5.该线圈谐振频率在5.5Mhz左右, 线圈频率高, 采用40Mhz的有源晶振, 实测在线圈在喷嘴上方2mm处,
-        klipper校准后的频率在0-4mm处的频率变化超过400Khz, 最大探测距离超过7mm, 甚至可以隔着晶格平台扫床, 距离噪声可达0.1um,&nbsp; 在z-offset为 1mm处, 频率变化高达6Khz/0.04mm, 变化相当灵敏,
-        线圈静止时频率波动在100hz左右;</strong></span></div>
-  <p><strong><span style="font-size: 14pt;">6. 视频介绍见B站&nbsp;<a title="3D打印涡流线圈调平开源及Eddy current sensor error问题解决"
+  <div style="line-height: 2;"><span style="font-size: 14pt;"><strong>5.该线圈谐振频率在5.6Mhz左右, 线圈频率高, 采用40Mhz的有源晶振, 实测在线圈在喷嘴上方2mm处,
+        klipper校准后的频率在0-4mm处的频率变化超过400Khz, 最大探测距离超过7mm, 甚至可以隔着晶格平台扫床, 距离噪声可达0.1um,&nbsp; 在z-offset为 1mm处, 频率变化高达6Khz/0.04mm以上, 变化相当灵敏;</strong></span></div>
+  <p><strong><span style="font-size: 14pt;">6. 扫床视频介绍使用: 见B站 <a title="3D打印涡流线圈调平开源及Eddy current sensor error问题解决"
           href="https://www.bilibili.com/video/BV14oqVBGERA/?spm_id_from=333.1387.homepage.video_card.click&amp;vd_source=80c1c161f08d9d188b6befe8e1a3d23a"
           target="_blank" rel="noopener">3D打印涡流线圈调平开源及Eddy current sensor error问题解决</a>, 该线圈我起名为: 小螃蟹扫床线圈; 该线圈我已经量产了一批, 欢迎购买;</span></strong></p>
-  <p><strong><span style="font-size: 14pt;">7.目前klipper在<span style="color: #e03e2d;">2026年1月份</span>升级了涡流驱动, tap功能得到支持, 类似IDM的touch模式, 就不需要AHT20温度传感器了,
+  <p><strong><span style="font-size: 14pt;">7.目前klipper在<span style="color: #e03e2d;">2026年1月份</span>升级了涡流驱动, tap功能得到支持, 类似IDM的touch模式, 就不需要AHT20温度传感器了, 无需温度校准,
         自动Zoffset&nbsp;</span></strong></p>
 </div>
 <p>&nbsp;</p>
@@ -39,7 +38,8 @@
 <p><span style="font-size: 12pt;">其他错误参考fly文档:&nbsp;&nbsp;<a href="https://mellow.klipper.cn/docs/DebugDoc/faq/eddy/" target="_blank"
       rel="noopener">https://mellow.klipper.cn/docs/DebugDoc/faq/eddy/</a></span></p>
 <p>&nbsp;</p>
-<h3><span style="font-size: 18pt;"><strong>二.&nbsp;</strong></span><span style="font-size: 18pt;"><strong>修改klipper 涡流驱动代码:</strong></span></h3>
+<h3><span style="font-size: 18pt;"><strong>二.&nbsp;</strong></span><span style="font-size: 18pt;"><strong>修改klipper涡流驱动代码:</strong></span></h3>
+<p><span style="font-size: 18px; color: #843fa1;"><strong>klipper官方是用必趣的eddy做的测试, 必趣的eddy参数跟我这个线圈参数不一样, 要改下一些代码配置</strong></span></p>
 <div><span style="font-size: 14pt;"><strong><span style="color: #2dc26b;">1. 进入ssh找到klipper目录</span></strong></span></div>
 <div>
   <div><span style="font-size: 12pt; color: #000000;"><strong>打开 /klipper/klippy/extras/ldc1612.py 文件</strong></span></div>
@@ -100,6 +100,8 @@
         style="margin: 0px; padding: 0px; box-sizing: border-box; color: #e03e2d;">5.klipper目前更新了tap功能,支持喷嘴限位,自动zoffset</span></strong></span></p>
 <p><strong>官方的设置教程见:&nbsp;<a href="https://www.klipper3d.org/Eddy_Probe.html" target="_blank"
       rel="noopener">https://www.klipper3d.org/Eddy_Probe.html</a></strong></p>
+<p><strong>我翻译了以下官方的教程见: <a href="https://demo.chengxg.top/pangxie/doc/%E6%B6%A1%E6%B5%81%E6%89%AB%E5%BA%8A/klipper_eddy_probe.html" target="_blank"
+      rel="noopener">klipper_eddy_probe.html</a></strong></p>
 <pre class="language-python highlighter-hljs"><code>[probe_eddy_current my_probe]
 # eddy probe configuration...
 # Recommended starting values for the tap
@@ -387,10 +389,10 @@ gcode:
 #*# &nbsp; 3.980000:5663552.248,4.020000:5660856.271
 #*#
 #*# [stepper_z]
-#*# position_endstop = 0.065</code></pre>
+#*# position_endstop = 0.07</code></pre>
     </div>
   </div>
-  <p><span style="font-size: 16px;"><strong><span style="color: #e03e2d;">超高的频率变化超过400khz, 噪声0.1um, 这个数据在执行完<span
+  <p><span style="font-size: 16px;"><strong><span style="color: #e03e2d;">超高的频率变化超过400khz, 噪声仅0.1um, 这个数据在执行完<span
             style="color: #843fa1;">频率高度对应校准</span>后会打印出来</span></strong></span></p>
   <pre class="language-python highlighter-hljs"><code>probe_eddy_current: noise 0.000079mm, MAD_Hz=16.228 in 2525 queries
 

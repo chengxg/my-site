@@ -1,0 +1,520 @@
+<!doctype html>
+<html>
+
+  <head>
+    <meta charset="UTF-8" />
+    <title>&#x6da1;&#x6d41;&#x611f;&#x5e94;&#x63a2;&#x9488;</title>
+    <style>
+      /* From extension vscode.github */
+      /*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+      .vscode-dark img[src$="\#gh-light-mode-only"],
+      .vscode-light img[src$="\#gh-dark-mode-only"],
+      .vscode-high-contrast:not(.vscode-high-contrast-light) img[src$="\#gh-light-mode-only"],
+      .vscode-high-contrast-light img[src$="\#gh-dark-mode-only"] {
+        display: none;
+      }
+    </style>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css" />
+    <style>
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", system-ui, "Ubuntu", "Droid Sans", sans-serif;
+        font-size: 14px;
+        line-height: 1.6;
+      }
+    </style>
+    <style>
+      .task-list-item {
+        list-style-type: none;
+      }
+
+      .task-list-item-checkbox {
+        margin-left: -20px;
+        vertical-align: middle;
+        pointer-events: none;
+      }
+    </style>
+    <style>
+      :root {
+        --color-note: #0969da;
+        --color-tip: #1a7f37;
+        --color-warning: #9a6700;
+        --color-severe: #bc4c00;
+        --color-caution: #d1242f;
+        --color-important: #8250df;
+      }
+    </style>
+    <style>
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --color-note: #2f81f7;
+          --color-tip: #3fb950;
+          --color-warning: #d29922;
+          --color-severe: #db6d28;
+          --color-caution: #f85149;
+          --color-important: #a371f7;
+        }
+      }
+    </style>
+    <style>
+      .markdown-alert {
+        padding: 0.5rem 1rem;
+        margin-bottom: 16px;
+        color: inherit;
+        border-left: 0.25em solid #888;
+      }
+
+      .markdown-alert> :first-child {
+        margin-top: 0;
+      }
+
+      .markdown-alert> :last-child {
+        margin-bottom: 0;
+      }
+
+      .markdown-alert .markdown-alert-title {
+        display: flex;
+        font-weight: 500;
+        align-items: center;
+        line-height: 1;
+      }
+
+      .markdown-alert .markdown-alert-title .octicon {
+        margin-right: 0.5rem;
+        display: inline-block;
+        overflow: visible !important;
+        vertical-align: text-bottom;
+        fill: currentColor;
+      }
+
+      .markdown-alert.markdown-alert-note {
+        border-left-color: var(--color-note);
+      }
+
+      .markdown-alert.markdown-alert-note .markdown-alert-title {
+        color: var(--color-note);
+      }
+
+      .markdown-alert.markdown-alert-important {
+        border-left-color: var(--color-important);
+      }
+
+      .markdown-alert.markdown-alert-important .markdown-alert-title {
+        color: var(--color-important);
+      }
+
+      .markdown-alert.markdown-alert-warning {
+        border-left-color: var(--color-warning);
+      }
+
+      .markdown-alert.markdown-alert-warning .markdown-alert-title {
+        color: var(--color-warning);
+      }
+
+      .markdown-alert.markdown-alert-tip {
+        border-left-color: var(--color-tip);
+      }
+
+      .markdown-alert.markdown-alert-tip .markdown-alert-title {
+        color: var(--color-tip);
+      }
+
+      .markdown-alert.markdown-alert-caution {
+        border-left-color: var(--color-caution);
+      }
+
+      .markdown-alert.markdown-alert-caution .markdown-alert-title {
+        color: var(--color-caution);
+      }
+    </style>
+  </head>
+
+  <body class="vscode-body vscode-light">
+    <h1 id="涡流感应探针">涡流感应探针</h1>
+    <p>
+      本文档描述了如何在 Klipper 中使用
+      <a href="https://en.wikipedia.org/wiki/Eddy_current">涡流</a>
+      感应探针。
+    </p>
+    <p>
+      目前，涡流感应探针不能精确地进行 Z 轴归位（即
+      <code>G28 Z</code>
+      ）。但该传感器可以精确地进行 Z 轴探测（即
+      <code>PROBE ...</code>
+      ）。有关更多详细信息，请查看
+      <a href="Eddy_Probe.html#homing-correction-macros">归位校正</a>
+      部分。
+    </p>
+    <p>
+      首先，在 printer.cfg 文件中声明一个
+      <a href="Config_Reference.html#probe_eddy_current">probe_eddy_current 配置部分</a>
+      。建议将
+      <code>z_offset</code>
+      设置为 0.5mm。传感器通常需要
+      <code>x_offset</code>
+      和
+      <code>y_offset</code>
+      。如果这些值未知，应在初始校准期间估计这些值。
+    </p>
+    <p>
+      校准的第一步是确定传感器的适当 DRIVE_CURRENT。使打印机归位并导航工具头，使传感器位于床的中心附近，距离床约 20mm。然后发出
+      <code>LDC_CALIBRATE_DRIVE_CURRENT CHIP=&lt;config_name&gt;</code>
+      命令。例如，如果配置部分名为
+      <code>[probe_eddy_current my_eddy_probe]</code>
+      ，则应运行
+      <code>LDC_CALIBRATE_DRIVE_CURRENT CHIP=my_eddy_probe</code>
+      。此命令应在几秒钟内完成。完成后，发出
+      <code>SAVE_CONFIG</code>
+      命令将结果保存到 printer.cfg 并重新启动。
+    </p>
+    <p>
+      涡流用作接近/距离传感器（类似于激光尺）。校准的第二步是将传感器读数与相应的 Z 高度相关联。使打印机归位并导航工具头，使喷嘴位于床的中心附近。然后运行
+      <code>PROBE_EDDY_CURRENT_CALIBRATE CHIP=my_eddy_probe</code>
+      命令。工具启动后，按照
+      <a href="Bed_Level.html#the-paper-test">&quot;纸张测试&quot;</a>
+      中描述的步骤确定给定位置喷嘴和床之间的实际距离。完成这些步骤后，可以
+      <code>ACCEPT</code>
+      该位置。然后工具将移动工具头，使传感器位于喷嘴曾经所在的点上方，并运行一系列移动以将传感器与 Z 位置相关联。这将需要几分钟时间。工具完成后，它将输出传感器性能数据：
+    </p>
+    <pre><code>probe_eddy_current: noise 0.000642mm, MAD_Hz=11.314 in 2525 queries
+Total frequency range: 45000.012 Hz
+z_offset: 0.250 # noise 0.000200mm, MAD_Hz=11.000
+z_offset: 0.530 # noise 0.000300mm, MAD_Hz=12.000
+z_offset: 1.010 # noise 0.000400mm, MAD_Hz=14.000
+z_offset: 2.010 # noise 0.000600mm, MAD_Hz=12.000
+z_offset: 3.010 # noise 0.000700mm, MAD_Hz=9.000
+</code></pre>
+    <p>
+      发出
+      <code>SAVE_CONFIG</code>
+      命令将结果保存到 printer.cfg 并重新启动。
+    </p>
+    <p>
+      初始校准后，最好验证
+      <code>x_offset</code>
+      和
+      <code>y_offset</code>
+      是否准确。按照步骤
+      <a href="Probe_Calibrate.html#calibrating-probe-x-and-y-offsets">校准探针 x 和 y 偏移</a>
+      。如果修改了
+      <code>x_offset</code>
+      或
+      <code>y_offset</code>
+      ，请确保在更改后运行
+      <code>PROBE_EDDY_CURRENT_CALIBRATE</code>
+      命令（如上所述）。
+    </p>
+    <p>校准完成后，可以使用所有使用 Z 探针的标准 Klipper 工具。</p>
+    <p>
+      请注意，涡流传感器（以及一般的感应探针）容易受到&quot;热漂移&quot;的影响。也就是说，温度变化可能导致报告的 Z
+      高度发生变化。床表面温度或传感器硬件温度的变化都会使结果产生偏差。重要的是，校准和探测只能在打印机温度稳定时进行。
+    </p>
+    <h2 id="归位校正宏">归位校正宏</h2>
+    <p>由于当前的限制，涡流传感器的归位和探测实现方式不同。因此，归位存在偏移误差，而探测则正确处理这一点。</p>
+    <p>要校正归位偏移，可以在归位覆盖或起始 G 代码中使用建议的宏。</p>
+    <p>
+      必须在配置中定义
+      <a href="Config_Reference.html#force_move">强制移动</a>
+      部分。
+    </p>
+    <pre><code>[gcode_macro _RELOAD_Z_OFFSET_FROM_PROBE]
+gcode:
+  {% set Z = printer.toolhead.position.z %}
+  SET_KINEMATIC_POSITION Z={Z - printer.probe.last_probe_position.z}
+
+[gcode_macro SET_Z_FROM_PROBE]
+gcode:
+  {% set METHOD = params.METHOD | default(&quot;automatic&quot;) %}
+  PROBE METHOD={METHOD}
+  _RELOAD_Z_OFFSET_FROM_PROBE
+  G0 Z5
+</code></pre>
+    <h2 id="轻触校准">轻触校准</h2>
+    <p>
+      涡流探针测量线圈的共振频率。通过频率的绝对值和
+      <code>PROBE_EDDY_CURRENT_CALIBRATE</code>
+      的校准曲线，因此可以在没有物理接触的情况下检测床的位置。
+    </p>
+    <p>利用相同的知识，我们知道频率会随距离变化。可以实时跟踪这种变化并检测接触发生的时间/位置 - 频率变化开始以不同的方式变化。例如，由于碰撞而停止变化。</p>
+    <p>
+      由于涡流输出并不完美：存在传感器噪声、机械振动、热膨胀和其他差异，因此需要为您的机器校准停止阈值。实际上，它确保涡流的输出数据绝对值每秒变化（速度）足够高 -
+      高于噪声水平，并且在碰撞时它总是至少减少这个值。
+    </p>
+    <pre><code>[probe_eddy_current my_probe]
+# eddy probe configuration...
+# Recommended starting values for the tap
+#samples: 3
+#samples_tolerance: 0.025
+#samples_tolerance_retries: 3
+tap_threshold: 0 # 0 means tap is disabled
+</code></pre>
+    <p>
+      在将其设置为任何其他值之前，必须安装
+      <code>scipy</code>
+      ：
+    </p>
+    <pre><code class="language-bash">~/klippy-env/bin/pip install scipy
+</code></pre>
+    <p>建议的校准程序如下：</p>
+    <ol>
+      <li>归位 Z 轴</li>
+      <li>将工具头放置在床的中心。</li>
+      <li>将 Z 轴移远（例如 30 mm）。</li>
+      <li>
+        运行
+        <code>PROBE METHOD=tap</code>
+      </li>
+      <li>
+        如果它在碰撞前停止，增加
+        <code>tap_threshold</code>
+        。
+      </li>
+    </ol>
+    <p>重复直到喷嘴轻轻接触床。这在喷嘴干净且通过视觉检查过程时更容易做到。</p>
+    <p>您可以通过将工具头放置在中心一次来简化过程。然后，在配置重启时，欺骗机器认为 Z 已归位。</p>
+    <pre><code>SET_KINEMATIC_POSITION X=&lt;middle&gt; Y=&lt;middle&gt; Z=0
+G0 Z5 # Optional retract
+PROBE METHOD=tap
+</code></pre>
+    <p>以下是要测试的阈值示例序列：</p>
+    <pre><code>1 -&gt; 5 -&gt; 10 -&gt; 20 -&gt; 40 -&gt; 80 -&gt; 160
+160 -&gt; 120 -&gt; 100
+</code></pre>
+    <p>您的值通常在这些之间。</p>
+    <ul>
+      <li>过高的值会为早期碰撞留下较少的安全余量 - 如果在喷嘴和床之间有东西，或者在轻触前喷嘴离床太近。</li>
+      <li>过低 - 可能会因为噪声而使工具头在半空中停止。</li>
+    </ul>
+    <p>您可以通过分析自己的校准程序输出来估计初始阈值：</p>
+    <pre><code>probe_eddy_current: noise 0.000642mm, MAD_Hz=11.314
+...
+z_offset: 1.010 # noise 0.000400mm, MAD_Hz=14.000
+</code></pre>
+    <p>估计值为：</p>
+    <pre><code>MAD_Hz * 2
+11.314 * 2 = 22.628
+</code></pre>
+    <p>
+      要进一步微调阈值，可以使用
+      <code>PROBE_ACCURACY METHOD=tap</code>
+      。在默认探针速度为 5 mm/s 的情况下，范围预计约为 0.02 mm。线圈温度升高可能会增加噪声，可能需要额外调整。
+    </p>
+    <p>您可以通过测量初始校准指南中的纸张厚度来验证轻触精度。预计约为 0.1mm。</p>
+    <p>轻触精度受采样频率和下降速度的限制。如果您每秒拍摄 24 张移动火车的照片，您只能估计火车在照片之间的位置。</p>
+    <p>
+      可以降低下降速度。这可能需要降低绝对
+      <code>tap_threshold</code>
+      值。
+    </p>
+    <p>只要在传感器的灵敏度范围内，就可以在非导电表面上轻触，只要其后面有金属。最大距离可以近似为线圈最窄部分的约 1.5 倍。</p>
+    <h2 id="热漂移校准">热漂移校准</h2>
+    <p>
+      与所有感应探针一样，涡流探针会受到显著的热漂移影响。如果涡流探针在线圈上有温度传感器，则可以配置
+      <code>[temperature_probe]</code>
+      来报告线圈温度并启用软件漂移补偿。要将温度探针链接到涡流探针，
+      <code>[temperature_probe]</code>
+      部分必须与
+      <code>[probe_eddy_current]</code>
+      部分共享一个名称。例如：
+    </p>
+    <pre><code>[probe_eddy_current my_probe]
+# eddy probe configuration...
+
+[temperature_probe my_probe]
+# temperature probe configuration...
+</code></pre>
+    <p>
+      有关如何配置
+      <code>temperature_probe</code>
+      的更多详细信息，请参阅
+      <a href="Config_Reference.html#temperature_probe">配置参考</a>
+      。建议配置
+      <code>calibration_position</code>
+      、
+      <code>calibration_extruder_temp</code>
+      、
+      <code>extruder_heating_z</code>
+      和
+      <code>calibration_bed_temp</code>
+      选项，因为这样可以自动执行下面概述的一些步骤。如果要校准的打印机是封闭的，强烈建议将
+      <code>max_validation_temp</code>
+      选项设置为 100 到 120 之间的值。
+    </p>
+    <p>
+      涡流探针制造商可能会提供可手动添加到
+      <code>[probe_eddy_current]</code>
+      部分的
+      <code>drift_calibration</code>
+      选项的库存漂移校准。如果他们不提供，或者如果库存校准在您的系统上表现不佳，
+      <code>temperature_probe</code>
+      模块通过
+      <code>TEMPERATURE_PROBE_CALIBRATE</code>
+      gcode 命令提供手动校准程序。
+    </p>
+    <p>
+      在执行校准之前，用户应该了解可达到的最高温度探针线圈温度。此温度应用于设置
+      <code>TEMPERATURE_PROBE_CALIBRATE</code>
+      命令的
+      <code>TARGET</code>
+      参数。目标是在尽可能宽的温度范围内进行校准，因此最好从打印机冷态开始，以线圈达到的最高温度结束。
+    </p>
+    <p>
+      配置
+      <code>[temperature_probe]</code>
+      后，可以采取以下步骤执行热漂移校准：
+    </p>
+    <ul>
+      <li>
+        当配置并链接
+        <code>[temperature_probe]</code>
+        时，必须使用
+        <code>PROBE_EDDY_CURRENT_CALIBRATE</code>
+        校准探针。这会捕获校准期间的温度，这对于执行热漂移补偿是必要的。
+      </li>
+      <li>确保喷嘴没有碎屑和 filament。</li>
+      <li>校准前，床、喷嘴和探针线圈应处于冷态。</li>
+      <li>
+        如果未配置
+        <code>[temperature_probe]</code>
+        中的
+        <code>calibration_position</code>
+        、
+        <code>calibration_extruder_temp</code>
+        和
+        <code>extruder_heating_z</code>
+        选项，则需要以下步骤：
+        <ul>
+          <li>将工具移动到床的中心。Z 应高于床 30mm+。</li>
+          <li>将挤出机加热到高于最高安全床温度的温度。对于大多数配置，150-170C 应该足够。加热挤出机的目的是避免校准期间喷嘴膨胀。</li>
+          <li>当挤出机温度稳定后，将 Z 轴向下移动到床上方约 1mm 处。</li>
+        </ul>
+      </li>
+      <li>
+        开始漂移校准。如果探针的名称是
+        <code>my_probe</code>
+        ，我们可以达到的最高探针温度是 80C，则适当的 gcode 命令是
+        <code>TEMPERATURE_PROBE_CALIBRATE PROBE=my_probe TARGET=80</code>
+        。如果配置，工具将移动到
+        <code>calibration_position</code>
+        指定的 X,Y 坐标和
+        <code>extruder_heating_z</code>
+        指定的 Z 值。将挤出机加热到指定温度后，工具将移动到
+        <code>calibration_position</code>
+        指定的 Z 值。
+      </li>
+      <li>
+        该过程将请求手动探针。使用纸张测试和
+        <code>ACCEPT</code>
+        执行手动探针。校准过程将使用探针进行第一组采样，然后将探针停放在加热位置。
+      </li>
+      <li>
+        如果未配置
+        <code>calibration_bed_temp</code>
+        ，请将床加热到最高安全温度。否则，此步骤将自动执行。
+      </li>
+      <li>
+        默认情况下，校准过程将在样本之间每 2C 请求一次手动探针，直到达到
+        <code>TARGET</code>
+        。样本之间的温度增量可以通过在
+        <code>TEMPERATURE_PROBE_CALIBRATE</code>
+        中设置
+        <code>STEP</code>
+        参数来自定义。设置自定义
+        <code>STEP</code>
+        值时应小心，值过高可能会请求太少的样本，导致校准不佳。
+      </li>
+      <li>
+        漂移校准期间可用以下附加 gcode 命令：
+        <ul>
+          <li>
+            <code>TEMPERATURE_PROBE_NEXT</code>
+            可用于在达到步长增量之前强制获取新样本。
+          </li>
+          <li>
+            <code>TEMPERATURE_PROBE_COMPLETE</code>
+            可用于在达到
+            <code>TARGET</code>
+            之前完成校准。
+          </li>
+          <li>
+            <code>ABORT</code>
+            可用于结束校准并丢弃结果。
+          </li>
+        </ul>
+      </li>
+      <li>
+        校准完成后，使用
+        <code>SAVE_CONFIG</code>
+        存储漂移校准。
+      </li>
+    </ul>
+    <p>正如人们可能得出的结论，上面概述的校准过程比大多数其他程序更具挑战性和耗时。可能需要练习和多次尝试才能实现最佳校准。</p>
+    <h2 id="错误描述">错误描述</h2>
+    <p>可能的归位错误和可操作项：</p>
+    <ul>
+      <li>
+        传感器错误
+        <ul>
+          <li>检查日志以获取详细错误</li>
+        </ul>
+      </li>
+      <li>
+        Eddy I2C STATUS/DATA 错误。
+        <ul>
+          <li>检查松动的接线。</li>
+          <li>尝试软件 I2C/降低 I2C 速率</li>
+        </ul>
+      </li>
+      <li>
+        无效的读取数据
+        <ul>
+          <li>与 I2C 相同</li>
+        </ul>
+      </li>
+    </ul>
+    <p>可能的传感器错误和可操作项：</p>
+    <ul>
+      <li>
+        频率超出有效硬范围
+        <ul>
+          <li>检查频率配置</li>
+          <li>硬件故障</li>
+        </ul>
+      </li>
+      <li>
+        频率超出有效软范围
+        <ul>
+          <li>检查频率配置</li>
+        </ul>
+      </li>
+      <li>
+        转换看门狗超时
+        <ul>
+          <li>硬件故障</li>
+        </ul>
+      </li>
+    </ul>
+    <p>振幅低/高警告消息可能意味着：</p>
+    <ul>
+      <li>传感器靠近床</li>
+      <li>传感器远离床</li>
+      <li>温度高于当前校准时的温度</li>
+      <li>缺少电容器</li>
+    </ul>
+    <p>在某些传感器上，无法完全避免振幅警告指示器。</p>
+    <p>
+      您可以尝试在工作温度下重做
+      <code>LDC_CALIBRATE_DRIVE_CURRENT</code>
+      校准，或将
+      <code>reg_drive_current</code>
+      从校准值增加 1-2。
+    </p>
+    <p>一般来说，它就像发动机检查灯。它可能表示一个问题。</p>
+  </body>
+
+</html>
