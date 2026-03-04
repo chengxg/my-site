@@ -206,7 +206,7 @@ gcode:
 #rename_existing: _QUAD_GANTRY_LEVEL
 #description: eddy 快速Z调平, 四点龙门调平&nbsp;
 #gcode:
-# &nbsp; &nbsp;{% set PROBE_Z_OFFSET = printer.configfile.settings['probe_eddy_current fly_eddy_probe'].z_offset|float %}
+# &nbsp; &nbsp;{% set PROBE_Z_OFFSET = printer.configfile.settings['probe_eddy_current eddy_probe'].z_offset|float %}
 # &nbsp; &nbsp;# ========== 状态保存 ==========
 # &nbsp; &nbsp;SAVE_GCODE_STATE NAME=STATE_QGL
 # &nbsp; &nbsp;# ========== 环境准备 ==========
