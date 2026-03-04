@@ -1,250 +1,426 @@
-<div class="detail_description-content__iGhVb">
-  <div class="detail_tinymce-content__PdW9_ tinymce-content">
-    <p><span style="font-size:14pt"><strong>3D打印工具头用于klipper固件, stm32f446小螃蟹满配工具头, 采用stm32f446rct6作为主控, 资源多, 性能强, 支持usb/串口/can通信切换, 想用啥通信就用啥通信, 接线端子全部为XH2.54端子,
-          端子大好接线</strong></span></p>
-    <p>&nbsp;</p>
-    <p><span style="font-size:14pt"><strong><span style="color:#e67e23">1. 3个限位端口, 2个5V供电, 1个5V/24V供电切换, 其中STOP2有二极管隔离支持高压输入,&nbsp;
-            可以接入其他三线的设备</span></strong></span></p>
-    <p><span style="font-size:14pt"><strong><span style="color:#e67e23">2. 2个温控端子, 一个用于热端, 另外一个可以作为扫床线圈的温度补偿使用,&nbsp; 1个板载温控用于测量仓温</span></strong></span></p>
-    <p><span style="font-size:14pt"><strong><span style="color:#e67e23">3. 3个可控风扇, 1个热床级大功率加热棒</span></strong></span></p>
-    <p><span style="font-size:14pt"><strong><span style="color:#e67e23">4. 1个4PIN I2C端子引出, 1个4PIN扩展端子, 5V供电输出</span></strong></span></p>
-    <p><span style="font-size:14pt"><strong><span style="color:#e67e23">5. 1个4PIN CAN端子引出, 可以刷入普通的CAN固件, 当然也可以刷入UTOC固件</span></strong></span></p>
-    <p><span style="font-size:14pt"><strong><span style="color:#e67e23">6. 集成TMC2226步进电机驱动, 散热好, 容易焊接</span></strong></span></p>
-    <p><span style="font-size:14pt"><strong><span style="color:#e67e23">7. 集成LDC1612芯片, 直接支持扫床, 配套线圈, 体积小巧, 也可以使用idm的线圈</span></strong></span></p>
-    <p><span style="font-size:14pt"><strong><span style="color:#e67e23">8. 集成MAX31865芯片, 支持PT100/PT1000温度传感器, 支持两线和三线制</span></strong></span></p>
-    <p><span style="font-size:14pt"><strong><span style="color:#e67e23">9. 集成ADXL345加速度传感器</span></strong></span></p>
-    <p><span style="font-size:14pt"><strong><span style="color:#e67e23">10. spi焊盘引出, 共5个IO可用, 扩展性强</span></strong></span></p>
-    <p>&nbsp;</p>
-    <p><span style="font-size:14pt;color:#e03e2d">期间can芯片TJA1051T/3买到的不是那么好, 导致带电插拔工具头把mcu搞的不正常,无法进入dfu下载程序了, 电路经过改造, 即使can芯片是假的, 也不会影响到mcu,
-        can芯片的第8引脚既可以支持是REF功能如TJA1050T,也能支持是第8引脚是VIO功能的芯片如TJA1051T/3 SIT1051T/3,&nbsp; 如果使用1050系列的旁边的二极管就不要焊接了</span></p>
-    <p><span style="font-size:14pt">可以刷入USB固件, CAN固件, 串口固件, 还可以刷入UTOC固件, 跟上位机或主板通信时接口必须相同</span></p>
-    <p><strong><span style="font-size:14pt">板子只焊接完成正面就可以使用usb转串口下载固件</span></strong></p>
-    <p><span style="font-size:14pt"><span style="color:#e03e2d"><strong>端子大部分都没有保护, 接线之前看清楚, 尤其是机械的限位开关, 只接IO和GND, 不要接三条线!</strong></span></span></p>
-    <p><span style="font-size:14pt"><strong>关联的高性能全IO保护主板:</strong> &nbsp;<a
-          href="https://oshwhub.com/cxg01/3d-da-yin-zhu-ban-stm32-gao-xing-neng-mi-ni-8-zhou-zhu-ban-si-ceng-ban">https://oshwhub.com/cxg01/3d-da-yin-zhu-ban-stm32-gao-xing-neng-mi-ni-8-zhou-zhu-ban-si-ceng-ban</a></span>
-    </p>
-    <p><span style="font-size:14pt"><strong>关于涡流线圈看我另外的项目:</strong> &nbsp;<a
-          href="https://oshwhub.com/cxg01/3d-da-yin-wo-liu-diao-ping">https://oshwhub.com/cxg01/3d-da-yin-wo-liu-diao-ping</a></span></p>
-    <p>&nbsp;</p>
-    <p><span style="font-size:14pt"><strong>工具头mcu配置</strong></span></p>
-    <p>&nbsp;</p>
-    <blockquote>
-      <div><span style="color:#b96ad9;font-size:14pt">[mcu toolhead]</span></div>
-      <div><span style="color:#b96ad9;font-size:14pt">#usb/串口通信</span></div>
-      <div><span style="color:#b96ad9;font-size:14pt"># serial: /dev/serial/by-path/platform-xhci-hcd.0.auto-usb-0:1.1:1.0-port0</span></div>
-      <div><span style="color:#b96ad9;font-size:14pt"># baud: 500000&nbsp; &nbsp;# 串口通信波特率</span></div>
-      <div><span style="color:#b96ad9;font-size:14pt"># restart_method: command</span></div>
-      <div><span style="color:#b96ad9;font-size:14pt">#can通信</span></div>
-      <div><span style="color:#b96ad9;font-size:14pt">canbus_uuid: 6cb6cbf28f16</span></div>
-    </blockquote>
-    <p>&nbsp;</p>
-    <p><span style="font-size:14pt"><strong>mcu引脚定义</strong></span></p>
-    <blockquote>
-      <pre><span style="color:#236fa1;font-size:14pt"><strong>[board_pins toolhead_pins_f446]<br>mcu: toolhead # stm32f446工具头<br>aliases:<br>&nbsp; &nbsp; H1=PB2, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # 加热<br>&nbsp; &nbsp; FAN1=PB3,FAN2=PB4,FAN3=PC2, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # 风扇<br>&nbsp; &nbsp; STOP1=PD2,STOP2=PB5,STOP3=PA2, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# 限位 STOP2有二极管隔离<br>&nbsp; &nbsp; T1=PB0,T2=PC4,T3=PC5, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # 温控 T3为仓温检测<br>  &nbsp;  EN1=PC12,DIR1=PC10,STEP1=PA15,UART1=PA14, &nbsp; &nbsp;# tmc2226步进电机驱动<br>&nbsp; &nbsp; ADXL_CS=PC6,ADXL_MOSI=PC9,ADXL_MISO=PC8,ADXL_SCK=PC7, ADXL_INT1=PC3, # ADXL345 软件spi接口<br>&nbsp; &nbsp; MAX_DYDY=PA3, MAX_CS=PA4, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# MAX31865 硬件spi spi_bus: spi1<br>&nbsp; &nbsp; LDC_SDA=PC0,LDC_SCL=PC1,LDC_INTB=PC13, &nbsp; &nbsp; # LDC1612, 晶振频率40M<br>&nbsp; &nbsp; WS2812=PA8, &nbsp;# WS2812<br>  &nbsp; LED=PB1, &nbsp; &nbsp; # klipper运行指示灯 高电平亮灯</strong></span></pre>
-    </blockquote>
-    <p>&nbsp;</p>
-    <p><span style="font-size:14pt"><strong>pt100配置</strong></span></p>
-    <blockquote>
-      <div>
-        <div><span style="color:#b96ad9;font-size:14pt">[temperature_sensor PT100]</span></div>
-        <div><span style="color:#b96ad9;font-size:14pt">sensor_type: MAX31865</span></div>
-        <div><span style="color:#b96ad9;font-size:14pt">sensor_pin: toolhead:MAX_CS</span></div>
-        <div><span style="color:#b96ad9;font-size:14pt">min_temp: -200</span></div>
-        <div><span style="color:#b96ad9;font-size:14pt">max_temp: 300</span></div>
-        <div><span style="color:#b96ad9;font-size:14pt">spi_bus: spi1</span></div>
-        <div><span style="color:#b96ad9;font-size:14pt"># spi_software_sclk_pin: toolhead:PA5</span></div>
-        <div><span style="color:#b96ad9;font-size:14pt"># spi_software_mosi_pin: toolhead:PA6</span></div>
-        <div><span style="color:#b96ad9;font-size:14pt"># spi_software_miso_pin: toolhead:PA7</span></div>
-        <div><span style="color:#b96ad9;font-size:14pt">rtd_nominal_r: 100</span></div>
-        <div><span style="color:#b96ad9;font-size:14pt">rtd_reference_r: 427.27&nbsp; #&nbsp; ref电阻</span></div>
-        <div><span style="color:#b96ad9;font-size:14pt">rtd_num_of_wires: 3</span></div>
-      </div>
-    </blockquote>
-    <p>&nbsp;</p>
-    <p><span style="font-size:14pt"><strong>ADXL345配置</strong></span></p>
-    <blockquote>
-      <div><span style="color:#b96ad9;font-size:14pt"># ADXL345加速度计</span></div>
-      <div><span style="color:#b96ad9;font-size:14pt">[adxl345]</span></div>
-      <div><span style="color:#b96ad9;font-size:14pt">cs_pin: toolhead:ADXL_CS</span></div>
-      <div><span style="color:#b96ad9;font-size:14pt">spi_software_sclk_pin: toolhead:ADXL_SCK</span></div>
-      <div><span style="color:#b96ad9;font-size:14pt">spi_software_mosi_pin: toolhead:ADXL_MOSI</span></div>
-      <div><span style="color:#b96ad9;font-size:14pt">spi_software_miso_pin: toolhead:ADXL_MISO</span></div>
-      <div>&nbsp;</div>
-      <div>
-        <div>
-          <div><span style="color:#b96ad9;font-size:14pt">[resonance_tester]</span></div>
-          <div><span style="color:#b96ad9;font-size:14pt">accel_chip: adxl345</span></div>
-          <div><span style="color:#b96ad9;font-size:14pt">accel_per_hz: 50</span></div>
-          <div><span style="color:#b96ad9;font-size:14pt">probe_points: 100, 100, 20</span></div>
-        </div>
-      </div>
-    </blockquote>
-    <p>&nbsp;</p>
+<div style="line-height: 2;">
+  <div style="line-height: 2;"><span style="font-size: 14pt;"><strong>1.3d打印涡流调平, 无接触扫床速度快精度高, 是个不可多得的调平方式;</strong></span></div>
+  <div style="line-height: 2;"><span style="font-size: 14pt;"><strong>2.该项目旨在使用klipper自带的涡流扫床实现,&nbsp; 只需要使用<span
+          style="color: #e03e2d;">I2C</span>通信即可,即使板子没有硬件I2C,也可以使用任意两个IO来使用软件I2C, 确保用于i2c的引脚上不能有电容二极管及串联大的电阻, 不用<span style="color: #e03e2d;">CAN</span>和<span
+          style="color: #e03e2d;">USB</span>通信, 简化接线, 任意工具头都可用, 固件随klipper版本而升级;</strong></span></div>
+  <div style="line-height: 2;"><span style="font-size: 14pt;"><strong>3.板子分为单线圈和带<span style="color: #e03e2d;">LDC1612</span>的线圈, 单线圈为工具头上集成<span
+          style="color: #e03e2d;">LDC1612</span>芯片(stm32f446小螃蟹工具头)使用的,&nbsp; 集成<span
+          style="color: #e03e2d;">LDC1612</span>的线圈任意工具头可用,单线圈接线不要太长;</strong></span></div>
+  <div style="line-height: 2;"><span style="font-size: 14pt;"><strong>4.带<span style="color: #e03e2d;">LDC1612</span>的线圈还集成<span
+          style="color: #e03e2d;">lis2dw</span>加速度传感器和<span style="color: #e03e2d;">AHT20</span>温度传感器, 这三个芯片共用I2C通信,&nbsp; 接线最少, 板子制作成本很低, 只需10元,&nbsp;
+        加速度计放在线圈上, 离喷嘴近, 共振补偿效果好,&nbsp;<span style="color: #000000;">其中<span style="color: #e03e2d;">AHT20</span>需要升级到最新的klipper版本才能使用;</span></strong></span>
+  </div>
+  <div style="line-height: 2;"><span style="font-size: 14pt;"><strong>5.该线圈谐振频率在5.6Mhz左右, 线圈频率高, 采用40Mhz的有源晶振, 实测在线圈在喷嘴上方2mm处,
+        klipper校准后的频率在0-4mm处的频率变化超过400Khz, 最大探测距离超过7mm, 甚至可以隔着晶格平台扫床, 距离噪声可达0.1um,&nbsp; 在z-offset为 1mm处, 频率变化高达6Khz/0.04mm以上, 变化相当灵敏;</strong></span></div>
+  <p><strong><span style="font-size: 14pt;">6. 扫床视频介绍使用: 见B站 <a title="3D打印涡流线圈调平开源及Eddy current sensor error问题解决"
+          href="https://www.bilibili.com/video/BV14oqVBGERA/?spm_id_from=333.1387.homepage.video_card.click&amp;vd_source=80c1c161f08d9d188b6befe8e1a3d23a"
+          target="_blank" rel="noopener">3D打印涡流线圈调平开源及Eddy current sensor error问题解决</a>, 该线圈我起名为: 小螃蟹扫床线圈; 该线圈我已经量产了一批, 欢迎购买;</span></strong></p>
+  <p><strong><span style="font-size: 14pt;">7.目前klipper在<span style="color: #e03e2d;">2026年1月份</span>升级了涡流驱动, tap功能得到支持, 类似IDM的touch模式, 就不需要AHT20温度传感器了, 无需温度校准,
+        自动Zoffset, tap介绍视频见: &nbsp;<a
+          href="https://www.bilibili.com/video/BV1QpAzzDEgy/?spm_id_from=333.1387.homepage.video_card.click&amp;vd_source=80c1c161f08d9d188b6befe8e1a3d23a">3D打印klipper自带涡流调平tap模式介绍</a></span></strong>
+  </p>
+</div>
+<p>&nbsp;</p>
+<h3><span style="font-size: 18pt;"><strong>一. LDC1612芯片报错问题:</strong></span></h3>
+<p><span style="font-size: 12pt;"><strong>这个是用klipper自带的涡流, 不是第三方插件, 目前只能扫床, 没有tap功能, 但是可以用来做Z限位, 温漂是关键, klipper自带涡流驱动, 近期有人已经提交了pull request准备支持tap功能,
+      嫩不能成为正式功能还未知</strong></span></p>
+<p><span style="font-size: 14pt; color: #e03e2d;"><strong>1. Unable to obtain 'i2c_read_response' response</strong></span></p>
+<p><strong><span style="font-size: 12pt;">发送命令LDC_CALIBRATE_DRIVE_CURRENT chip=eddy_probe 就报这个, 说明芯片虚焊, 或者压根i2c引脚配置的不对</span></strong></p>
+<p><span style="font-size: 14pt; color: #e03e2d;"><strong>2.&nbsp;&nbsp;Failed calibration - incomplete sensor data</strong></span></p>
+<p><strong><span style="font-size: 12pt;">上机测试时, 发送自动校准命令PROBE_EDDY_CURRENT_CALIBRATE CHIP=eddy_probe, 发现也能正常校准, 但是最后保存时提示这个问题, 也是芯片虚焊导致的</span></strong></p>
+<p><span style="font-size: 14pt; color: #e03e2d;"><strong>3. Failed calibration - frequency not increasing each step</strong></span></p>
+<p><strong><span style="font-size: 12pt;">发送自动校准命令PROBE_EDDY_CURRENT_CALIBRATE CHIP=eddy_probe,&nbsp; 前边正常校准, 但是在最后保存配置时提示这个, 说明芯片焊接是没问题的, 是探测到的最前边几个数据有问题,
+      出现了距离越远频率越高的情况, 可能是热床太重导致距离喷嘴很近时发生了震动所致, 这种需要抬高喷嘴, 避免离热床太近造成震动</span></strong></p>
+<p><span style="font-size: 14pt; color: #e03e2d;"><strong>4. &nbsp;Error during homing z: Eddy current sensor error</strong></span></p>
+<p><strong><span style="font-size: 16px;">这个要重点说明, 这个报错主要原因的是ldc1612的振幅错误报告引起的, 因为校准驱动电流是在热床上方20mm处测量得到的驱动电流, ldc1612最佳测量线圈的振幅在1.2V-1.8V之间, 这个最佳驱动电流只在当前高度,
+      当前温度下适用, 当高度降低到2mm左右时, 驱动电流不再适用, 会引起ldc1612的振幅错误报告, 而klipper中又启用了这个错误报告, 一旦出现振幅错误, ldc1612就报告这个错误,这就是为什么总是报告这个错误, 我们测量的是频率, 不需要振幅必须在这个最佳区间内,
+      因此直接改动klipper代码. 修改ldc1612的寄存器配置来禁用这个错误报告.</span></strong></p>
+<p><strong><span style="font-size: 16px;">最佳驱动电流受温度, 线圈谐振频率, 传感器安装高度等方面的影响, 在20mm处测量的最佳驱动频率不满足这些情况,&nbsp; 这个错误报告很灵敏, 振幅错误报告分为振幅高错误和振幅低错误, 而驱动电流的设置只能在1-31之间设置,
+      可调范围有限, 你很有可能安装的高度差那么一点点, 你就永远无法得到最佳驱动电流,不是高了就是低了, 因此就出现了你无论如何调整驱动电流, 始终会报这个错误的问题, 因此必须禁用这个错误报告.</span></strong></p>
+<p><span style="font-size: 12pt;">其他错误参考fly文档:&nbsp;&nbsp;<a href="https://mellow.klipper.cn/docs/DebugDoc/faq/eddy/" target="_blank"
+      rel="noopener">https://mellow.klipper.cn/docs/DebugDoc/faq/eddy/</a></span></p>
+<p>&nbsp;</p>
+<h3><span style="font-size: 18pt;"><strong>二.&nbsp;</strong></span><span style="font-size: 18pt;"><strong>修改klipper涡流驱动代码:</strong></span></h3>
+<p><span style="font-size: 18px; color: #843fa1;"><strong>klipper官方是用必趣的eddy做的测试, 必趣的eddy参数跟我这个线圈参数不一样, 要改下一些代码配置</strong></span></p>
+<div><span style="font-size: 14pt;"><strong><span style="color: #2dc26b;">1. 进入ssh找到klipper目录</span></strong></span></div>
+<div>
+  <div><span style="font-size: 12pt; color: #000000;"><strong>打开 /klipper/klippy/extras/ldc1612.py 文件</strong></span></div>
+  <div>&nbsp;</div>
+</div>
+<div><strong><span style="font-size: 14pt; color: #2dc26b;">2.修改LDC1612相关寄存器配置</span></strong></div>
+<div><span style="font-size: 12pt;"><strong><span style="color: #e03e2d;">SETTLETIME = 0.0002&nbsp;</span></strong><span
+      style="color: #169179;">&nbsp;<strong><span style="color: #000000;">#原来为<span style="color: #843fa1;">0.005</span>, 改为<span
+            style="color: #843fa1;">0.0002</span>,&nbsp;确保在线圈断线时, ldc1612有数据返回, 不至于撞机, 否则断线之后, ldc1612无数据返回, klipper迟迟收不到信号而撞机</span></strong></span></span>
+</div>
+<div><span style="font-size: 12pt;"><strong><span style="color: #e03e2d;">self.set_reg(REG_ERROR_CONFIG, (0x1c &lt;&lt; 11) |
+        1)&nbsp;</span></strong>&nbsp;<strong># 修改 REG_ERROR_CONFIG寄存器,原来为<span style="color: #843fa1;">0x1f</span>, 改为<span
+        style="color: #843fa1;">0x1c</span>, 禁用振幅错误报告, 解决传感器报错问题</strong></span></div>
+<div><span style="font-size: 12pt;"><span style="color: #e03e2d;"><strong>self.set_reg(REG_CONFIG, 0x001 | (1&lt;&lt;12) | (1&lt;&lt;10) | (1&lt;&lt;9) |
+        (1&lt;&lt;6))</strong>&nbsp;</span>&nbsp;<strong>#添加<span style="color: #843fa1;">(1&lt;&lt;6)&nbsp;</span>使用高电流驱动 9:使用外部晶振 6:使用高电流驱动, 使用内部时钟的话就把<span
+        style="color: #000000;"><span style="color: #843fa1;">(1&lt;&lt;9)</span>去掉,&nbsp;<span style="color: #843fa1;">这个不重要不改也行</span></span></strong></span>
+</div>
+<div><span style="font-size: 12pt;"><strong><span style="color: #000000;"><span style="color: #e03e2d;">self.data_rate = 250 <span style="color: #000000;">#
+            klipper的请求速度, klipper 默认是250,&nbsp; 如果改为500的话, tap模式的精度提升明显, 但是i2c消耗资源大, mcu负载飙升</span></span></span></strong></span></div>
+<div>&nbsp;</div>
+<div><span style="color: #2dc26b;"><strong><span style="font-size: 14pt;">3.修改完成重启klipper生效</span></strong></span></div>
+<div><span style="color: #000000;"><span style="font-size: 14pt;">修改完成后保存文件, 然后重启klipper服务(可以在<strong>Fluidd</strong></span></span><span
+    style="color: #000000;"><span style="font-size: 14pt;">页面右上角点重启klipper服务)</span></span></div>
+<div><span style="color: #000000;"><span style="font-size: 14pt;"><img src="//image.lceda.cn/pullimage/h8ULQ0Joa6fR5W98jvwRBC1WZVZ98xxj320RVxws.png" alt=""
+        width="300" /></span></span></div>
+<p>&nbsp;</p>
+<h4><strong><span style="font-size: 18pt;">三. 关于首次校准涡流时的命令:</span></strong></h4>
+<p><strong><span style="font-size: 14pt; color: #e03e2d;">1.驱动电流校准命令&nbsp; LDC_CALIBRATE_DRIVE_CURRENT CHIP=eddy_probe</span></strong></p>
+<p><span style="font-size: 14pt; color: #843fa1;">这个校准驱动电流校准<strong>不要</strong>在离热床20mm处校准, <strong>而要</strong>在喷嘴接近热床的位置校准, 高度2mm左右, <strong>不用很准,
+    </strong>因为已经禁用了振幅错误报告</span></p>
+<p><strong><span style="font-size: 14pt; color: #e03e2d;">2.eddy频率高度校准命令 PROBE_EDDY_CURRENT_CALIBRATE CHIP=eddy_probe</span></strong></p>
+<p><span style="font-size: 14pt; color: #e03e2d;"><span style="color: #b96ad9;">①在校准之前, 先<span style="font-size: 14pt;">要手动调平热床, 热床<span
+          style="font-size: 14pt; color: #e03e2d;"><span style="color: #b96ad9;">不能</span></span>歪的厉害;</span></span></span></p>
+<p><span style="font-size: 14pt; color: #843fa1;">②如果你打算使用这个涡流来做<strong>虚拟Z限位</strong>, 那么首先要加热热床到80度, 喷嘴温度在150度, 保持喷嘴清洁;</span></p>
+<p><span style="font-size: 14pt; color: #843fa1;">③如果你当前没有没有Z限位, 那么你要先使用这个命令来设置一个当前的Z位置,&nbsp; <span style="color: #e03e2d;"><strong>SET_KINEMATIC_POSITION
+        Z=填写最大Z高度 </strong></span>, </span><span style="font-size: 14pt; color: #843fa1;">这样就不用Z归位了</span></p>
+<p><span style="font-size: 14pt; color: #843fa1;">④然后执行 <strong><span style="color: #e03e2d;">LDC_CALIBRATE_DRIVE_CURRENT CHIP=eddy_probe</span></strong> 命令,
+    然后klipper进入手动probe的页面, 在页面手动控制Z轴移动到喷嘴跟热床接近的地方</span></p>
+<p><span style="font-size: 14pt; color: #843fa1;">⑤如果用来Z限位那么用A4纸的手感必须到位, 不用来做Z限位, 随便就行了, 差个0.2mm也不要紧;</span></p>
+<p><span style="font-size: 14pt; color: #843fa1;">⑥设置完了之后, klipper会自动获取高度跟频率的对应关系, 最后保存配置就可以了;</span></p>
+<p>&nbsp;</p>
+<h4><span style="color: #000000;"><strong><span style="font-size: 18pt;">四. 关于温漂:</span></strong></span></h4>
+<p><strong><span style="font-size: 14pt; color: #e03e2d;">1.在不封箱的条件下, 温漂很低, 通常在0.04mm以下, 也不一定, 不好说</span></strong></p>
+<p><span style="font-size: 14pt;">z-offset=1mm, 热床温度从常温到100度, eddy线圈温度从常温到60度, 频率变化率为3Khz, 温漂造成的z偏移为0.02mm左右, 影响并不大, 可以用来Z限位</span></p>
+<p><span style="color: #e03e2d;"><strong><span style="font-size: 14pt;">2.在封箱条件下, 温漂不可接受</span></strong></span></p>
+<p><span style="font-size: 14pt;">z-offset=1mm, 热床温度从常温到108度, eddy线圈温度从常温到80度, 长时间频率漂移可达26Khz, 温漂造成的z偏移为0.2mm左右, 这样的温漂不可接受, 具体漂多少这个需要看机器自身的情况,&nbsp;
+    温漂主要发生在在eddy温度从65度-80度之间, 封箱下温漂应该与打印机整体结构的温漂有关, 单纯线圈的温漂不会这么大, 如果安装线圈的支架和整个工具头都温漂了, 这就难顶了, 闷的时间越长形变越大;</span></p>
+<p><strong><span style="font-size: 14pt; color: #e03e2d;">3. 如何对抗温漂</span></strong></p>
+<p><span style="font-size: 14pt;">初始校准时就热床加热到80度, 喷嘴温度150度, 把温差范围缩小下, 在打印前, 热床加热时抬升z, 远离热床避免线圈温度过度增加, 必要时或许可以打开冷却风扇给线圈降下温;</span></p>
+<p><strong><span style="font-size: 14pt; color: #e03e2d;">4.做温度校准</span></strong></p>
+<p><span style="font-size: 14pt;">如何操作具体看klipper文档, 就是线圈温度每隔3-4度执行下校准, 非常耗时, 因为温漂不仅仅与线圈的温度有关, 如果整个机器都形变了的话, 温度校准也不能解决温漂, 封箱难顶;</span></p>
+<p><img src="https://image.lceda.cn/oshwhub/pullImage/d91dbc67e17e4a8bb75391df977f87da.png" alt="" height="402" width="800" /></p>
+<p><strong>从室温温加热到热床108度时的频率漂移图, 该机器封箱, 温漂较大,频率漂移26Khz以上,误差0.2mm, 可能与我的机器打印件多有关</strong></p>
+<p><img src="https://image.lceda.cn/oshwhub/pullImage/d2ee0ec9e79e48ac81d78818862bc4cc.png" alt="" height="415" width="800" /></p>
+<p><strong>我另外一台机器, 同样加热到108度, 半封箱, 这个机器全温度范围温漂就小了, 频率漂移8Khz以下,温漂影响误差0.05mm左右</strong></p>
+<p><span style="font-size: 14pt;"><strong
+      style="margin: 0px; padding: 0px; box-sizing: border-box; color: #444444; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background-color: #ffffff;"><span
+        style="margin: 0px; padding: 0px; box-sizing: border-box; color: #e03e2d;">5.klipper目前更新了tap功能,支持喷嘴限位,自动zoffset</span></strong></span></p>
+<p><strong>官方的设置教程见:&nbsp;<a href="https://www.klipper3d.org/Eddy_Probe.html" target="_blank"
+      rel="noopener">https://www.klipper3d.org/Eddy_Probe.html</a></strong></p>
+<p><strong>我翻译了以下官方的教程见: <a href="https://demo.chengxg.top/pangxie/doc/%E6%B6%A1%E6%B5%81%E6%89%AB%E5%BA%8A/klipper_eddy_probe.html" target="_blank"
+      rel="noopener">klipper_eddy_probe.html</a></strong></p>
+<pre class="language-python highlighter-hljs"><code>[probe_eddy_current my_probe]
+# eddy probe configuration...
+# Recommended starting values for the tap
+#samples: 3
+#samples_tolerance: 0.025
+#samples_tolerance_retries: 3
+tap_threshold: 0 # 0 means tap is disabled</code></pre>
+<div class="tinymce-content_DoXK9" style="line-height: 1.1;">
+  <p><span style="color: #e67e23;">就是设置 <code>tap_threshold: 0</code>&nbsp;这个参数, 默认是0, 表示禁用tap功能, 一般直接设置个100-200就行</span></p>
+  <p><span style="color: #e67e23;">要启用tap模式首先要先安装 scipy, 安装的慢的话可以用国内源安装</span></p>
+  <blockquote>
+    <p><span style="color: #ba372a; font-family: arial, helvetica, sans-serif; font-size: 12pt;">~/klippy-env/bin/pip install scipy</span></p>
+    <p><span style="color: #ba372a; font-family: arial, helvetica, sans-serif; font-size: 12pt;">~/klippy-env/bin/pip install scipy -i
+        https://pypi.tuna.tsinghua.edu.cn/simple</span></p>
+  </blockquote>
+  <p><span style="color: #e67e23;">tap模式目前的精度在0.02mm左右</span></p>
+  <p><span style="color: #e67e23; font-size: 16px;">如果能把数据请求速率改为500的话, 那么精度提升, 见上边的 <span style="color: #843fa1;">修改klipper代码部分</span></span></p>
+  <p>&nbsp;</p>
+  <h4><span style="font-size: 18pt; color: #000000;"><strong>五. klipper参考配置文件:</strong></span></h4>
+  <p>&nbsp;</p>
+  <p><strong><span style="color: #ba372a; font-size: 18px;">把下面的代码添加你的配置文件中, 添加到一个单独文件中, 方便管理</span></strong></p>
+</div>
+<pre class="language-python highlighter-hljs"><code># 先改klippy/extras/ldc1612.py 代码, 把 REG_ERROR_CONFIG 改成 0x1c, 把 SETTLETIME 改为 0.0002
+# 驱动电流校准: LDC_CALIBRATE_DRIVE_CURRENT CHIP=eddy_probe
+# 频率高度对应校准: PROBE_EDDY_CURRENT_CALIBRATE CHIP=eddy_probe
+# 第一次校准时使用: PROBE_EDDY_CURRENT_CALIBRATE_AUTO
+# tap模式自动Z偏移: SET_Z_FROM_PROBE METHOD=tap
+
+[probe_eddy_current eddy_probe]
+sensor_type: ldc1612
+i2c_address: 42
+i2c_mcu: toolhead
+frequency: 40000000
+i2c_speed: 400000
+# i2c_bus: i2c1
+i2c_software_scl_pin: toolhead:SCL1
+i2c_software_sda_pin: toolhead:SDA1
+# reg_drive_current: 25      #驱动电流, 直接写死不用校准, 改klippy/extras/ldc1612.py 代码, 把REG_ERROR_CONFIG 改成0x1c, SETTLETIME = 0.0002
+x_offset: 0                  #记得设置x偏移
+y_offset: 20                 #记得设置y偏移
+z_offset: 2                  #记得设置z偏移
+speed: 5                     #探测速度
+samples: 3                   #采样次数
+sample_retract_dist: 5.0     #采样时喷嘴抬升距离
+samples_tolerance: 0.05
+samples_tolerance_retries: 3
+tap_threshold: 200           # klipper最新更新的参数, tap模式支持, 默认是0, 表示禁用tap功能, 一般设置为100-200就行
+
+
+#集成线圈的加速度计配置
+[lis2dw]
+i2c_address: 25
+i2c_mcu: toolhead
+# i2c_bus: i2c1
+i2c_software_scl_pin: toolhead:SCL1
+i2c_software_sda_pin: toolhead:SDA1
+[resonance_tester]
+accel_chip: lis2dw
+accel_per_hz: 50
+probe_points: 100, 100, 20
+
+# 板载AHT20温度传感器配置, 需要升级到最新版的klipper版本才能用
+# [temperature_probe eddy_probe]
+# horizontal_move_z: 2
+# sensor_type: AHT2X
+# i2c_mcu: toolhead
+# i2c_speed: 400000
+# i2c_address: 56
+# i2c_software_scl_pin: toolhead:SCL1
+# i2c_software_sda_pin: toolhead:SDA1
+# aht10_report_time: 10&nbsp; # 温度报告时间间隔, 最低为5秒
+
+[gcode_macro Z_TILT_ADJUST]
+description: eddy 快速Z调平, 三点调平
+rename_existing: _Z_TILT_ADJUST
+gcode:
+  {% set PROBE_Z_OFFSET = printer.configfile.settings['probe_eddy_current eddy_probe'].z_offset|float %}
+  # ========== 状态保存 ==========
+  SAVE_GCODE_STATE NAME=STATE_Z_TILT
+  # ========== 环境准备 ==========
+  BED_MESH_CLEAR # 清除存在的网床数据
+  # ========== 主调平过程 ==========
+  # 第一次调平前先慢慢调平, 三点之差在很小范围内再扫床, 避免撞床
+  {% if not printer.z_tilt.applied %}
+    # 初始粗调
+    _Z_TILT_ADJUST horizontal_move_z=8 retry_tolerance=1 SAMPLES=1
+  {% endif %}
+  # 精细调平
+  _Z_TILT_ADJUST horizontal_move_z={PROBE_Z_OFFSET} retry_tolerance=0.0075 retries=20 METHOD=rapid_scan ADAPTIVE=1  
+  # ========== 后处理 ==========
+  G90                               # 绝对坐标
+  G0 Z5 F300                        # 抬升Z轴
+  M117 Z_tilt Completed             # 显示完成状态  
+  # ========== 状态恢复 ==========
+  RESTORE_GCODE_STATE NAME=STATE_Z_TILT
+  M400
+
+# Z_TILT_ADJUST跟QUAD_GANTRY_LEVEL 二选一
+#[gcode_macro QUAD_GANTRY_LEVEL]
+#rename_existing: _QUAD_GANTRY_LEVEL
+#description: eddy 快速Z调平, 四点龙门调平&nbsp;
+#gcode:
+# &nbsp; &nbsp;{% set PROBE_Z_OFFSET = printer.configfile.settings['probe_eddy_current fly_eddy_probe'].z_offset|float %}
+# &nbsp; &nbsp;# ========== 状态保存 ==========
+# &nbsp; &nbsp;SAVE_GCODE_STATE NAME=STATE_QGL
+# &nbsp; &nbsp;# ========== 环境准备 ==========
+# &nbsp; &nbsp;BED_MESH_CLEAR # 清除存在的网床数据
+# &nbsp; &nbsp;# ========== 主调平过程 ==========
+# &nbsp; &nbsp;# 第一次调平前先慢慢调平, 四点之差在很小范围内再扫床, 避免撞床
+# &nbsp; &nbsp;{% if not printer.quad_gantry_level.applied %}
+# &nbsp; &nbsp; &nbsp;# 初始粗调
+# &nbsp; &nbsp; &nbsp;_QUAD_GANTRY_LEVEL horizontal_move_z=10 retry_tolerance=1 SAMPLES=1
+# &nbsp; &nbsp;{% endif %}
+# &nbsp; &nbsp;# 精细调平
+# &nbsp; &nbsp;_QUAD_GANTRY_LEVEL horizontal_move_z={PROBE_Z_OFFSET} retry_tolerance=0.0075 retries=20 METHOD=rapid_scan ADAPTIVE=1
+# &nbsp; &nbsp;# ========== 后处理 ==========
+# &nbsp; &nbsp;G90 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# 绝对坐标
+# &nbsp; &nbsp;G0 Z5 F300 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;   # 抬升Z轴
+# &nbsp; &nbsp;M117 QGL Completed &nbsp; &nbsp; &nbsp; # 显示完成状态
+# &nbsp; &nbsp;# ========== 状态恢复 ==========
+# &nbsp; &nbsp;RESTORE_GCODE_STATE NAME=STATE_QGL
+# &nbsp; &nbsp;M400
+
+# eddy 快速网床
+[gcode_macro BED_MESH_CALIBRATE]
+rename_existing: _BED_MESH_CALIBRATE
+gcode:
+    {% set PROBE_Z_OFFSET = printer.configfile.settings['probe_eddy_current eddy_probe'].z_offset|float %}
+    _BED_MESH_CALIBRATE horizontal_move_z={PROBE_Z_OFFSET} METHOD=rapid_scan {rawparams}
+
+[gcode_macro PROBE_EDDY_CURRENT_CALIBRATE_AUTO]
+description: 第一次使用涡流时, 校准使用
+gcode:
+  BED_MESH_CLEAR
+  G28 X Y
+  G90 # Abs positioning
+  G1 X20 Y20 F6000
+  {% if 'z' not in printer.toolhead.homed_axes %}
+    SET_KINEMATIC_POSITION Z={ printer.toolhead.axis_maximum.z-1 } # Allows the user to work it down until it touches.
+  {% endif %}
+  PROBE_EDDY_CURRENT_CALIBRATE CHIP=eddy_probe
+
+[gcode_macro _RELOAD_Z_OFFSET_FROM_PROBE]
+description: tap模式设置Z偏移
+gcode:
+  {% set Z = printer.toolhead.position.z %}
+  # 官方tap模式设置后喷嘴是远离热床大约0.1mm, 需要再加上一点偏移
+  {% set position_endstop = 0.07 %} # 默认偏移在0.07mm左右
+  #在printer.cfg最下面添加上下面这个才支持偏移值保存到position_endstop
+  #*#
+  #*# [stepper_z]
+  #*# position_endstop = 0.07
+  {% set raw_config = printer.configfile.config %}
+  {% if 'stepper_z' in raw_config %}
+      # 从position_endstop里获取校准的偏移, 便于在页面上手动调节偏移值
+      {% set position_endstop = raw_config.stepper_z.position_endstop|trim|float %}
+  {% endif %}
+  RESPOND MSG="position_Z={'%0.2f' | format(Z)} probe_Z={'%0.2f' | format(printer.probe.last_probe_position.z)} position_endstop={'%0.2f' | format(position_endstop)}"
+  SET_KINEMATIC_POSITION Z={Z - printer.probe.last_probe_position.z + position_endstop}
+
+[gcode_macro SET_Z_FROM_PROBE]
+description: Z归零使用tap模式命令: SET_Z_FROM_PROBE METHOD=tap
+gcode:
+  {% set METHOD = params.METHOD | default("automatic") %}
+  PROBE METHOD={METHOD}
+  _RELOAD_Z_OFFSET_FROM_PROBE
+  G0 Z5 F300</code></pre>
+<div class="tinymce-content_DoXK9">
+  <h4><strong><span style="font-size: 18pt;"><img src="//image.lceda.cn/pullimage/43fcl77xvJOoQXty5Vd4q1gU9O5tPmzXrkldMfdN.png" alt="" height="287"
+          width="600" /></span></strong></h4>
+  <p><strong><span style="font-size: 18pt;"><span style="color: #ba372a; font-size: 18px;">在printer.cfg最下面添加上下面这个才支持偏移值保存到position_endstop, 便于打印时实时调整观察首层效果,
+          打印完成后保存到<span style="font-size: 18pt;"><span style="color: #ba372a; font-size: 18px;">position_endstop</span></span></span><br /></span></strong></p>
+  <pre class="language-python highlighter-hljs"><code>#*#
+#*# [stepper_z]
+#*# position_endstop = 0</code></pre>
+  <p><strong><span style="font-size: 18pt;"><img src="//image.lceda.cn/pullimage/OcSOrxq6Gv0OuDmnYpWKQDwG2Fq8XwgnX6mwCApi.png" alt="" height="206"
+          width="600" /></span></strong></p>
+  <div>
+    <div><strong><span style="color: #ba372a; font-size: 16px;">修改stepper_z配置,启用probe虚拟Z限位, 用于代替实体Z限位时</span></strong></div>
+  </div>
+  <p><strong><span style="font-size: 18pt;"><img src="//image.lceda.cn/pullimage/mkarnav24Gk7og7503WIL6EYeV5BAcNdpo62JLkg.png" alt="" height="219"
+          width="600" /></span></strong></p>
+  <p><strong><span style="color: #ba372a; font-size: 18px;">tap模式使用参考, 使用 <span style="color: #843fa1;">SET_Z_FROM_PROBE METHOD=tap</span> 命令</span></strong>
+  </p>
+  <pre class="language-python highlighter-hljs"><code>[gcode_macro CLEAN_NOZZLE]
+description: 磨嘴
+gcode:
+  {% set wipe_count = 8 %}
+  G1 Z2 F300
+  G1 X20 Y5 F3600
+  G1 Z-0.1 F300
+  {% for wipe in range(wipe_count) %}
+    {% for coordinate in [(20, 1),(1, 1)] %}
+      G0 X{coordinate[0]} Y{coordinate[1]} F2000
+    {% endfor %}
+  {% endfor %}
+  G1 Z2 F300
+
+[gcode_macro PRINT_START]          # 将 PRINT_START 设置为开始打印时的宏，自定义打印前的动作
+gcode:
+    BED_MESH_CLEAR                 # 卸载网床
+    G21
+    G90  
+    G28                            # 归位所有轴
+    G1 Z2 F500
+    G1 X20 Y2 F2000
+    G92 E0                         #重置挤出
+    M107                           #风扇关闭
+
+    M190 S{params.BED}            # 热床到指定温度
+    M109 150                      #喷嘴温度到150        
+    G28 Z F500
+    Z_TILT_ADJUST                 #自动调平     
+    
+    G1 X20 Y20 F2000
+    SET_Z_FROM_PROBE METHOD=tap   # 涡流tap模式自动Z偏移 
+    CLEAN_NOZZLE                  # 擦嘴
+    G1 X20 Y20 F2000
+    SET_Z_FROM_PROBE METHOD=tap   # 涡流tap模式自动Z偏移 
+    SET_Z_FROM_PROBE METHOD=tap   # 涡流tap模式自动Z偏移  多执行一次, 提升稳定性
+
+    ;判断是否有自适应网床参数
+    {% if params.MESH_MIN %}
+      ; 此处接收来自Orca的自适应网床参数，需要软件中配置传参
+      BED_MESH_CALIBRATE PROFILE=default mesh_min={params.MESH_MIN} mesh_max={params.MESH_MAX} ALGORITHM={params.MESH_ALGO} PROBE_COUNT={params.PROBE_COUNT} ADAPTIVE=1 ADAPTIVE_MARGIN=0
+    {% else %}
+      BED_MESH_CALIBRATE PROFILE=default ADAPTIVE=1 ADAPTIVE_MARGIN=0  #每次探测网床
+    {% endif %}
+    BED_MESH_PROFILE LOAD=default #可选调用默认网床
+    M109 S{params.EXTRUDER}       #喷嘴温度到打印温度
+
+    #划线
+    G92 E0
+    G1 Y0.5 F6000
+    G1 X180 F6000
+    G1 Z0.32 F400
+    G1 X20 E40 F1000
+    G1 Z1.0 F200
+    G92 E0
+    G1 Y2 F2000
+    G1 Z0.32 F400
+    G1 X180 E40 F1000
+    G1 Z1.0 F200
+    G92 E0</code></pre>
+  <p>&nbsp;</p>
+  <h4><strong><span style="font-size: 18pt;">六. 我的klipper校准的一些频率-高度对应数据, 这个线圈安装高度距离喷嘴1.6mm处测量到的数据:</span></strong></h4>
+  <div>
+    <div><span style="color: #843fa1; font-size: 16px;"><strong><span style="color: #e03e2d;">频率高度对应数据, 0mm处每变化0.04mm频率变化20khz, 在2mm处<span
+              style="color: #843fa1;"><span style="color: #e03e2d;">每变化0.04mm频率变化7khz, 探测距离超过7mm没啥问题</span></span></span></strong></span></div>
     <div>
-      <div><span style="font-size:14pt"><strong>WS2812配置</strong></span></div>
-      <blockquote>
-        <div><span style="font-size:14pt;color:#b96ad9">[neopixel my_neopixel]</span></div>
-        <div><span style="font-size:14pt;color:#b96ad9">pin: toolhead:WS2812</span></div>
-        <div><span style="font-size:14pt;color:#b96ad9"># &nbsp; 连接到neopixel的引脚。</span></div>
-        <div><span style="font-size:14pt;color:#b96ad9"># &nbsp; 必须提供此参数。</span></div>
-        <div><span style="font-size:14pt;color:#b96ad9">chain_count: 1</span></div>
-        <div><span style="font-size:14pt;color:#b96ad9"># &nbsp; 菊链中 neopixel 芯片的数量。</span></div>
-        <div><span style="font-size:14pt;color:#b96ad9"># &nbsp; 默认为1（代表有一个neopixel芯片连接到了这个引脚）。</span></div>
-        <div><span style="font-size:14pt;color:#b96ad9">color_order: GRB</span></div>
-      </blockquote>
-    </div>
-    <p>&nbsp;</p>
-    <p><span style="font-size:14pt"><strong>klipper自带eddy涡流配置</strong></span></p>
-    <blockquote>
-      <div><span style="color:#236fa1;font-size:14pt">[probe_eddy_current eddy_probe]</span></div>
-      <div><span style="color:#236fa1;font-size:14pt">sensor_type: ldc1612</span></div>
-      <div><span style="color:#236fa1;font-size:14pt">i2c_address: 42</span></div>
-      <div><span style="color:#236fa1;font-size:14pt">i2c_mcu: toolhead</span></div>
-      <div><span style="color:#236fa1;font-size:14pt">frequency: 40000000</span></div>
-      <div><span style="color:#236fa1;font-size:14pt">i2c_speed: 400000</span></div>
-      <div><span style="color:#236fa1;font-size:14pt">intb_pin: toolhead:LDC_INTB</span></div>
-      <div><span style="color:#236fa1;font-size:14pt">i2c_software_scl_pin: toolhead:LDC_SCL</span></div>
-      <div><span style="color:#236fa1;font-size:14pt">i2c_software_sda_pin: toolhead:LDC_SDA</span></div>
-      <div>
-        <div>
-          <div><span style="font-size:14pt;color:#236fa1">x_offset: 0 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;#记得设置x偏移</span></div>
-          <div><span style="font-size:14pt;color:#236fa1">y_offset: -15 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;#记得设置y偏移</span></div>
-          <div><span style="font-size:14pt;color:#236fa1">z_offset: 3 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;#记得设置z偏移, 不可过低</span></div>
-          <div><span style="font-size:14pt;color:#236fa1">speed: 5 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; #探测速度</span></div>
-          <div><span style="font-size:14pt;color:#236fa1">samples: 3 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; #采样次数</span></div>
-          <div><span style="font-size:14pt;color:#236fa1">sample_retract_dist: 5.0 &nbsp; &nbsp; #采样时喷嘴抬升距离</span></div>
-          <div><span style="font-size:14pt;color:#236fa1">samples_tolerance: 0.05</span></div>
-          <div><span style="font-size:14pt;color:#236fa1">samples_tolerance_retries: 2</span></div>
-        </div>
-      </div>
-      <br>
-      <div><span style="color:#236fa1;font-size:14pt">[temperature_probe eddy_probe]</span></div>
-      <div><span style="color:#236fa1;font-size:14pt">sensor_type: Generic 3950</span></div>
-      <div><span style="color:#236fa1;font-size:14pt">sensor_pin: toolhead:T2</span></div>
-      <div><span style="color:#236fa1;font-size:14pt">horizontal_move_z: 3</span></div>
-      <div><span style="font-size:14pt">&nbsp;</span></div>
-      <div><span style="color:#b96ad9;font-size:14pt"># 具体使用参考fly-eddy&nbsp; https://mellow.klipper.cn/docs/ProductDoc/ToolBoard/fly-sht36/sht36_v3/1612</span>
-      </div>
-      <div>
-        <div>
-          <div><span style="color:#b96ad9;font-size:14pt"># eddy 快速Z调平</span></div>
-        </div>
-      </div>
-      <div>
-        <div>
-          <div><span style="color:#b96ad9;font-size:14pt">[gcode_macro Z_TILT_ADJUST]</span></div>
-          <div><span style="color:#b96ad9;font-size:14pt">rename_existing: _Z_TILT_ADJUST</span></div>
-          <div><span style="color:#b96ad9;font-size:14pt">gcode:</span></div>
-          <div><span style="color:#b96ad9;font-size:14pt">&nbsp; &nbsp;
-              {% set PROBE_Z_OFFSET = printer.configfile.settings['probe_eddy_current eddy_probe'].z_offset|float %}</span></div>
-          <div><span style="color:#b96ad9;font-size:14pt">&nbsp; &nbsp; # ========== State Save ==========</span></div>
-          <div><span style="color:#b96ad9;font-size:14pt">&nbsp; &nbsp; SAVE_GCODE_STATE NAME=STATE_Z_TILT</span></div>
-          <div><span style="color:#b96ad9;font-size:14pt">&nbsp; &nbsp;</span></div>
-          <div><span style="color:#b96ad9;font-size:14pt">&nbsp; &nbsp; # ========== Environment Preparation ==========</span></div>
-          <div><span style="color:#b96ad9;font-size:14pt">&nbsp; &nbsp; BED_MESH_CLEAR &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-              &nbsp; # Clear existing bed mesh data</span></div>
-          <div><span style="color:#b96ad9;font-size:14pt">&nbsp; &nbsp;</span></div>
-          <div><span style="color:#b96ad9;font-size:14pt">&nbsp; &nbsp; # ========== Main Leveling Process ==========</span></div>
-          <div><span style="color:#b96ad9;font-size:14pt">&nbsp; &nbsp; {% if not printer.z_tilt.applied %}</span></div>
-          <div><span style="color:#b96ad9;font-size:14pt">&nbsp; &nbsp; &nbsp; &nbsp; # Initial coarse adjustment</span></div>
-          <div><span style="color:#b96ad9;font-size:14pt">&nbsp; &nbsp; &nbsp; &nbsp; _Z_TILT_ADJUST horizontal_move_z=10 retry_tolerance=1</span></div>
-          <div><span style="color:#b96ad9;font-size:14pt">&nbsp; &nbsp; {% endif %}</span></div>
-          <div><span style="color:#b96ad9;font-size:14pt">&nbsp; &nbsp;</span></div>
-          <div><span style="color:#b96ad9;font-size:14pt">&nbsp; &nbsp; # Fine secondary leveling</span></div>
-          <div><span style="color:#b96ad9;font-size:14pt">&nbsp; &nbsp; _Z_TILT_ADJUST horizontal_move_z={PROBE_Z_OFFSET} retry_tolerance=0.075 retries=20
-              METHOD=rapid_scan ADAPTIVE=1</span></div>
-          <div><span style="color:#b96ad9;font-size:14pt">&nbsp; &nbsp; &nbsp; &nbsp; G0 Z10 F6000 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-              &nbsp; &nbsp; # Use standard G-code commands instead of HORIZONTAL_MOVE_Z</span></div>
-          <br>
-          <div><span style="color:#b96ad9;font-size:14pt">&nbsp; &nbsp; # ========== Post-Processing ==========</span></div>
-          <div><span style="color:#b96ad9;font-size:14pt">&nbsp; &nbsp; G90 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-              &nbsp; &nbsp; &nbsp; &nbsp; # Force absolute coordinate mode</span></div>
-          <div><span style="color:#b96ad9;font-size:14pt">&nbsp; &nbsp; G0 Z10 F6000 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-              &nbsp; &nbsp;# Raise Z axis to safe height</span></div>
-          <div><span style="color:#b96ad9;font-size:14pt">&nbsp; &nbsp; M117 Z_tilt Completed &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # Display
-              completion status</span></div>
-          <div><span style="color:#b96ad9;font-size:14pt">&nbsp; &nbsp; #G28 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-              &nbsp; &nbsp; &nbsp; &nbsp; # Return to origin</span></div>
-          <div><span style="color:#b96ad9;font-size:14pt">&nbsp; &nbsp; # ========== State Restore ==========</span></div>
-          <div><span style="color:#b96ad9;font-size:14pt">&nbsp; &nbsp; RESTORE_GCODE_STATE NAME=STATE_Z_TILT</span></div>
-          <div><span style="color:#b96ad9;font-size:14pt">&nbsp; &nbsp; M400</span></div>
-          <br>
-          <div><span style="color:#b96ad9;font-size:14pt"># eddy 快速网床扫床</span></div>
-          <div><span style="color:#b96ad9;font-size:14pt">[gcode_macro BED_MESH_CALIBRATE]</span></div>
-          <div><span style="color:#b96ad9;font-size:14pt">rename_existing: _BED_MESH_CALIBRATE</span></div>
-          <div><span style="color:#b96ad9;font-size:14pt">gcode:</span></div>
-          <div><span style="color:#b96ad9;font-size:14pt">&nbsp; &nbsp;
-              {% set PROBE_Z_OFFSET = printer.configfile.settings['probe_eddy_current eddy_probe'].z_offset|float %}</span></div>
-          <div><span style="color:#b96ad9;font-size:14pt">&nbsp; &nbsp; {% set TARGET_TEMP = printer.heater_bed.target %}</span></div>
-          <div><span style="color:#b96ad9;font-size:14pt">&nbsp; &nbsp; M140 S0</span></div>
-          <div><span style="color:#b96ad9;font-size:14pt">&nbsp; &nbsp; _BED_MESH_CALIBRATE horizontal_move_z={PROBE_Z_OFFSET} METHOD=rapid_scan
-              {rawparams}</span></div>
-          <div><span style="color:#b96ad9;font-size:14pt">&nbsp; &nbsp; M140 S{TARGET_TEMP}</span></div>
-        </div>
-      </div>
-    </blockquote>
-    <p>&nbsp;</p>
-    <p><strong><span style="font-size:18pt">焊接完成验证:</span></strong></p>
-    <p>&nbsp;</p>
-    <blockquote>
-      <p><span style="color:#169179"><span style="font-size:14pt">焊接完成之后先不要焊接插件端子, 先用usb转串口下载固件, </span></span></p>
-      <p><span style="color:#169179"><span style="font-size:14pt">当然你也可以正反两面焊接完成后, 使用usb下载固件,</span></span></p>
-      <p><span style="color:#169179"><span style="font-size:14pt">如果总是无法使用stm32cubeprograme总是无法连接上, 说明mcu焊接有问题,&nbsp;</span></span></p>
-      <p><span style="color:#169179"><span style="font-size:14pt">这些芯片验证都不用接24V供电, 直接用5V供电即可</span></span></p>
-      <p><strong><span style="font-size:14pt;color:#e03e2d">1. ADXL345芯片</span></strong></p>
-      <p><span style="font-size:14pt;color:#843fa1">直接输入 <strong>ACCELEROMETER_QUERY </strong>命令 , 在控制台上会出现获取到的加速度数据, // accelerometer values (x, y, z):
-          9400.615463, 74.020594, -766.095498</span></p>
-      <p><strong><span style="font-size:14pt;color:#e03e2d">2. MAX31865芯片</span></strong></p>
-      <p><span style="font-size:14pt;color:#843fa1">准备一个pt100传感器,&nbsp; 添加pt100的配置,&nbsp; 出现pt100的温度值即可, 如果有问题, klipper会直接报错</span></p>
-      <p><strong><span style="font-size:14pt;color:#e03e2d">3.LDC1612芯片</span></strong></p>
-      <p><span style="font-size:14pt;color:#843fa1">接入线圈, 输入 <strong>LDC_CALIBRATE_DRIVE_CURRENT chip=eddy_probe</strong> 会返回: // probe_eddy_current eddy_probe:
-          reg_drive_current: 19</span></p>
-      <p><strong><span style="font-size:14pt;color:#e03e2d">4.TMC2226芯片</span></strong></p>
-      <p><span style="font-size:14pt;color:#843fa1">把挤出机[extruder]配置下的,&nbsp; 最小挤出温度设置为 min_temp: -200,不用接挤出机, 也不用24V供电 ,在页面上直接点挤出, 不报错即可</span></p>
-      <p><span style="color:#e03e2d"><strong><span style="font-size:14pt">5.热端加热MOS</span></strong></span></p>
-      <p><span style="font-size:14pt;color:#843fa1">直接输入温度加热, 加热指示灯亮即可</span></p>
-      <p><span style="font-size:14pt;color:#e03e2d"><strong>6.WS2812B灯</strong></span></p>
-      <p><span style="font-size:14pt;color:#843fa1"><span style="font-size:14pt">添加相关配置, 直接在页面上设置颜色, 能亮就行</span></span></p>
-    </blockquote>
-    <p>&nbsp;</p>
-    <p><strong><span style="font-size:18pt">LDC1612芯片报错问题:</span></strong></p>
-    <p><span style="font-size:12pt;color:#e03e2d"><strong>这个是用klipper自带的涡流, 不是第三方插件, 感觉不是很完善, 刚开始搞不好可能会撞机</strong></span></p>
-    <p><span style="font-size:12pt;color:#e03e2d"><strong>当然也可以用第三方插件, 如eddy-ng:&nbsp; <a title="eddy-ng" href="https://github.com/vvuk/eddy-ng" target="_blank"
-            rel="noopener">https://github.com/vvuk/eddy-ng</a> ,这个我还没用起来, 附件里编译的固件带有这个插件</strong></span></p>
-    <blockquote>
-      <p><strong><span style="font-size:14pt;color:#e03e2d">1. Unable to obtain 'i2c_read_response' response</span></strong></p>
-      <p><span style="font-size:14pt;color:#b96ad9">发送命令LDC_CALIBRATE_DRIVE_CURRENT chip=eddy_probe 就报这个, 说明芯片虚焊</span></p>
-      <p><span style="color:#e03e2d"><strong><span style="font-size:14pt">2.&nbsp;&nbsp;Failed calibration - incomplete sensor data</span></strong></span></p>
-      <p><span style="font-size:14pt;color:#b96ad9">上机测试时, 发送自动校准命令PROBE_EDDY_CURRENT_CALIBRATE CHIP=eddy_probe, 发现也能正常校准, 但是最后保存时提示这个问题, 也是芯片虚焊导致的</span></p>
-      <p><span style="color:#e03e2d"><strong><span style="font-size:14pt">3. Failed calibration - frequency not increasing each step</span></strong></span></p>
-      <p><span style="font-size:14pt;color:#b96ad9">发送自动校准命令PROBE_EDDY_CURRENT_CALIBRATE CHIP=eddy_probe,&nbsp; 前边正常校准, 但是在最后保存配置时提示这个, 说明芯片焊接是没问题的,
-          是探测到的最前边几个数据有问题, 出现了距离越远频率越高的情况, 可能是热床太重导致距离喷嘴很近时发生了震动所致, 这种需要抬高喷嘴</span></p>
-      <p><span style="color:#e03e2d"><strong><span style="font-size:14pt">4. &nbsp;Error during homing z: Eddy current sensor error</span></strong></span></p>
-      <p><span style="font-size:14pt"><strong>这个错误具体解决以及新版的涡流线圈看我另外一个涡流线圈项目: &nbsp;<a
-              href="https://oshwhub.com/cxg01/3d-da-yin-wo-liu-diao-ping">https://oshwhub.com/cxg01/3d-da-yin-wo-liu-diao-ping</a></strong></span></p>
-    </blockquote>
-    <p>&nbsp;</p>
-    <p><img src="https://image.lceda.cn/oshwhub/pullImage/b9e06ddbf8b346a9a3fd1fee68e5a82c.png" alt="" width="800" height="449"></p>
-    <p>&nbsp;</p>
-    <p><img src="https://image.lceda.cn/oshwhub/pullImage/998fa0f7989b455e8512a077a17a4263.png" alt="" width="800" height="693"></p>
-    <p>&nbsp;</p>
-    <p><img src="https://image.lceda.cn/oshwhub/pullImage/bfc1435fd728415ba661afab8b637f62.png" alt="" width="800" height="716"></p>
-    <p>&nbsp;</p>
-    <p><img src="https://image.lceda.cn/oshwhub/pullImage/0cc4aa97c8424915b1c404a32c526e47.jpg" alt="" width="800" height="600"></p>
-    <p>&nbsp;</p>
-    <p>&nbsp;</p>
-    <p><img src="https://image.lceda.cn/oshwhub/pullImage/0d563f068fa24d0fb32306a62ab9ef06.jpg" alt="" width="800" height="600"></p>
-    <p>&nbsp;</p>
-    <p>&nbsp;</p>
-    <p><img src="https://image.lceda.cn/oshwhub/pullImage/a16cc68b91184b4c90826795691fdb5c.png" alt="" width="800" height="388"></p>
-    <p>&nbsp;</p>
-    <p><img src="https://image.lceda.cn/oshwhub/pullImage/0ccdf922a1344bb8a858959d040087c9.jpg" alt="" width="800" height="600"></p>
-    <p>&nbsp;</p>
-    <p><img src="https://image.lceda.cn/oshwhub/pullImage/d46d91d9bc184f239a41495cac5037a3.png" alt="" width="800" height="296"></p>
-    <p>&nbsp;</p>
-    <p>&nbsp;</p>
-    <div>
-      <div>&nbsp;</div>
+      <pre class="language-python highlighter-hljs"><code>#*# [probe_eddy_current eddy_probe]
+#*# reg_drive_current = 25
+#*# calibrate =
+#*# &nbsp; 0.020000:6471543.396,0.060000:6451423.693,0.100000:6431876.141,
+#*# &nbsp; 0.140000:6412376.517,0.180000:6394309.813,0.220000:6376299.953,
+#*# &nbsp; 0.260000:6358925.629,0.300000:6341717.100,0.340000:6325247.246,
+#*# &nbsp; 0.380000:6309253.550,0.420000:6293368.751,0.460000:6278408.694,
+#*# &nbsp; 0.500000:6263672.292,0.540000:6249405.426,0.580000:6235666.543,
+#*# &nbsp; 0.620000:6221941.280,0.660000:6208866.686,0.700000:6195956.218,
+#*# &nbsp; 0.740000:6183596.015,0.780000:6171344.304,0.820000:6159339.469,
+#*# &nbsp; 0.860000:6147923.601,0.900000:6136674.237,0.940000:6125652.498,
+#*# &nbsp; 0.980000:6114856.690,1.020000:6104334.283,1.060000:6093994.016,
+#*# &nbsp; 1.100000:6083899.432,1.140000:6073840.189,1.180000:6064077.884,
+#*# &nbsp; 1.220000:6054339.409,1.260000:6044783.009,1.300000:6035257.197,
+#*# &nbsp; 1.340000:6025965.196,1.380000:6016801.149,1.420000:6007729.500,
+#*# &nbsp; 1.460000:5998650.146,1.500000:5989840.788,1.540000:5981059.861,
+#*# &nbsp; 1.580000:5972490.448,1.620000:5963976.109,1.660000:5955639.124,
+#*# &nbsp; 1.700000:5947430.575,1.740000:5939329.690,1.780000:5931339.717,
+#*# &nbsp; 1.820000:5923476.994,1.860000:5915809.727,1.900000:5908254.963,
+#*# &nbsp; 1.940000:5900820.804,1.980000:5893541.729,2.020000:5886432.648,
+#*# &nbsp; 2.060000:5879425.269,2.100000:5872564.453,2.140000:5865781.951,
+#*# &nbsp; 2.180000:5859194.803,2.220000:5852688.330,2.260000:5846340.096,
+#*# &nbsp; 2.300000:5840058.476,2.340000:5833975.256,2.380000:5827950.150,
+#*# &nbsp; 2.420000:5822082.966,2.460000:5816314.983,2.500000:5810667.586,
+#*# &nbsp; 2.540000:5805094.969,2.580000:5799652.046,2.620000:5794310.898,
+#*# &nbsp; 2.660000:5789093.715,2.700000:5783954.245,2.740000:5778931.248,
+#*# &nbsp; 2.780000:5774020.725,2.820000:5769209.898,2.860000:5764482.081,
+#*# &nbsp; 2.900000:5759852.177,2.940000:5755316.347,2.980000:5750843.024,
+#*# &nbsp; 3.020000:5746491.516,3.060000:5742197.800,3.100000:5738037.092,
+#*# &nbsp; 3.140000:5733922.899,3.180000:5729929.560,3.220000:5725959.033,
+#*# &nbsp; 3.260000:5722107.071,3.300000:5718265.444,3.340000:5714533.567,
+#*# &nbsp; 3.380000:5710870.278,3.420000:5707304.859,3.460000:5703773.802,
+#*# &nbsp; 3.500000:5700336.122,3.540000:5696935.016,3.580000:5693611.008,
+#*# &nbsp; 3.620000:5690329.158,3.660000:5687134.701,3.700000:5683996.528,
+#*# &nbsp; 3.740000:5680920.112,3.780000:5677899.200,3.820000:5674923.277,
+#*# &nbsp; 3.860000:5671997.356,3.900000:5669122.803,3.940000:5666306.716,
+#*# &nbsp; 3.980000:5663552.248,4.020000:5660856.271
+#*#
+#*# [stepper_z]
+#*# position_endstop = 0.07</code></pre>
     </div>
   </div>
+  <p><span style="font-size: 16px;"><strong><span style="color: #e03e2d;">超高的频率变化超过400khz, 噪声仅0.1um, 这个数据在执行完<span
+            style="color: #843fa1;">频率高度对应校准</span>后会打印出来</span></strong></span></p>
+  <pre class="language-python highlighter-hljs"><code>probe_eddy_current: noise 0.000079mm, MAD_Hz=16.228 in 2525 queries
+
+Total frequency range: 781156.814 Hz
+
+z_offset: 0.250 # noise 0.000110mm, MAD_Hz=47.773
+z_offset: 0.530 # noise 0.000107mm, MAD_Hz=37.080
+z_offset: 1.010 # noise 0.000078mm, MAD_Hz=20.212
+z_offset: 2.010 # noise 0.000100mm, MAD_Hz=17.703
+z_offset: 3.010 # noise 0.000103mm, MAD_Hz=10.908</code></pre>
+  <p>&nbsp;</p>
+  <h4><span style="font-size: 18pt;"><strong>七. 关于线圈设计:</strong></span></h4>
+  <p><span style="font-size: 14pt;"><strong>线圈形状不会对使用造成影响, 无论是8边形还是圆形,还是超圆线圈, 影响微乎其微</strong></span></p>
+  <p><span style="font-size: 14pt;"><strong>为此我还开发一个在线工具来设计超圆线圈:&nbsp; </strong></span><a href="https://demo.chengxg.top/eddy_coil_designer.html"
+      target="_blank" rel="noopener"><span style="font-size: 14pt;"><strong>https://demo.chengxg.top/eddy_coil_designer.html</strong></span></a></p>
+  <p><span style="font-size: 14pt;"><strong>TI官方的线圈设计工具: <a href="https://webench.ti.com/wb5/LDC/#/spirals" target="_blank"
+          rel="noopener">https://webench.ti.com/wb5/LDC/#/spirals</a></strong></span></p>
+  <p><span style="font-size: 14pt;"><strong>我设计的LDC1612线圈频率在线实时监控传感器: &nbsp;<a href="https://oshwhub.com/cxg01/3d-printer-weighing-hot-bed-sensor"
+          target="_blank" rel="noopener">https://oshwhub.com/cxg01/3d-printer-weighing-hot-bed-sensor, &nbsp;</a>也可以用来当做普通的接近开关使用</strong></span></p>
+  <p><img src="https://image.lceda.cn/oshwhub/pullImage/f4340e60774249159f501fe4c4672b02.png" alt="" height="766" width="800" /></p>
+  <p>&nbsp;</p>
+  <p>&nbsp;</p>
+  <p><img src="https://image.lceda.cn/oshwhub/pullImage/3f0394c1df9741c3aee7fd8709d071dd.jpg" alt="" height="600" width="800" /></p>
+  <p><img src="https://image.lceda.cn/oshwhub/pullImage/3ea96e6aa53c479dac7c0a5334c2923d.png" alt="" height="715" width="800" /></p>
+  <p><img src="https://image.lceda.cn/oshwhub/pullImage/f8f5c815fce745ba806155a94fc025b0.png" alt="" height="714" width="800" /></p>
+  <p><img src="https://image.lceda.cn/oshwhub/pullImage/70940b5295c14f2a8ca0be075b6e5255.jpg" alt="" height="600" width="800" /></p>
 </div>
