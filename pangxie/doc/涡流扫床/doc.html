@@ -19,6 +19,14 @@
 <p><span style="font-size: 14pt; color: #e03e2d;"><strong>4. &nbsp;Error during homing z: Eddy current sensor error</strong></span></p>
 <p><strong><span style="font-size: 16px;">这个要重点说明, 这个报错主要原因的是ldc1612的振幅错误报告引起的, 因为校准驱动电流是在热床上方20mm处测量得到的驱动电流, ldc1612最佳测量线圈的振幅在1.2V-1.8V之间, 这个最佳驱动电流只在当前高度, 当前温度下适用, 当高度降低到2mm左右时, 驱动电流不再适用, 会引起ldc1612的振幅错误报告, 而klipper中又启用了这个错误报告, 一旦出现振幅错误, ldc1612就报告这个错误,这就是为什么总是报告这个错误, 我们测量的是频率, 不需要振幅必须在这个最佳区间内, 因此直接改动klipper代码. 修改ldc1612的寄存器配置来禁用这个错误报告.</span></strong></p>
 <p><strong><span style="font-size: 16px;">最佳驱动电流受温度, 线圈谐振频率, 传感器安装高度等方面的影响, 在20mm处测量的最佳驱动频率不满足这些情况,&nbsp; 这个错误报告很灵敏, 振幅错误报告分为振幅高错误和振幅低错误, 而驱动电流的设置只能在1-31之间设置, 可调范围有限, 你很有可能安装的高度差那么一点点, 你就永远无法得到最佳驱动电流,不是高了就是低了, 因此就出现了你无论如何调整驱动电流, 始终会报这个错误的问题, 因此必须禁用这个错误报告.</span></strong></p>
+<p><strong><span style="font-size: 18px; color: #e03e2d;">5. DigitalFilter require the SciPy module</span></strong></p>
+<p><strong><span style="font-size: 16px;">启用tap模式需要首先安装<span style="font-size: 18px; color: #e03e2d;">SciPy<span style="color: #000000;">库</span></span></span></strong></p>
+<p><span style="color: #e03e2d;"><strong><span style="font-size: 16px;"><span style="font-size: 18px;">6. MCU'mcu' I2C request to addr xxx reports error START_NACK</span></span></strong></span></p>
+<p><strong><span style="color: #e03e2d;"><span style="font-size: 16px;"><span style="font-size: 18px;">Invalid Idc1612 id (got 0,0 vs 5449,3055). This is generally indicative of connection problems (e.g. faulty wiring) or a faulty Idc1612 chip</span></span></span></strong></p>
+<p><span style="color: #000000;"><strong><span style="font-size: 16px;"><span style="font-size: 18px;">这些错误就是就是I2C通信不成功, 1.接线不行 2.使用的引脚IO上有电容二极管等 3.再就是芯片虚焊损坏等问题</span></span></strong></span></p>
+<p><span style="color: #e03e2d;"><strong><span style="font-size: 16px;"><span style="font-size: 18px;">7. 警告:&nbsp; Option'z_offset' in section 'probe_eddy_current eddy_probe' is deprecated</span></span></strong></span></p>
+<p><strong><span style="font-size: 18px;"><span style="color: #000000;">这个是klipper更新了涡流的代码, z_offset参数改成了</span>descend_z</span></strong></p>
+<p>&nbsp;</p>
 <p><span style="font-size: 12pt;">其他错误参考fly文档:&nbsp;&nbsp;<a href="https://mellow.klipper.cn/docs/DebugDoc/faq/eddy/" target="_blank" rel="noopener">https://mellow.klipper.cn/docs/DebugDoc/faq/eddy/</a></span></p>
 <p>&nbsp;</p>
 <h3><span style="font-size: 18pt;"><strong>二.&nbsp;</strong></span><span style="font-size: 18pt;"><strong>修改klipper涡流驱动代码:</strong></span></h3>
@@ -232,12 +240,19 @@ gcode:
   G0 Z5 F300</code></pre>
 <p><strong><span style="color: #ba372a; font-size: 18px;">2.2026-03-25以后klipper更新的配置参考, klipper更新了tap模式的算法, 添加了参数descend_z和tap_z_offset</span></strong></p>
 <pre class="language-python highlighter-hljs"><code># 先改klippy/extras/ldc1612.py 代码, 把 self.set_reg(REG_ERROR_CONFIG, (0x1f &lt;&lt; 11) | 1) 把0x1f改成0x1c, 把SETTLETIME=0.005改为 0.0002
-# LDC_CALIBRATE_DRIVE_CURRENT CHIP=eddy_probe
-# PROBE_EDDY_CURRENT_CALIBRATE CHIP=eddy_probe
-# PROBE_EDDY_CURRENT_CALIBRATE_AUTO
-# tap模式自动Z偏移: SET_Z_FROM_PROBE METHOD=tap
-# tap模式 probe单点精度测试: PROBE_ACCURACY METHOD=tap samples=10
-# 无接触模式probe单点精度测试: PROBE_ACCURACY
+# 校准驱动电流: LDC_CALIBRATE_DRIVE_CURRENT CHIP=eddy_probe
+# 校准频率高度对应关系: PROBE_EDDY_CURRENT_CALIBRATE CHIP=eddy_probe
+# tap模式设置自动Z偏移: SET_Z_FROM_PROBE METHOD=tap
+# tap模式下probe单点精度测试: PROBE_ACCURACY METHOD=tap samples=10
+# 无接触模式下probe单点精度测试: PROBE_ACCURACY
+# 要启用tap模式首先要先安装scipy库, "~/klippy-env/bin/pip install scipy -i https://pypi.tuna.tsinghua.edu.cn/simple"
+
+# 启用 M118 echo 命令, RESPOND命令支持
+[respond]
+
+# 启用强制移动命令, SET_KINEMATIC_POSITION支持
+[force_move]
+enable_force_move: true
 
 [probe_eddy_current eddy_probe]
 sensor_type: ldc1612
@@ -258,14 +273,14 @@ sample_retract_dist: 5.0     #采样时喷嘴抬升距离
 samples_tolerance: 0.05
 samples_tolerance_retries: 3
 tap_threshold: 200           #噪声截止/停止触发阈值（单位为Hz） klipper最新更新的参数, tap模式阈值参数, 默认是0, 表示禁用tap功能, 至少大于测量噪声的两倍, 阈值低了会在半空停止, 要启用tap模式首先要先安装scipy库,
-tap_z_offset: 0              #间隙调整, klipper最新更新的参数, 还是用position_endstop来调整间隙方便点
+tap_z_offset: 0              #间隙调整, klipper最新更新的参数, 咱们还是用 position_endstop 来调整间隙方便点
 
 #集成线圈的加速度计配置
 [lis2dw]
 i2c_address: 25
 i2c_mcu: toolhead
 # i2c_bus: i2c1
-i2c_speed: 400000   # 如果mcu占用率太高,可以调大速度
+i2c_speed: 400000   # 如果mcu占用率太高,可以调大I2C速度
 i2c_software_scl_pin: toolhead:SCL1
 i2c_software_sda_pin: toolhead:SDA1
 [resonance_tester]
@@ -374,7 +389,7 @@ description: Z归零使用tap模式命令: SET_Z_FROM_PROBE METHOD=tap
 gcode:
   {% set METHOD = params.METHOD | default("automatic") %}
   G0 Z5 F300
-  PROBE METHOD={METHOD} SAMPLES=3
+  PROBE METHOD={METHOD} SAMPLES=3 # probe速度默认为5mm/s
   _RELOAD_Z_OFFSET_FROM_PROBE
   G0 Z5 F300</code></pre>
 <p>&nbsp;</p>
