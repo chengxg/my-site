@@ -5,9 +5,11 @@
 <div style="line-height: 2;"><span style="font-size: 14pt;"><strong>4.带<span style="color: #e03e2d;">LDC1612</span>的线圈还集成<span style="color: #e03e2d;">lis2dw</span>加速度传感器和<span style="color: #e03e2d;">AHT20</span>温度传感器, 这三个芯片共用I2C通信,&nbsp; 接线最少, 板子制作成本很低, 只需10元,&nbsp; 加速度计放在线圈上, 离喷嘴近, 共振补偿效果好,&nbsp;<span style="color: #000000;">其中<span style="color: #e03e2d;">AHT20</span>需要升级到最新的klipper版本才能使用;</span></strong></span></div>
 <div style="line-height: 2;"><span style="font-size: 14pt;"><strong>5.该线圈谐振频率在5.6Mhz左右, 线圈频率高, 采用40Mhz的有源晶振, 实测在线圈在喷嘴上方2mm处, klipper校准后的频率在0-4mm处的频率变化超过400Khz, 最大探测距离超过7mm, 甚至可以隔着晶格平台扫床, 距离噪声可达0.1um,&nbsp; 在z-offset为 1mm处, 频率变化高达6Khz/0.04mm以上, 变化相当灵敏;</strong></span></div>
 <p><strong><span style="font-size: 14pt;">6. 扫床视频介绍使用: 见B站 <a title="3D打印涡流线圈调平开源及Eddy current sensor error问题解决" href="https://www.bilibili.com/video/BV14oqVBGERA/?spm_id_from=333.1387.homepage.video_card.click&amp;vd_source=80c1c161f08d9d188b6befe8e1a3d23a" target="_blank" rel="noopener">3D打印涡流线圈调平开源及Eddy current sensor error问题解决</a>, 该线圈我起名为: 小螃蟹扫床线圈; 该线圈我已经量产了一批, 欢迎购买;</span></strong></p>
-<p><strong><span style="font-size: 14pt;">7.目前klipper在<span style="color: #e03e2d;">2026年1月份</span>升级了涡流驱动, tap功能得到支持, 类似IDM的touch模式, 就不需要AHT20温度传感器了, 无需温度校准, 自动Zoffset, tap介绍视频见: &nbsp;<a href="https://www.bilibili.com/video/BV1QpAzzDEgy/?spm_id_from=333.1387.homepage.video_card.click&amp;vd_source=80c1c161f08d9d188b6befe8e1a3d23a">3D打印klipper自带涡流调平tap模式介绍</a></span></strong></p>
-<p><strong><span style="font-size: 14pt;">8.温漂方面指的是无接触归位时的温度漂移,全温度范围温漂大约为0.2mm, 使用tap模式喷嘴限位无需考虑温漂, tap模式是基于算法实现的, 当喷嘴逐渐靠近热床频率数据一直上升, 喷嘴碰到热床之后频率增长速度会减慢最后不变, 通过算法寻找出现频率增长变化的拐点的位置就是喷嘴碰到热床的位置</span></strong></p>
+<p><strong><span style="font-size: 14pt;">7.目前klipper在<span style="color: #e03e2d;">2026年1月份</span>升级了涡流驱动, tap功能得到支持, 类似IDM的touch模式, 就不需要AHT20温度传感器了, 无需温度校准, 自动Zoffset, <span style="color: #e03e2d;">2026-05-02</span>支持自动tap阈值测量, tap介绍视频见: &nbsp;<a href="https://www.bilibili.com/video/BV1QpAzzDEgy/?spm_id_from=333.1387.homepage.video_card.click&amp;vd_source=80c1c161f08d9d188b6befe8e1a3d23a">3D打印klipper自带涡流调平tap模式介绍</a> 视频是更新之前的, 操作步骤差不多</span></strong></p>
+<p><span style="font-size: 18px;"><strong>8.温漂方面指的是无接触归位时的温度漂移,全温度范围温漂大约为0.2mm, 使用tap模式喷嘴限位无需考虑温漂, tap模式是基于算法实现的, 当喷嘴逐渐靠近热床频率数据一直上升, 喷嘴碰到热床之后频率增长速度会减慢最后不变, 通过算法寻找出现频率增长变化的拐点的位置就是喷嘴碰到热床的位置</strong></span></p>
+<p><span style="font-size: 18px;"><strong>9. 有问题进qq交流群咨询: 1057494383, 最新教程在: &nbsp;<a href="https://demo.chengxg.top/pangxie/#/articles/eddy_coil">https://demo.chengxg.top/pangxie/#/articles/eddy_coil&nbsp;</a></strong></span></p>
 </div>
+<p>&nbsp;</p>
 <p>&nbsp;</p>
 <h3><span style="font-size: 18pt;"><strong>一. LDC1612芯片报错问题:</strong></span></h3>
 <p><span style="font-size: 14pt; color: #e03e2d;"><strong>1. Unable to obtain 'i2c_read_response' response</strong></span></p>
@@ -30,7 +32,7 @@
 <p><span style="font-size: 12pt;">其他错误参考fly文档:&nbsp;&nbsp;<a href="https://mellow.klipper.cn/docs/DebugDoc/faq/eddy/" target="_blank" rel="noopener">https://mellow.klipper.cn/docs/DebugDoc/faq/eddy/</a></span></p>
 <p>&nbsp;</p>
 <h3><span style="font-size: 18pt;"><strong>二.&nbsp;</strong></span><span style="font-size: 18pt;"><strong>修改klipper涡流驱动代码:</strong></span></h3>
-<p><span style="font-size: 18px; color: #843fa1;"><strong>klipper官方是用必趣的eddy做的测试, 必趣的eddy参数跟我这个线圈参数不一样, 要改下一些代码配置</strong></span></p>
+<p><span style="font-size: 18px; color: #843fa1;"><strong>klipper官方是用必趣的eddy做的测试, 必趣的eddy参数跟我这个线圈参数不一样, 要改下一些代码配置, klipper最近更新, 这个看看, 不报错的话, 不改也行</strong></span></p>
 <div><span style="font-size: 14pt;"><strong><span style="color: #2dc26b;">1. 进入ssh找到klipper目录</span></strong></span></div>
 <div>
 <div><span style="font-size: 12pt; color: #000000;"><strong>打开 /klipper/klippy/extras/ldc1612.py 文件</strong></span></div>
@@ -56,7 +58,14 @@
 <p><span style="font-size: 14pt; color: #843fa1;">④然后执行 <strong><span style="color: #e03e2d;">LDC_CALIBRATE_DRIVE_CURRENT CHIP=eddy_probe</span></strong> 命令, 然后klipper进入手动probe的页面, 在页面手动控制Z轴移动到喷嘴跟热床接近的地方</span></p>
 <p><span style="font-size: 14pt; color: #843fa1;">⑤如果用来Z限位那么用A4纸的手感必须到位, 不用来做Z限位, 随便就行了, 差个0.2mm也不要紧;</span></p>
 <p><span style="font-size: 14pt; color: #843fa1;">⑥设置完了之后, klipper会自动获取高度跟频率的对应关系, 最后保存配置就可以了;</span></p>
-<p>&nbsp;</p>
+<p><strong><span style="font-size: 18px;"><span style="color: #e03e2d;">3. tap模式阈值校准命令 <span style="color: #e03e2d;">PROBE_EDDY_CURRENT_TAP_CALIBRATE TAP=xxx</span></span></span></strong></p>
+<p><strong><span style="font-size: 16px; color: #b96ad9;">2026-05-02&nbsp; klipper更新支持自动测量, 这个需要先注释掉, 使用命令去寻找</span></strong></p>
+<p><span style="font-size: 16px; color: #b96ad9;">①确认喷嘴和床面都是干净的。开启打印机，执行归零，将工具头移动到床面中心附近的位置，并确保喷嘴离床面 3~10 毫米。</span></p>
+<p><span style="font-size: 16px; color: #b96ad9;">②下一步是命令喷嘴与床面发生接触。这个过程始终存在一定风险，因此请准备好随时执行紧急停机（M112），以防探测下降动作在接触床面后仍然不停止。准备就绪后，执行以下命令：</span><span style="font-size: 16px; color: #b96ad9;"><code>PROBE_EDDY_CURRENT_TAP_CALIBRATE TAP=guess</code></span><span style="font-size: 16px; color: #b96ad9;">此命令会根据主探针校准过程中分析得到的数据，对&nbsp;<code>tap_threshold</code> 值做出一个初始粗略猜测，然后执行相应的&ldquo;轻触探测&rdquo;。理想情况下，上述命令会使探针下降直至碰到床面，然后抬起离开床面，并报告有效的探测结果。</span></p>
+<p class="ds-markdown-paragraph"><span style="font-size: 16px; color: #b96ad9;">③下一步是使用&ldquo;精炼后&rdquo;的阈值设置再次运行轻触探测。该工具会利用之前成功进行的一次轻触探测中收集的信息来确定这个改进后的阈值。确保喷嘴位于床面中心附近，离床面高度 3~10 毫米，做好紧急停机准备，然后执行以下命令：</span><span style="font-size: 16px; color: #b96ad9;"><code>PROBE_EDDY_CURRENT_TAP_CALIBRATE TAP=refine</code></span><span style="font-size: 16px; color: #b96ad9;">理想情况下，此命令也应成功；否则请参阅故障排查段落。如果尝试成功，则继续下一步。</span></p>
+<p class="ds-markdown-paragraph"><span style="font-size: 16px; color: #b96ad9;">④如果使用精炼阈值的探测成功，下一步的测试是验证该阈值在多次探测中的稳定性。确保喷嘴位于床面中心附近，离床面高度 3~10 毫米，做好紧急停机准备，然后执行以下命令：</span><span style="font-size: 16px; color: #b96ad9;"><code>PROBE_EDDY_CURRENT_TAP_CALIBRATE TAP=verify</code></span><span style="font-size: 16px; color: #b96ad9;">此命令会连续探测床面五次。理想情况下，上述命令也会成功；否则请参阅故障排查段落。如果尝试成功，则继续下一步。</span></p>
+<p class="ds-markdown-paragraph"><span style="font-size: 16px; color: #b96ad9;">⑤如果以上所有步骤都成功，可以执行&nbsp;<code>SAVE_CONFIG</code>&nbsp;命令，将&nbsp;<code>tap_threshold</code>&nbsp;参数保存到&nbsp;<code>printer.cfg</code>&nbsp;文件中。此时校准即告完成。</span></p>
+<p class="ds-markdown-paragraph">&nbsp;</p>
 <h4><span style="color: #000000;"><strong><span style="font-size: 18pt;">四. 关于温漂:</span></strong></span></h4>
 <p><strong><span style="font-size: 14pt; color: #e03e2d;">1.在不封箱的条件下, 温漂很低, 通常在0.04mm以下, 也不一定, 不好说</span></strong></p>
 <p><span style="font-size: 14pt;">z-offset=1mm, 热床温度从常温到100度, eddy线圈温度从常温到60度, 频率变化率为3Khz, 温漂造成的z偏移为0.02mm左右, 影响并不大, 可以用来Z限位</span></p>
@@ -77,16 +86,14 @@
 #samples: 3
 #samples_tolerance: 0.025
 #samples_tolerance_retries: 3
-tap_threshold: 0 # 0 means tap is disabled</code></pre>
+#tap_threshold: 0 # 0 means tap is disabled 2026-05-02 支持自动测量, 这个需要先注释掉</code></pre>
 <div class="tinymce-content_DoXK9" style="line-height: 1.1;">
-<p><span style="color: #e67e23; font-size: 18px;">就是设置 <code>tap_threshold: 0</code>&nbsp;这个参数, 默认是0, 表示禁用tap功能, 一般直接设置个100-200就行</span></p>
-<p><span style="color: #e67e23; font-size: 18px;">要启用tap模式首先要先安装 scipy, 安装的慢的话可以用国内源安装</span></p>
-<blockquote>
-<p><strong><span style="color: #ba372a; font-family: arial, helvetica, sans-serif; font-size: 18px;">~/klippy-env/bin/pip install scipy</span></strong></p>
-<p><strong><span style="color: #ba372a; font-family: arial, helvetica, sans-serif; font-size: 18px;">~/klippy-env/bin/pip install scipy -i https://pypi.tuna.tsinghua.edu.cn/simple</span></strong></p>
-</blockquote>
-<p><span style="color: #e67e23; font-size: 18px;">tap模式目前的精度在0.02mm左右</span></p>
-<p><span style="color: #e67e23; font-size: 18px;">如果能把数据请求速率改为500的话, 那么精度提升, 见上边的 <span style="color: #843fa1;">修改klipper代码部分</span></span></p>
+<p>就是设置&nbsp;<code>tap_threshold: 0</code>&nbsp;这个参数, 默认是0, 表示禁用tap功能, tap阈值要设置正确, 否则报错,&nbsp;最新的klipper版本不需要安装scipy库了, 更新了算法用不到了</p>
+<p><span style="color: #e03e2d;"><strong>2026-05-02&nbsp; klipper更新支持自动测量, 这个需要先注释掉, 使用命令去寻找</strong></span></p>
+<p><strong><span style="color: #e03e2d; font-size: 14px;">tap阈值自动寻找, 依次输入这三个命令: </span></strong></p>
+<p><strong><span style="color: #e03e2d; font-size: 14px;">1.tap阈值粗略校准 PROBE_EDDY_CURRENT_TAP_CALIBRATE TAP=guess</span></strong></p>
+<p><strong><span style="color: #e03e2d; font-size: 14px;">2.tap阈值精确校准 PROBE_EDDY_CURRENT_TAP_CALIBRATE TAP=refine</span></strong></p>
+<p><strong><span style="color: #e03e2d; font-size: 14px;">3.tap阈值验证,最后保存就可以了 PROBE_EDDY_CURRENT_TAP_CALIBRATE TAP=verify</span></strong></p>
 <p>&nbsp;</p>
 <h4><span style="font-size: 18pt; color: #000000;"><strong>五. klipper参考配置文件:</strong></span></h4>
 <p>&nbsp;</p>
@@ -238,14 +245,17 @@ gcode:
   PROBE METHOD={METHOD}
   _RELOAD_Z_OFFSET_FROM_PROBE
   G0 Z5 F300</code></pre>
-<p><strong><span style="color: #ba372a; font-size: 18px;">2.2026-03-25以后klipper更新的配置参考, klipper更新了tap模式的算法, 添加了参数descend_z和tap_z_offset</span></strong></p>
+<p><strong><span style="color: #ba372a; font-size: 18px;">2.2026-03-25以后klipper更新的配置参考, klipper更新了tap模式的算法, 添加了参数descend_z和tap_z_offset, 2026-05-02支持自动tap阈值测量</span></strong></p>
 <pre class="language-python highlighter-hljs"><code># 先改klippy/extras/ldc1612.py 代码, 把 self.set_reg(REG_ERROR_CONFIG, (0x1f &lt;&lt; 11) | 1) 把0x1f改成0x1c, 把SETTLETIME=0.005改为 0.0002
 # 校准驱动电流: LDC_CALIBRATE_DRIVE_CURRENT CHIP=eddy_probe
 # 校准频率高度对应关系: PROBE_EDDY_CURRENT_CALIBRATE CHIP=eddy_probe
 # tap模式设置自动Z偏移: SET_Z_FROM_PROBE METHOD=tap
-# tap模式下probe单点精度测试: PROBE_ACCURACY METHOD=tap samples=10
+# tap模式下probe单点精度测试: PROBE_ACCURACY METHOD=tap
 # 无接触模式下probe单点精度测试: PROBE_ACCURACY
-# 要启用tap模式首先要先安装scipy库, "~/klippy-env/bin/pip install scipy -i https://pypi.tuna.tsinghua.edu.cn/simple"
+# 2025-05-02更新 tap阈值自动寻找: 
+# 1.tap阈值粗略校准 PROBE_EDDY_CURRENT_TAP_CALIBRATE TAP=guess
+# 2.tap阈值精确校准 PROBE_EDDY_CURRENT_TAP_CALIBRATE TAP=refine
+# 3.tap阈值验证,最后保存就可以了 PROBE_EDDY_CURRENT_TAP_CALIBRATE TAP=verify
 
 # 启用 M118 echo 命令, RESPOND命令支持
 [respond]
@@ -272,7 +282,7 @@ samples: 3                   #采样次数
 sample_retract_dist: 5.0     #采样时喷嘴抬升距离
 samples_tolerance: 0.05
 samples_tolerance_retries: 3
-tap_threshold: 200           #噪声截止/停止触发阈值（单位为Hz） klipper最新更新的参数, tap模式阈值参数, 默认是0, 表示禁用tap功能, 至少大于测量噪声的两倍, 阈值低了会在半空停止, 要启用tap模式首先要先安装scipy库,
+# tap_threshold: 45598.639   #tap模式阈值参数,单位为Hz/mm, 默认是0, 表示禁用tap功能, 至少大于测量噪声的两倍, 阈值低了会在半空停止, 2026=05-02更新自动tap阈值测量, 这个注释掉
 tap_z_offset: 0              #间隙调整, klipper最新更新的参数, 咱们还是用 position_endstop 来调整间隙方便点
 
 #集成线圈的加速度计配置
@@ -290,15 +300,15 @@ probe_points: 100, 100, 20
 
 # 板载AHT20温度传感器配置, 需要升级到最新版的klipper版本才能用
 # 低主频mcu就不要用了, 会增加打印过程中的不稳定因素
-[temperature_probe eddy_probe]
-horizontal_move_z: 2
-sensor_type: AHT2X
-i2c_mcu: toolhead
-i2c_speed: 400000
-i2c_address: 56
-i2c_software_scl_pin: toolhead:SCL1
-i2c_software_sda_pin: toolhead:SDA1
-aht10_report_time: 30 # 温度报告时间间隔, 最低为5秒
+# [temperature_probe eddy_probe]
+# horizontal_move_z: 2
+# sensor_type: AHT2X
+# i2c_mcu: toolhead
+# i2c_speed: 400000
+# i2c_address: 56
+# i2c_software_scl_pin: toolhead:SCL1
+# i2c_software_sda_pin: toolhead:SDA1
+# aht10_report_time: 5 # 温度报告时间间隔, 最低为5秒
 
 [gcode_macro Z_TILT_ADJUST]
 description: eddy 快速Z调平, 三点调平
@@ -371,7 +381,7 @@ gcode:
   PROBE_EDDY_CURRENT_CALIBRATE CHIP=eddy_probe
 
 [gcode_macro _RELOAD_Z_OFFSET_FROM_PROBE]
-description: tap模式设置Z偏移
+description: tap模式设置Z偏移, 这个命令多次运行, 打印出来的probe_Z是负的, set_Z是3-4mm左右, 看set_Z的一致性来判断稳定性, 第一次调试执行这个命令后, 要垫A4纸, 设置Z=0, 试试纸张的摩擦力再实际打印
 gcode:
   {% set Z = printer.toolhead.position.z %}
   {% set position_endstop = 0 %}
@@ -382,6 +392,7 @@ gcode:
   {% endif %}
   {% set setZ = Z - printer.probe.last_probe_position.z + position_endstop %}
   SET_KINEMATIC_POSITION Z={setZ}
+  # 这个命令多次运行, 打印出来的probe_Z是负的, set_Z是3-4mm左右, 看set_Z的一致性
   RESPOND MSG="position_Z={'%0.3f' | format(Z)} probe_Z={'%0.3f' | format(printer.probe.last_probe_position.z)} position_endstop={'%0.3f' | format(position_endstop)} set_Z={'%0.3f' | format(setZ)}"
 
 [gcode_macro SET_Z_FROM_PROBE]
@@ -405,6 +416,8 @@ gcode:
 </div>
 <p><strong><span style="font-size: 18pt;"><img src="//image.lceda.cn/pullimage/mkarnav24Gk7og7503WIL6EYeV5BAcNdpo62JLkg.png" alt="" height="219" width="600" /></span></strong></p>
 <p><strong><span style="color: #ba372a; font-size: 18px;">tap模式使用参考, 使用 <span style="color: #843fa1;">SET_Z_FROM_PROBE METHOD=tap</span> 命令, 使用前务必确保喷嘴干净, 最好加入磨嘴</span></strong></p>
+<p><strong><span style="color: #ba372a; font-size: 18px;">这个命令多次运行, 打印出来的probe_Z是负的, set_Z是3-4mm左右, 看set_Z的一致性来判断稳定性</span></strong></p>
+<p><strong><span style="color: #ba372a; font-size: 18px;">第一次调试执行这个命令后, 要垫A4纸, 设置Z=0, 试试纸张的摩擦力, 再实际打印<br /></span></strong></p>
 <pre class="language-python highlighter-hljs"><code>[gcode_macro CLEAN_NOZZLE]
 description: 磨嘴
 gcode:
@@ -473,55 +486,54 @@ gcode:
 <pre class="language-python highlighter-hljs"><code>#*# [probe_eddy_current eddy_probe]
 #*# reg_drive_current = 25
 #*# calibrate =
-#*# &nbsp; 0.020000:6471543.396,0.060000:6451423.693,0.100000:6431876.141,
-#*# &nbsp; 0.140000:6412376.517,0.180000:6394309.813,0.220000:6376299.953,
-#*# &nbsp; 0.260000:6358925.629,0.300000:6341717.100,0.340000:6325247.246,
-#*# &nbsp; 0.380000:6309253.550,0.420000:6293368.751,0.460000:6278408.694,
-#*# &nbsp; 0.500000:6263672.292,0.540000:6249405.426,0.580000:6235666.543,
-#*# &nbsp; 0.620000:6221941.280,0.660000:6208866.686,0.700000:6195956.218,
-#*# &nbsp; 0.740000:6183596.015,0.780000:6171344.304,0.820000:6159339.469,
-#*# &nbsp; 0.860000:6147923.601,0.900000:6136674.237,0.940000:6125652.498,
-#*# &nbsp; 0.980000:6114856.690,1.020000:6104334.283,1.060000:6093994.016,
-#*# &nbsp; 1.100000:6083899.432,1.140000:6073840.189,1.180000:6064077.884,
-#*# &nbsp; 1.220000:6054339.409,1.260000:6044783.009,1.300000:6035257.197,
-#*# &nbsp; 1.340000:6025965.196,1.380000:6016801.149,1.420000:6007729.500,
-#*# &nbsp; 1.460000:5998650.146,1.500000:5989840.788,1.540000:5981059.861,
-#*# &nbsp; 1.580000:5972490.448,1.620000:5963976.109,1.660000:5955639.124,
-#*# &nbsp; 1.700000:5947430.575,1.740000:5939329.690,1.780000:5931339.717,
-#*# &nbsp; 1.820000:5923476.994,1.860000:5915809.727,1.900000:5908254.963,
-#*# &nbsp; 1.940000:5900820.804,1.980000:5893541.729,2.020000:5886432.648,
-#*# &nbsp; 2.060000:5879425.269,2.100000:5872564.453,2.140000:5865781.951,
-#*# &nbsp; 2.180000:5859194.803,2.220000:5852688.330,2.260000:5846340.096,
-#*# &nbsp; 2.300000:5840058.476,2.340000:5833975.256,2.380000:5827950.150,
-#*# &nbsp; 2.420000:5822082.966,2.460000:5816314.983,2.500000:5810667.586,
-#*# &nbsp; 2.540000:5805094.969,2.580000:5799652.046,2.620000:5794310.898,
-#*# &nbsp; 2.660000:5789093.715,2.700000:5783954.245,2.740000:5778931.248,
-#*# &nbsp; 2.780000:5774020.725,2.820000:5769209.898,2.860000:5764482.081,
-#*# &nbsp; 2.900000:5759852.177,2.940000:5755316.347,2.980000:5750843.024,
-#*# &nbsp; 3.020000:5746491.516,3.060000:5742197.800,3.100000:5738037.092,
-#*# &nbsp; 3.140000:5733922.899,3.180000:5729929.560,3.220000:5725959.033,
-#*# &nbsp; 3.260000:5722107.071,3.300000:5718265.444,3.340000:5714533.567,
-#*# &nbsp; 3.380000:5710870.278,3.420000:5707304.859,3.460000:5703773.802,
-#*# &nbsp; 3.500000:5700336.122,3.540000:5696935.016,3.580000:5693611.008,
-#*# &nbsp; 3.620000:5690329.158,3.660000:5687134.701,3.700000:5683996.528,
-#*# &nbsp; 3.740000:5680920.112,3.780000:5677899.200,3.820000:5674923.277,
-#*# &nbsp; 3.860000:5671997.356,3.900000:5669122.803,3.940000:5666306.716,
-#*# &nbsp; 3.980000:5663552.248,4.020000:5660856.271
+#*# 	0.050000:6153868.474,0.090000:6140581.388,0.130000:6127867.579,
+#*# 	0.170000:6115317.080,0.210000:6103169.564,0.250000:6091062.065,
+#*# 	0.290000:6079560.578,0.330000:6068234.991,0.370000:6057241.097,
+#*# 	0.410000:6046285.704,0.450000:6035889.644,0.490000:6025588.147,
+#*# 	0.530000:6015705.358,0.570000:6005756.039,0.610000:5996345.174,
+#*# 	0.650000:5987057.745,0.690000:5977972.925,0.730000:5969186.429,
+#*# 	0.770000:5960489.236,0.810000:5952050.306,0.850000:5943877.082,
+#*# 	0.890000:5935701.810,0.930000:5927889.235,0.970000:5920223.620,
+#*# 	1.010000:5912764.810,1.050000:5905289.017,1.090000:5898103.733,
+#*# 	1.130000:5890976.977,1.170000:5884077.907,1.210000:5877175.592,
+#*# 	1.250000:5870536.629,1.290000:5863888.852,1.330000:5857435.115,
+#*# 	1.370000:5850909.870,1.410000:5844620.816,1.450000:5838317.987,
+#*# 	1.490000:5832176.287,1.530000:5825956.173,1.570000:5819920.503,
+#*# 	1.610000:5813872.244,1.650000:5807985.030,1.690000:5802018.259,
+#*# 	1.730000:5796317.264,1.770000:5790468.287,1.810000:5784845.412,
+#*# 	1.850000:5779161.706,1.890000:5773692.038,1.930000:5768183.365,
+#*# 	1.970000:5762838.762,2.010000:5757423.702,2.050000:5752229.031,
+#*# 	2.090000:5747035.083,2.130000:5742004.153,2.170000:5736929.577,
+#*# 	2.210000:5732048.202,2.250000:5727181.192,2.290000:5722445.384,
+#*# 	2.330000:5717695.504,2.370000:5713156.223,2.410000:5708578.147,
+#*# 	2.450000:5704132.087,2.490000:5699695.770,2.530000:5695400.939,
+#*# 	2.570000:5691128.872,2.610000:5686991.617,2.650000:5682852.682,
+#*# 	2.690000:5678856.946,2.730000:5674900.982,2.770000:5671038.292,
+#*# 	2.810000:5667175.207,2.850000:5663429.908,2.890000:5659734.309,
+#*# 	2.930000:5656142.745,2.970000:5652550.183,3.010000:5649078.999,
+#*# 	3.050000:5645650.666,3.090000:5642298.806,3.130000:5638953.801,
+#*# 	3.170000:5635723.930,3.210000:5632522.605,3.250000:5629407.909,
+#*# 	3.290000:5626275.383,3.330000:5623281.125,3.370000:5620288.711,
+#*# 	3.410000:5617389.947,3.450000:5614468.779,3.490000:5611684.695,
+#*# 	3.530000:5608890.083,3.570000:5606189.363,3.610000:5603489.622,
+#*# 	3.650000:5600896.236,3.690000:5598289.136,3.730000:5595773.518,
+#*# 	3.770000:5593240.872,3.810000:5590811.838,3.850000:5588387.080,
+#*# 	3.890000:5586050.298,3.930000:5583692.707,3.970000:5581396.028,
+#*# 	4.010000:5579187.412,4.050000:5577017.456
+#*# tap_threshold = 46501.882
 #*#
 #*# [stepper_z]
 #*# position_endstop = 0.07</code></pre>
 </div>
 </div>
-<p><span style="font-size: 16px;"><strong><span style="color: #e03e2d;">超高的频率变化超过400khz, 噪声仅0.1um, 这个数据在执行完<span style="color: #843fa1;">频率高度对应校准</span>后会打印出来</span></strong></span></p>
-<pre class="language-python highlighter-hljs"><code>probe_eddy_current: noise 0.000079mm, MAD_Hz=16.228 in 2525 queries
-
-Total frequency range: 781156.814 Hz
-
-z_offset: 0.250 # noise 0.000110mm, MAD_Hz=47.773
-z_offset: 0.530 # noise 0.000107mm, MAD_Hz=37.080
-z_offset: 1.010 # noise 0.000078mm, MAD_Hz=20.212
-z_offset: 2.010 # noise 0.000100mm, MAD_Hz=17.703
-z_offset: 3.010 # noise 0.000103mm, MAD_Hz=10.908</code></pre>
+<p><span style="font-size: 16px;"><strong><span style="color: #e03e2d;">超高的频率变化超过400khz, 噪声0.2um以下, 这个数据在执行完<span style="color: #843fa1;">频率高度对应校准</span>后会打印出来</span></strong></span></p>
+<pre class="language-python highlighter-hljs"><code>probe_eddy_current: noise 0.000178mm, MAD_Hz=24.995 in 4039 queries
+Total frequency range: 576851.018 Hz
+z: 0.290 # noise 0.000148mm, MAD_Hz=42.558
+z: 0.530 # noise 0.000244mm, MAD_Hz=60.201
+z: 1.010 # noise 0.000179mm, MAD_Hz=33.386
+z: 2.010 # noise 0.000108mm, MAD_Hz=14.666
+z: 3.010 # noise 0.000092mm, MAD_Hz=7.961</code></pre>
 <p>&nbsp;</p>
 <h4><span style="font-size: 18pt;"><strong>七. 关于线圈设计:</strong></span></h4>
 <p><span style="font-size: 14pt;"><strong>线圈形状不会对使用造成影响, 无论是8边形还是圆形,还是超圆线圈, 影响微乎其微</strong></span></p>

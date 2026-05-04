@@ -1,8 +1,6 @@
-<p><span style="font-size: 14pt;"><strong>3D打印工具头用于klipper固件, stm32f446小螃蟹满配工具头, 采用stm32f446rct6作为主控, 资源多, 性能强, 支持usb/串口/can通信切换, 想用啥通信就用啥通信, 接线端子全部为XH2.54端子,
-      端子大好接线</strong></span></p>
+<p><span style="font-size: 14pt;"><strong>3D打印工具头用于klipper固件, stm32f446小螃蟹满配工具头, 采用stm32f446rct6作为主控, 资源多, 性能强, 支持usb/串口/can通信切换, 想用啥通信就用啥通信, 接线端子全部为XH2.54端子, 端子大好接线</strong></span></p>
 <p>&nbsp;</p>
-<p><span style="font-size: 14pt;"><strong><span style="color: #e67e23;">1. 3个限位端口, 2个5V供电, 1个5V/24V供电切换, 其中STOP2有二极管隔离支持高压输入,&nbsp;
-        可以接入其他三线的设备</span></strong></span></p>
+<p><span style="font-size: 14pt;"><strong><span style="color: #e67e23;">1. 3个限位端口, 2个5V供电, 1个5V/24V供电切换, 其中STOP2有二极管隔离支持高压输入,&nbsp; 可以接入其他三线的设备</span></strong></span></p>
 <p><span style="font-size: 14pt;"><strong><span style="color: #e67e23;">2. 2个温控端子, 一个用于热端, 另外一个可以作为扫床线圈的温度补偿使用,&nbsp; 1个板载温控用于测量仓温</span></strong></span></p>
 <p><span style="font-size: 14pt;"><strong><span style="color: #e67e23;">3. 3个可控风扇, 1个热床级大功率加热棒</span></strong></span></p>
 <p><span style="font-size: 14pt;"><strong><span style="color: #e67e23;">4. 1个4PIN I2C端子引出, 1个4PIN扩展端子, 5V供电输出</span></strong></span></p>
@@ -13,29 +11,28 @@
 <p><span style="font-size: 14pt;"><strong><span style="color: #e67e23;">9. 集成ADXL345加速度传感器</span></strong></span></p>
 <p><span style="font-size: 14pt;"><strong><span style="color: #e67e23;">10. spi焊盘引出, 共5个IO可用, 扩展性强</span></strong></span></p>
 <p>&nbsp;</p>
-<p><span style="font-size: 14pt; color: #e03e2d;">期间can芯片TJA1051T/3买到的不是那么好, 导致带电插拔工具头把mcu搞的不正常,无法进入dfu下载程序了, 电路经过改造, 即使can芯片是假的, 也不会影响到mcu,
-    can芯片的第8引脚既可以支持是REF功能如TJA1050T,也能支持是第8引脚是VIO功能的芯片如TJA1051T/3 SIT1051T/3,&nbsp; 如果使用1050系列的旁边的二极管就不要焊接了</span></p>
+<p><span style="font-size: 14pt; color: #e03e2d;">期间can芯片TJA1051T/3买到的不是那么好, 导致带电插拔工具头把mcu搞的不正常,无法进入dfu下载程序了, 电路经过改造, 即使can芯片是假的, 也不会影响到mcu, can芯片的第8引脚既可以支持是REF功能如TJA1050T,也能支持是第5引脚是VIO功能的芯片如TJA1051T/3 SIT1051T/3,&nbsp; 如果使用1050系列的旁边的二极管就不要焊接了</span></p>
 <p><span style="font-size: 14pt;">可以刷入USB固件, CAN固件, 串口固件, 还可以刷入UTOC固件, 跟上位机或主板通信时接口必须相同</span></p>
 <p><strong><span style="font-size: 14pt;">板子只焊接完成正面就可以使用usb转串口下载固件</span></strong></p>
 <p><span style="font-size: 14pt;"><span style="color: #e03e2d;"><strong>端子大部分都没有保护, 接线之前看清楚, 尤其是机械的限位开关, 只接IO和GND, 不要接三条线!</strong></span></span></p>
-<p><span style="font-size: 14pt;"><strong>关联的高性能全IO保护主板:</strong> &nbsp;<a
-      href="https://oshwhub.com/cxg01/3d-da-yin-zhu-ban-stm32-gao-xing-neng-mi-ni-8-zhou-zhu-ban-si-ceng-ban">https://oshwhub.com/cxg01/3d-da-yin-zhu-ban-stm32-gao-xing-neng-mi-ni-8-zhou-zhu-ban-si-ceng-ban</a></span>
-</p>
-<p><span style="font-size: 14pt;"><strong>关于涡流线圈看我另外的项目:</strong> &nbsp;<a
-      href="https://oshwhub.com/cxg01/3d-da-yin-wo-liu-diao-ping">https://oshwhub.com/cxg01/3d-da-yin-wo-liu-diao-ping</a></span></p>
+<p><span style="font-size: 14pt;"><strong>关联的高性能全IO保护主板:</strong> &nbsp;<a href="https://oshwhub.com/cxg01/3d-da-yin-zhu-ban-stm32-gao-xing-neng-mi-ni-8-zhou-zhu-ban-si-ceng-ban">https://oshwhub.com/cxg01/3d-da-yin-zhu-ban-stm32-gao-xing-neng-mi-ni-8-zhou-zhu-ban-si-ceng-ban</a></span></p>
+<p><span style="font-size: 14pt;"><strong>关于涡流线圈看我另外的项目:</strong> &nbsp;<a href="https://oshwhub.com/cxg01/3d-da-yin-wo-liu-diao-ping">https://oshwhub.com/cxg01/3d-da-yin-wo-liu-diao-ping</a></span></p>
 <p>&nbsp;</p>
 <p><span style="font-size: 14pt;"><strong>工具头mcu配置</strong></span></p>
 <p>&nbsp;</p>
-<pre class="language-python highlighter-hljs"><code>[mcu toolhead]
-#usb/串口通信
-# serial: /dev/serial/by-path/platform-xhci-hcd.0.auto-usb-0:1.1:1.0-port0
-# baud: 500000&nbsp; &nbsp;# 串口通信波特率
-# restart_method: command
-#can通信
-canbus_uuid: 6cb6cbf28f16</code></pre>
+<blockquote>
+<div><span style="color: #b96ad9; font-size: 14pt;">[mcu toolhead]</span></div>
+<div><span style="color: #b96ad9; font-size: 14pt;">#usb/串口通信</span></div>
+<div><span style="color: #b96ad9; font-size: 14pt;"># serial: /dev/serial/by-path/platform-xhci-hcd.0.auto-usb-0:1.1:1.0-port0</span></div>
+<div><span style="color: #b96ad9; font-size: 14pt;"># baud: 500000&nbsp; &nbsp;# 串口通信波特率</span></div>
+<div><span style="color: #b96ad9; font-size: 14pt;"># restart_method: command</span></div>
+<div><span style="color: #b96ad9; font-size: 14pt;">#can通信</span></div>
+<div><span style="color: #b96ad9; font-size: 14pt;">canbus_uuid: 6cb6cbf28f16</span></div>
+</blockquote>
 <p>&nbsp;</p>
 <p><span style="font-size: 14pt;"><strong>mcu引脚定义</strong></span></p>
-<pre class="language-python highlighter-hljs"><code>[board_pins toolhead_pins_f446]
+<blockquote>
+<pre class="highlighter-hljs"><code>[board_pins toolhead_pins_f446]
 mcu: toolhead # stm32f446工具头
 aliases:
 &nbsp; &nbsp; H1=PB2, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # 加热
@@ -43,163 +40,124 @@ aliases:
 &nbsp; &nbsp; STOP1=PD2,STOP2=PB5,STOP3=PA2, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# 限位 STOP2有二极管隔离
 &nbsp; &nbsp; T1=PB0,T2=PC4,T3=PC5, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # 温控 T3为仓温检测
   &nbsp;  EN1=PC12,DIR1=PC10,STEP1=PA15,UART1=PA14, &nbsp; &nbsp;# tmc2226步进电机驱动
-&nbsp; &nbsp; ADXL_CS=PC6,ADXL_MOSI=PC9,ADXL_MISO=PC8,ADXL_SCK=PC7, ADXL_INT1=PC3, # ADXL345 软件spi接口
+&nbsp; &nbsp; ADXL_CS=PC6,ADXL_MOSI=PC9,ADXL_MISO=PC8,ADXL_SCK=PC7, ADXL_INT1=PC3, # ADXL345版 软件spi接口
+      # LIS_CS=PC8,LIS_MOSI=PC6,LIS_MISO=PC7,LIS_SCK=PC9, LIS_INT1=PC3, # LIS2DW版 软件spi接口
 &nbsp; &nbsp; MAX_DYDY=PA3, MAX_CS=PA4, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# MAX31865 硬件spi spi_bus: spi1
 &nbsp; &nbsp; LDC_SDA=PC0,LDC_SCL=PC1,LDC_INTB=PC13, &nbsp; &nbsp; # LDC1612, 晶振频率40M
 &nbsp; &nbsp; WS2812=PA8, &nbsp;# WS2812
   &nbsp; LED=PB1, &nbsp; &nbsp; # klipper运行指示灯 高电平亮灯</code></pre>
+</blockquote>
 <p>&nbsp;</p>
 <p><span style="font-size: 14pt;"><strong>pt100配置</strong></span></p>
-<pre class="language-python highlighter-hljs"><code>[temperature_sensor PT100]
-sensor_type: MAX31865
-sensor_pin: toolhead:MAX_CS
-min_temp: -200
-max_temp: 300
-spi_bus: spi1
-# spi_software_sclk_pin: toolhead:PA5
-# spi_software_mosi_pin: toolhead:PA6
-# spi_software_miso_pin: toolhead:PA7
-rtd_nominal_r: 100
-rtd_reference_r: 427.27&nbsp; #&nbsp; ref电阻
-rtd_num_of_wires: 3</code></pre>
+<blockquote>
+<div>
+<div><span style="color: #b96ad9; font-size: 14pt;">[temperature_sensor PT100]</span></div>
+<div><span style="color: #b96ad9; font-size: 14pt;">sensor_type: MAX31865</span></div>
+<div><span style="color: #b96ad9; font-size: 14pt;">sensor_pin: toolhead:MAX_CS</span></div>
+<div><span style="color: #b96ad9; font-size: 14pt;">min_temp: -200</span></div>
+<div><span style="color: #b96ad9; font-size: 14pt;">max_temp: 300</span></div>
+<div><span style="color: #b96ad9; font-size: 14pt;">spi_bus: spi1</span></div>
+<div><span style="color: #b96ad9; font-size: 14pt;"># spi_software_sclk_pin: toolhead:PA5</span></div>
+<div><span style="color: #b96ad9; font-size: 14pt;"># spi_software_mosi_pin: toolhead:PA6</span></div>
+<div><span style="color: #b96ad9; font-size: 14pt;"># spi_software_miso_pin: toolhead:PA7</span></div>
+<div><span style="color: #b96ad9; font-size: 14pt;">rtd_nominal_r: 100</span></div>
+<div><span style="color: #b96ad9; font-size: 14pt;">rtd_reference_r: 427.27&nbsp; #&nbsp; ref电阻</span></div>
+<div><span style="color: #b96ad9; font-size: 14pt;">rtd_num_of_wires: 3</span></div>
+</div>
+</blockquote>
 <p>&nbsp;</p>
 <p><span style="font-size: 14pt;"><strong>ADXL345配置</strong></span></p>
-<pre class="language-python highlighter-hljs"><code># ADXL345加速度计
-[adxl345]
-cs_pin: toolhead:ADXL_CS
-spi_software_sclk_pin: toolhead:ADXL_SCK
-spi_software_mosi_pin: toolhead:ADXL_MOSI
-spi_software_miso_pin: toolhead:ADXL_MISO
-
-
-[resonance_tester]
-accel_chip: adxl345
-accel_per_hz: 50
-probe_points: 100, 100, 20</code></pre>
+<blockquote>
+<div><span style="color: #b96ad9; font-size: 14pt;"># ADXL345加速度计</span></div>
+<div><span style="color: #b96ad9; font-size: 14pt;">[adxl345]</span></div>
+<div><span style="color: #b96ad9; font-size: 14pt;">cs_pin: toolhead:ADXL_CS</span></div>
+<div><span style="color: #b96ad9; font-size: 14pt;">spi_software_sclk_pin: toolhead:ADXL_SCK</span></div>
+<div><span style="color: #b96ad9; font-size: 14pt;">spi_software_mosi_pin: toolhead:ADXL_MOSI</span></div>
+<div><span style="color: #b96ad9; font-size: 14pt;">spi_software_miso_pin: toolhead:ADXL_MISO</span></div>
+<div>&nbsp;</div>
+<div>
+<div>
+<div><span style="color: #b96ad9; font-size: 14pt;">[resonance_tester]</span></div>
+<div><span style="color: #b96ad9; font-size: 14pt;">accel_chip: adxl345</span></div>
+<div><span style="color: #b96ad9; font-size: 14pt;">accel_per_hz: 50</span></div>
+<div><span style="color: #b96ad9; font-size: 14pt;">probe_points: 100, 100, 20</span></div>
+</div>
+</div>
+</blockquote>
 <p>&nbsp;</p>
 <div>
-  <div><span style="font-size: 14pt;"><strong>WS2812配置</strong></span></div>
-  <div>
-    <pre class="language-python highlighter-hljs"><code>[neopixel my_neopixel]
-pin: toolhead:WS2812
-# &nbsp; 连接到neopixel的引脚。
-# &nbsp; 必须提供此参数。
-chain_count: 1
-# &nbsp; 菊链中 neopixel 芯片的数量。
-# &nbsp; 默认为1（代表有一个neopixel芯片连接到了这个引脚）。
-color_order: GRB</code></pre>
-  </div>
+<div><span style="font-size: 14pt;"><strong>WS2812配置</strong></span></div>
+<blockquote>
+<div><span style="font-size: 14pt; color: #b96ad9;">[neopixel my_neopixel]</span></div>
+<div><span style="font-size: 14pt; color: #b96ad9;">pin: toolhead:WS2812</span></div>
+<div><span style="font-size: 14pt; color: #b96ad9;"># &nbsp; 连接到neopixel的引脚。</span></div>
+<div><span style="font-size: 14pt; color: #b96ad9;"># &nbsp; 必须提供此参数。</span></div>
+<div><span style="font-size: 14pt; color: #b96ad9;">chain_count: 1</span></div>
+<div><span style="font-size: 14pt; color: #b96ad9;"># &nbsp; 菊链中 neopixel 芯片的数量。</span></div>
+<div><span style="font-size: 14pt; color: #b96ad9;"># &nbsp; 默认为1（代表有一个neopixel芯片连接到了这个引脚）。</span></div>
+<div><span style="font-size: 14pt; color: #b96ad9;">color_order: GRB</span></div>
+</blockquote>
 </div>
 <p>&nbsp;</p>
 <p><span style="font-size: 14pt;"><strong>klipper自带eddy涡流配置</strong></span></p>
-<pre class="language-python highlighter-hljs"><code>[probe_eddy_current eddy_probe]
-sensor_type: ldc1612
-i2c_address: 42
-i2c_mcu: toolhead
-frequency: 40000000
-i2c_speed: 400000
-intb_pin: toolhead:LDC_INTB
-i2c_software_scl_pin: toolhead:LDC_SCL
-i2c_software_sda_pin: toolhead:LDC_SDA
-x_offset: 0 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;#记得设置x偏移
-y_offset: -15 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;#记得设置y偏移
-z_offset: 3 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;#记得设置z偏移, 不可过低
-speed: 5 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; #探测速度
-samples: 3 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; #采样次数
-sample_retract_dist: 5.0 &nbsp; &nbsp; #采样时喷嘴抬升距离
-samples_tolerance: 0.05
-samples_tolerance_retries: 2
-
-
-[temperature_probe eddy_probe]
-sensor_type: Generic 3950
-sensor_pin: toolhead:T2
-horizontal_move_z: 3
-&nbsp;
-# 具体使用参考fly-eddy&nbsp; https://mellow.klipper.cn/docs/ProductDoc/ToolBoard/fly-sht36/sht36_v3/1612
-# eddy 快速Z调平
-[gcode_macro Z_TILT_ADJUST]
-rename_existing: _Z_TILT_ADJUST
-gcode:
-&nbsp; &nbsp; {% set PROBE_Z_OFFSET = printer.configfile.settings['probe_eddy_current eddy_probe'].z_offset|float %}
-&nbsp; &nbsp; # ========== State Save ==========
-&nbsp; &nbsp; SAVE_GCODE_STATE NAME=STATE_Z_TILT
-&nbsp; &nbsp;
-&nbsp; &nbsp; # ========== Environment Preparation ==========
-&nbsp; &nbsp; BED_MESH_CLEAR &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # Clear existing bed mesh data
-&nbsp; &nbsp;
-&nbsp; &nbsp; # ========== Main Leveling Process ==========
-&nbsp; &nbsp; {% if not printer.z_tilt.applied %}
-&nbsp; &nbsp; &nbsp; &nbsp; # Initial coarse adjustment
-&nbsp; &nbsp; &nbsp; &nbsp; _Z_TILT_ADJUST horizontal_move_z=10 retry_tolerance=1
-&nbsp; &nbsp; {% endif %}
-&nbsp; &nbsp;
-&nbsp; &nbsp; # Fine secondary leveling
-&nbsp; &nbsp; _Z_TILT_ADJUST horizontal_move_z={PROBE_Z_OFFSET} retry_tolerance=0.075 retries=20 METHOD=rapid_scan ADAPTIVE=1
-&nbsp; &nbsp; &nbsp; &nbsp; G0 Z10 F6000 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # Use standard G-code commands instead of HORIZONTAL_MOVE_Z
-
-
-&nbsp; &nbsp; # ========== Post-Processing ==========
-&nbsp; &nbsp; G90 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # Force absolute coordinate mode
-&nbsp; &nbsp; G0 Z10 F6000 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# Raise Z axis to safe height
-&nbsp; &nbsp; M117 Z_tilt Completed &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # Display completion status
-&nbsp; &nbsp; #G28 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # Return to origin
-&nbsp; &nbsp; # ========== State Restore ==========
-&nbsp; &nbsp; RESTORE_GCODE_STATE NAME=STATE_Z_TILT
-&nbsp; &nbsp; M400
-
-
-# eddy 快速网床扫床
-[gcode_macro BED_MESH_CALIBRATE]
-rename_existing: _BED_MESH_CALIBRATE
-gcode:
-&nbsp; &nbsp; {% set PROBE_Z_OFFSET = printer.configfile.settings['probe_eddy_current eddy_probe'].z_offset|float %}
-&nbsp; &nbsp; {% set TARGET_TEMP = printer.heater_bed.target %}
-&nbsp; &nbsp; M140 S0
-&nbsp; &nbsp; _BED_MESH_CALIBRATE horizontal_move_z={PROBE_Z_OFFSET} METHOD=rapid_scan {rawparams}
-&nbsp; &nbsp; M140 S{TARGET_TEMP}</code></pre>
+<blockquote>
+<div><span style="color: #236fa1; font-size: 14pt;">[probe_eddy_current eddy_probe]</span></div>
+<div><span style="color: #236fa1; font-size: 14pt;">sensor_type: ldc1612</span></div>
+<div><span style="color: #236fa1; font-size: 14pt;">i2c_address: 42</span></div>
+<div><span style="color: #236fa1; font-size: 14pt;">i2c_mcu: toolhead</span></div>
+<div><span style="color: #236fa1; font-size: 14pt;">frequency: 40000000</span></div>
+<div><span style="color: #236fa1; font-size: 14pt;">i2c_speed: 400000</span></div>
+<div><span style="color: #236fa1; font-size: 14pt;">intb_pin: toolhead:LDC_INTB</span></div>
+<div><span style="color: #236fa1; font-size: 14pt;">i2c_software_scl_pin: toolhead:LDC_SCL</span></div>
+<div><span style="color: #236fa1; font-size: 14pt;">i2c_software_sda_pin: toolhead:LDC_SDA</span></div>
+<div>
+<div>
+<div><span style="font-size: 14pt; color: #236fa1;">x_offset: 0 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;#记得设置x偏移</span></div>
+<div><span style="font-size: 14pt; color: #236fa1;">y_offset: -15 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;#记得设置y偏移</span></div>
+<div><span style="font-size: 14pt; color: #236fa1;">z_offset: 3 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;#记得设置z偏移, 不可过低</span></div>
+<div><span style="font-size: 14pt; color: #236fa1;">speed: 5 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; #探测速度</span></div>
+<div><span style="font-size: 14pt; color: #236fa1;">samples: 3 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; #采样次数</span></div>
+<div><span style="font-size: 14pt; color: #236fa1;">sample_retract_dist: 5.0 &nbsp; &nbsp; #采样时喷嘴抬升距离</span></div>
+<div><span style="font-size: 14pt; color: #236fa1;">samples_tolerance: 0.05</span></div>
+<div><span style="font-size: 14pt; color: #236fa1;">samples_tolerance_retries: 2</span></div>
+</div>
+</div>
+<br />
+<div><span style="color: #236fa1; font-size: 14pt;">[temperature_probe eddy_probe]</span></div>
+<div><span style="color: #236fa1; font-size: 14pt;">sensor_type: Generic 3950</span></div>
+<div><span style="color: #236fa1; font-size: 14pt;">sensor_pin: toolhead:T2</span></div>
+<div><span style="color: #236fa1; font-size: 14pt;">horizontal_move_z: 3</span></div>
+<div><span style="font-size: 14pt;">&nbsp;</span></div>
+<div><strong><span style="font-size: 14pt;"># 其他配置具体看我另外一个项目涡流线圈方面的配置</span></strong></div>
+</blockquote>
 <p>&nbsp;</p>
 <p><strong><span style="font-size: 18pt;">焊接完成验证:</span></strong></p>
 <p>&nbsp;</p>
 <blockquote>
-  <p><span style="color: #169179;"><span style="font-size: 14pt;">焊接完成之后先不要焊接插件端子, 先用usb转串口下载固件, </span></span></p>
-  <p><span style="color: #169179;"><span style="font-size: 14pt;">当然你也可以正反两面焊接完成后, 使用usb下载固件,</span></span></p>
-  <p><span style="color: #169179;"><span style="font-size: 14pt;">如果总是无法使用stm32cubeprograme总是无法连接上, 说明mcu焊接有问题,&nbsp;</span></span></p>
-  <p><span style="color: #169179;"><span style="font-size: 14pt;">这些芯片验证都不用接24V供电, 直接用5V供电即可</span></span></p>
-  <p><strong><span style="font-size: 14pt; color: #e03e2d;">1. ADXL345芯片</span></strong></p>
-  <p><span style="font-size: 14pt; color: #843fa1;">直接输入 <strong>ACCELEROMETER_QUERY </strong>命令 , 在控制台上会出现获取到的加速度数据, // accelerometer values (x, y, z):
-      9400.615463, 74.020594, -766.095498</span></p>
-  <p><strong><span style="font-size: 14pt; color: #e03e2d;">2. MAX31865芯片</span></strong></p>
-  <p><span style="font-size: 14pt; color: #843fa1;">准备一个pt100传感器,&nbsp; 添加pt100的配置,&nbsp; 出现pt100的温度值即可, 如果有问题, klipper会直接报错</span></p>
-  <p><strong><span style="font-size: 14pt; color: #e03e2d;">3.LDC1612芯片</span></strong></p>
-  <p><span style="font-size: 14pt; color: #843fa1;">接入线圈, 输入 <strong>LDC_CALIBRATE_DRIVE_CURRENT chip=eddy_probe</strong> 会返回: // probe_eddy_current eddy_probe:
-      reg_drive_current: 19</span></p>
-  <p><strong><span style="font-size: 14pt; color: #e03e2d;">4.TMC2226芯片</span></strong></p>
-  <p><span style="font-size: 14pt; color: #843fa1;">把挤出机[extruder]配置下的,&nbsp; 最小挤出温度设置为 min_temp: -200,不用接挤出机, 也不用24V供电 ,在页面上直接点挤出, 不报错即可</span></p>
-  <p><span style="color: #e03e2d;"><strong><span style="font-size: 14pt;">5.热端加热MOS</span></strong></span></p>
-  <p><span style="font-size: 14pt; color: #843fa1;">直接输入温度加热, 加热指示灯亮即可</span></p>
-  <p><span style="font-size: 14pt; color: #e03e2d;"><strong>6.WS2812B灯</strong></span></p>
-  <p><span style="font-size: 14pt; color: #843fa1;"><span style="font-size: 14pt;">添加相关配置, 直接在页面上设置颜色, 能亮就行</span></span></p>
+<p><span style="color: #169179;"><span style="font-size: 14pt;">焊接完成之后先不要焊接插件端子, 先用usb转串口下载固件, </span></span></p>
+<p><span style="color: #169179;"><span style="font-size: 14pt;">当然你也可以正反两面焊接完成后, 使用usb下载固件,</span></span></p>
+<p><span style="color: #169179;"><span style="font-size: 14pt;">如果总是无法使用stm32cubeprograme总是无法连接上, 说明mcu焊接有问题,&nbsp;</span></span></p>
+<p><span style="color: #e03e2d;"><span style="font-size: 14pt;">首先直接用5V供电验证即可, 这些芯片验证都不用接24V供电</span></span></p>
+<p><strong><span style="font-size: 14pt; color: #e03e2d;">1. ADXL345芯片, LIS2DW芯片</span></strong></p>
+<p><span style="font-size: 14pt; color: #843fa1;">直接输入 <strong>ACCELEROMETER_QUERY </strong>命令 , 在控制台上会出现获取到的加速度数据, // accelerometer values (x, y, z): 9400.615463, 74.020594, -766.095498</span></p>
+<p><strong><span style="font-size: 14pt; color: #e03e2d;">2. MAX31865芯片</span></strong></p>
+<p><span style="font-size: 14pt; color: #843fa1;">准备一个pt100传感器,&nbsp; 添加pt100的配置,&nbsp; 出现pt100的温度值即可, 如果有问题, klipper会直接报错</span></p>
+<p><strong><span style="font-size: 14pt; color: #e03e2d;">3.LDC1612芯片</span></strong></p>
+<p><span style="font-size: 14pt; color: #843fa1;">接入线圈, 输入 <strong>LDC_CALIBRATE_DRIVE_CURRENT chip=eddy_probe</strong> 会返回: // probe_eddy_current eddy_probe: reg_drive_current: 19</span></p>
+<p><strong><span style="font-size: 14pt; color: #e03e2d;">4.TMC2226芯片</span></strong></p>
+<p><span style="font-size: 14pt; color: #843fa1;">把挤出机[extruder]配置下的,&nbsp; 最小挤出温度设置为 min_temp: -200,不用接挤出机, 也不用24V供电 ,在页面上直接点挤出, 不报错即可</span></p>
+<p><span style="color: #e03e2d;"><strong><span style="font-size: 14pt;">5.热端加热MOS</span></strong></span></p>
+<p><span style="font-size: 14pt; color: #843fa1;">直接输入温度加热, 加热指示灯亮即可</span></p>
+<p><span style="font-size: 14pt; color: #e03e2d;"><strong>6.WS2812B灯</strong></span></p>
+<p><span style="font-size: 14pt; color: #843fa1;"><span style="font-size: 14pt;">添加相关配置, 直接在页面上设置颜色, 能亮就行</span></span></p>
 </blockquote>
 <p>&nbsp;</p>
 <p><strong><span style="font-size: 18pt;">LDC1612芯片报错问题:</span></strong></p>
-<p><span style="font-size: 12pt; color: #e03e2d;"><strong>这个是用klipper自带的涡流, 不是第三方插件, 感觉不是很完善, 刚开始搞不好可能会撞机</strong></span></p>
-<p><span style="font-size: 12pt; color: #e03e2d;"><strong>当然也可以用第三方插件, 如eddy-ng:&nbsp; <a title="eddy-ng" href="https://github.com/vvuk/eddy-ng" target="_blank"
-        rel="noopener">https://github.com/vvuk/eddy-ng</a> ,这个我还没用起来, 附件里编译的固件带有这个插件</strong></span></p>
 <blockquote>
-  <p><strong><span style="font-size: 14pt; color: #e03e2d;">1. Unable to obtain 'i2c_read_response' response</span></strong></p>
-  <p><span style="font-size: 14pt; color: #b96ad9;">发送命令LDC_CALIBRATE_DRIVE_CURRENT chip=eddy_probe 就报这个, 说明芯片虚焊</span></p>
-  <p><span style="color: #e03e2d;"><strong><span style="font-size: 14pt;">2.&nbsp;&nbsp;Failed calibration - incomplete sensor data</span></strong></span></p>
-  <p><span style="font-size: 14pt; color: #b96ad9;">上机测试时, 发送自动校准命令PROBE_EDDY_CURRENT_CALIBRATE CHIP=eddy_probe, 发现也能正常校准, 但是最后保存时提示这个问题, 也是芯片虚焊导致的</span></p>
-  <p><span style="color: #e03e2d;"><strong><span style="font-size: 14pt;">3. Failed calibration - frequency not increasing each step</span></strong></span></p>
-  <p><span style="font-size: 14pt; color: #b96ad9;">发送自动校准命令PROBE_EDDY_CURRENT_CALIBRATE CHIP=eddy_probe,&nbsp; 前边正常校准, 但是在最后保存配置时提示这个, 说明芯片焊接是没问题的,
-      是探测到的最前边几个数据有问题, 出现了距离越远频率越高的情况, 可能是热床太重导致距离喷嘴很近时发生了震动所致, 这种需要抬高喷嘴</span></p>
-  <p><span style="color: #e03e2d;"><strong><span style="font-size: 14pt;">4. &nbsp;Error during homing z: Eddy current sensor error</span></strong></span></p>
-  <p><span style="font-size: 14pt;"><strong>这个错误具体解决以及新版的涡流线圈看我另外一个涡流线圈项目: &nbsp;<a
-          href="https://oshwhub.com/cxg01/3d-da-yin-wo-liu-diao-ping">https://oshwhub.com/cxg01/3d-da-yin-wo-liu-diao-ping</a></strong></span></p>
+<p><span style="font-size: 14pt;"><strong>关于涡流方面的问题看我另外一个涡流线圈项目: &nbsp;<a href="https://oshwhub.com/cxg01/3d-da-yin-wo-liu-diao-ping">https://oshwhub.com/cxg01/3d-da-yin-wo-liu-diao-ping</a></strong></span></p>
 </blockquote>
 <p>&nbsp;</p>
-<p><img src="https://image.lceda.cn/oshwhub/pullImage/b9e06ddbf8b346a9a3fd1fee68e5a82c.png" alt="" height="449" width="800" /></p>
+<p><img src="https://image.lceda.cn/oshwhub/pullImage/be9cca46dd454e04b63a37eb0779abba.png" alt="" height="448" width="800" /></p>
 <p>&nbsp;</p>
 <p><img src="https://image.lceda.cn/oshwhub/pullImage/998fa0f7989b455e8512a077a17a4263.png" alt="" height="693" width="800" /></p>
 <p>&nbsp;</p>
@@ -217,7 +175,18 @@ gcode:
 <p>&nbsp;</p>
 <p><img src="https://image.lceda.cn/oshwhub/pullImage/d46d91d9bc184f239a41495cac5037a3.png" alt="" height="296" width="800" /></p>
 <p>&nbsp;</p>
+<p><span style="font-size: 14pt; color: #e03e2d;">-------------------------------- <strong>2026-03-23 小更新</strong> ---------------------------------------------------------</span></p>
+<p><span style="color: #843fa1;"><span style="font-size: 14pt;">去掉了板载ldc1612芯片, 用独立的涡流线圈代替性能更稳定,&nbsp; 空出原来接线圈的端子改为引出两个IO,<span style="color: #ba372a;"> <strong>PC0</strong></span>和<strong><span style="color: #ba372a;">PC1</span></strong>, 增加了IO数量, 所有引出的端子IO全部串联220欧姆电阻来保护IO</span></span></p>
+<p>&nbsp;</p>
+<p><span style="font-size: 14pt; color: #e03e2d;">-------------------------------- <strong>2026-04-20 小更新</strong> ---------------------------------------------------------</span></p>
+<p><span style="color: #843fa1;"><span style="font-size: 18.6667px;">还是无ldc1612, 使用<span style="font-size: 14pt;">独立的涡流线圈代替性能更稳定</span></span></span></p>
+<p><span style="color: #843fa1;"><span style="font-size: 18.6667px;">最近ADXL345加速度传感器价格太高了, 比mcu价格都高,&nbsp; 替换成了LIS2DW了, 对应引脚调整了下, SN74LV1T34DBVR-TP MOS驱动芯片价格也变高了不少, 可以采用其他的平替</span></span></p>
+<p><span style="color: #3598db;"><strong><span style="color: #843fa1;"><span style="font-size: 18.6667px;">lis2dw对应的引脚改动了下:</span></span></strong></span></p>
+<p><span style="color: #843fa1;"><span style="font-size: 18.6667px;"><span style="color: #236fa1; font-size: 14pt;"><strong>LIS_CS=PC8,LIS_MOSI=PC6,LIS_MISO=PC7,LIS_SCK=PC9, LIS_INT1=PC3, # LIS2DW版 软件spi接口</strong></span></span></span></p>
+<p><span style="color: #843fa1;"><span style="font-size: 18.6667px;"><img src="https://image.lceda.cn/oshwhub/pullImage/79f64c6b16e1405c8754128eca08c145.png" alt="" height="448" width="800" /></span></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #843fa1;"><span style="font-size: 18.6667px;"><img src="https://image.lceda.cn/oshwhub/pullImage/59880ccfef0f47a0a027429f46a6f795.jpg" alt="" height="600" width="800" /></span></span></p>
 <p>&nbsp;</p>
 <div>
-  <div>&nbsp;</div>
+<div>&nbsp;</div>
 </div>
