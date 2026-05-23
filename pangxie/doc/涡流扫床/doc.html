@@ -23,14 +23,14 @@
 <p><strong><span style="font-size: 16px;">最佳驱动电流受温度, 线圈谐振频率, 传感器安装高度等方面的影响, 在20mm处测量的最佳驱动频率不满足这些情况,&nbsp; 这个错误报告很灵敏, 振幅错误报告分为振幅高错误和振幅低错误, 而驱动电流的设置只能在1-31之间设置, 可调范围有限, 你很有可能安装的高度差那么一点点, 你就永远无法得到最佳驱动电流,不是高了就是低了, 因此就出现了你无论如何调整驱动电流, 始终会报这个错误的问题, 因此必须禁用这个错误报告.</span></strong></p>
 <p><strong><span style="font-size: 18px; color: #e03e2d;">5. DigitalFilter require the SciPy module</span></strong></p>
 <p><strong><span style="font-size: 16px;">启用tap模式需要安装<span style="font-size: 18px; color: #e03e2d;">SciPy<span style="color: #000000;">库, 最开始的版本需要安装, 后来不用安装了</span></span></span></strong></p>
-<p><strong><span style="font-size: 16px;"><span style="font-size: 18px; color: #e03e2d;"><span style="color: #000000;">安装命令: <code>~/klippy-env/bin/pip install scipy -i https://pypi.tuna.tsinghua.edu.cn/simple</code></span></span></span></strong></p>
+<p><strong><span style="font-size: 16px;"><span style="font-size: 18px; color: #e03e2d;"><span style="color: #000000;">安装命令: <span style="color: #843fa1;">~/klippy-env/bin/pip install scipy -i https://pypi.tuna.tsinghua.edu.cn/simple</span></span></span></span></strong></p>
 <p><span style="color: #e03e2d;"><strong><span style="font-size: 16px;"><span style="font-size: 18px;">6. MCU'mcu' I2C request to addr xxx reports error START_NACK</span></span></strong></span></p>
 <p><strong><span style="color: #e03e2d;"><span style="font-size: 16px;"><span style="font-size: 18px;">Invalid Idc1612 id (got 0,0 vs 5449,3055). This is generally indicative of connection problems (e.g. faulty wiring) or a faulty Idc1612 chip</span></span></span></strong></p>
 <p><span style="color: #000000;"><strong><span style="font-size: 16px;"><span style="font-size: 18px;">这些错误就是就是I2C通信不成功, 1.接线不行 2.使用的引脚IO上有电容二极管等 3.再就是芯片虚焊损坏等问题</span></span></strong></span></p>
 <p><span style="color: #e03e2d;"><strong><span style="font-size: 16px;"><span style="font-size: 18px;">7. 警告:&nbsp; Option'z_offset' in section 'probe_eddy_current eddy_probe' is deprecated</span></span></strong></span></p>
 <p><strong><span style="font-size: 18px;"><span style="color: #000000;">这个是klipper <span style="color: #ba372a; font-size: 18px;">2026-05-02</span>更新了涡流的代码, z_offset参数改成了</span>descend_z</span></strong></p>
 <p><strong><span style="color: #e03e2d; font-size: 18px;">8.警告: ldc1612 eddy_probe: Should set 'max_sensor_hz' to at least 6153869</span></strong></p>
-<p><strong><span style="font-size: 18px; color: #000000;">这个是klipper在2026-05-12 添加了最大频率参数, 默认5M, 我这个线圈频率超了, 需要改下, 在配置里添加 <code>max_sensor_hz: 7000000</code></span></strong></p>
+<p><strong><span style="font-size: 18px; color: #000000;">这个是klipper在2026-05-12 添加了最大频率参数, 默认5M, 我这个线圈频率超了, 需要改下, 在配置里添加 <span style="color: #843fa1;">max_sensor_hz: 7000000</span></span></strong></p>
 <p><strong><span style="font-size: 18px; color: #000000;"><span style="color: #e03e2d; font-size: 18px;">9. !! Failed calibration - No usable data</span></span></strong></p>
 <p><strong><span style="font-size: 18px;">校准时报这个, 说明没获取到数据, 接线问题, 焊接问题</span></strong></p>
 <p><strong style="color: #e03e2d;"><span style="font-size: 18px;">10. !! Error during homing stepper_z: Communication timeout during homing</span></strong></p>
@@ -42,7 +42,7 @@
 <div class="row flex-nowrap no-gutters" data-v-e87ad99a="">
 <div class="col col-auto align-self-center" data-v-e87ad99a=""><span style="color: #000000; font-size: 18px;"><strong>归位时报这个, 尤其是使用低主频的mcu如stmf072之类, 看看是不是 mcu占用率爆了, 最新的klipper 访问ldc1612速率从 250次/s 升到了 400次/s, 这种情况需要改代码, 把速率改低</strong></span></div>
 <div class="col col-auto align-self-center" data-v-e87ad99a=""><span style="color: #000000; font-size: 18px;"><strong><span style="color: #e03e2d;"><span style="font-size: 18px;">11. &nbsp;!! Unable to detect tap: insufficient slope delta (-36983.054918 vs 30633.703000)</span></span></strong></span></div>
-<div class="col col-auto align-self-center" data-v-e87ad99a=""><span style="color: #000000; font-size: 18px;"><span style="color: #000000; font-size: 18px;"><strong>说明tap模式下使用的阈值不对, 通过 <code>PROBE_ACCURACY METHOD=tap tap_threshold=40000</code> 手动去寻找tap_threshold的值&emsp;&emsp;</strong></span></span>
+<div class="col col-auto align-self-center" data-v-e87ad99a=""><span style="color: #000000; font-size: 18px;"><span style="color: #000000; font-size: 18px;"><strong>说明tap模式下使用的阈值不对, 通过 <span style="color: #843fa1;">PROBE_ACCURACY METHOD=tap tap_threshold=40000</span> 手动去寻找tap_threshold的值&emsp;&emsp;</strong></span></span>
 <div><span style="color: #000000; font-size: 18px;"><strong><span style="color: #e03e2d;"><span style="font-size: 18px;">12.&nbsp; !! Unable to detect tap: invalid depress distance (0.020411 vs 0.030000:0.250000)&nbsp;</span></span></strong></span></div>
 </div>
 <div class="col col-auto align-self-center" data-v-e87ad99a=""><strong><span style="color: #000000; font-size: 18px;">&nbsp;tap模式检测时, 下压距离不对, 不在0.03-0.25之间, 或许与热床刚性有关, 实在调不好的话, 改<span style="color: #843fa1;">klippy\extras\probe_eddy_current.py</span>下的这个报错, 把这个报错检测范围改大</span></strong></div>
@@ -84,11 +84,11 @@
 <p><strong><span style="font-size: 18px;"><span style="color: #e03e2d;">3. tap模式阈值校准命令 <span style="color: #e03e2d;">PROBE_EDDY_CURRENT_TAP_CALIBRATE TAP=xxx</span></span></span></strong></p>
 <p><strong><span style="font-size: 16px; color: #b96ad9;">2026-05-02&nbsp; klipper更新支持自动测量, 这个需要先注释掉, 使用命令去寻找</span></strong></p>
 <p><span style="font-size: 16px; color: #b96ad9;">①确认喷嘴和床面都是干净的。开启打印机，执行归零，将工具头移动到床面中心附近的位置，并确保喷嘴离床面 3~10 毫米。</span></p>
-<p><span style="font-size: 16px; color: #b96ad9;">②下一步是命令喷嘴与床面发生接触。这个过程始终存在一定风险，因此请准备好随时执行紧急停机（M112），以防探测下降动作在接触床面后仍然不停止。准备就绪后，执行以下命令：</span><span style="font-size: 16px; color: #b96ad9;"><code>PROBE_EDDY_CURRENT_TAP_CALIBRATE TAP=guess</code></span><span style="font-size: 16px; color: #b96ad9;">此命令会根据主探针校准过程中分析得到的数据，对&nbsp;<code>tap_threshold</code> 值做出一个初始粗略猜测，然后执行相应的&ldquo;轻触探测&rdquo;。理想情况下，上述命令会使探针下降直至碰到床面，然后抬起离开床面，并报告有效的探测结果。</span></p>
-<p class="ds-markdown-paragraph"><span style="font-size: 16px; color: #b96ad9;">③下一步是使用&ldquo;精炼后&rdquo;的阈值设置再次运行轻触探测。该工具会利用之前成功进行的一次轻触探测中收集的信息来确定这个改进后的阈值。确保喷嘴位于床面中心附近，离床面高度 3~10 毫米，做好紧急停机准备，然后执行以下命令：</span><span style="font-size: 16px; color: #b96ad9;"><code>PROBE_EDDY_CURRENT_TAP_CALIBRATE TAP=refine</code></span><span style="font-size: 16px; color: #b96ad9;">理想情况下，此命令也应成功；否则请参阅故障排查段落。如果尝试成功，则继续下一步。</span></p>
-<p class="ds-markdown-paragraph"><span style="font-size: 16px; color: #b96ad9;">④如果使用精炼阈值的探测成功，下一步的测试是验证该阈值在多次探测中的稳定性。确保喷嘴位于床面中心附近，离床面高度 3~10 毫米，做好紧急停机准备，然后执行以下命令：</span><span style="font-size: 16px; color: #b96ad9;"><code>PROBE_EDDY_CURRENT_TAP_CALIBRATE TAP=verify</code></span><span style="font-size: 16px; color: #b96ad9;">此命令会连续探测床面五次。理想情况下，上述命令也会成功；否则请参阅故障排查段落。如果尝试成功，则继续下一步。</span></p>
-<p class="ds-markdown-paragraph"><span style="font-size: 16px; color: #b96ad9;">⑤如果以上所有步骤都成功，可以执行&nbsp;<code>SAVE_CONFIG</code>&nbsp;命令，将&nbsp;<code>tap_threshold</code>&nbsp;参数保存到&nbsp;<code>printer.cfg</code>&nbsp;文件中。此时校准即告完成。</span></p>
-<p class="ds-markdown-paragraph"><strong><span style="font-size: 18px; color: #ba372a;">如果校准时, 报错阈值不对, 需要自己手动寻找, 就不要用这个自动的命令去找了, 使用 <span style="color: #000000; font-size: 18px;"><code>PROBE_ACCURACY METHOD=tap tap_threshold=40000</code>&nbsp;<span style="color: #ba372a;">手动寻找</span></span></span></strong></p>
+<p><span style="font-size: 16px; color: #b96ad9;">②下一步是命令喷嘴与床面发生接触。这个过程始终存在一定风险，因此请准备好随时执行紧急停机（M112），以防探测下降动作在接触床面后仍然不停止。准备就绪后，执行以下命令：</span><span style="font-size: 16px; color: #e67e23;">PROBE_EDDY_CURRENT_TAP_CALIBRATE TAP=guess</span><span style="font-size: 16px; color: #b96ad9;">此命令会根据主探针校准过程中分析得到的数据，对&nbsp;<span style="color: #e67e23;">tap_threshold</span> 值做出一个初始粗略猜测，然后执行相应的&ldquo;轻触探测&rdquo;。理想情况下，上述命令会使探针下降直至碰到床面，然后抬起离开床面，并报告有效的探测结果。</span></p>
+<p class="ds-markdown-paragraph"><span style="font-size: 16px; color: #b96ad9;">③下一步是使用&ldquo;精炼后&rdquo;的阈值设置再次运行轻触探测。该工具会利用之前成功进行的一次轻触探测中收集的信息来确定这个改进后的阈值。确保喷嘴位于床面中心附近，离床面高度 3~10 毫米，做好紧急停机准备，然后执行以下命令：</span><span style="font-size: 16px; color: #e67e23;">PROBE_EDDY_CURRENT_TAP_CALIBRATE TAP=refine</span><span style="font-size: 16px; color: #b96ad9;">理想情况下，此命令也应成功；否则请参阅故障排查段落。如果尝试成功，则继续下一步。</span></p>
+<p class="ds-markdown-paragraph"><span style="font-size: 16px; color: #b96ad9;">④如果使用精炼阈值的探测成功，下一步的测试是验证该阈值在多次探测中的稳定性。确保喷嘴位于床面中心附近，离床面高度 3~10 毫米，做好紧急停机准备，然后执行以下命令：</span><span style="font-size: 16px; color: #e67e23;">PROBE_EDDY_CURRENT_TAP_CALIBRATE TAP=verify</span><span style="font-size: 16px; color: #b96ad9;">此命令会连续探测床面五次。理想情况下，上述命令也会成功；否则请参阅故障排查段落。如果尝试成功，则继续下一步。</span></p>
+<p class="ds-markdown-paragraph"><span style="font-size: 16px; color: #b96ad9;">⑤如果以上所有步骤都成功，可以执行&nbsp;<span style="color: #e67e23;">SAVE_CONFIG</span>&nbsp;命令，将&nbsp;<span style="color: #e67e23;">tap_threshold</span>&nbsp;参数保存到&nbsp;<span style="color: #e67e23;">printer.cfg</span>&nbsp;文件中。此时校准即告完成。</span></p>
+<p class="ds-markdown-paragraph"><strong><span style="font-size: 18px; color: #ba372a;">如果校准时, 报错阈值不对, 需要自己手动寻找, 就不要用这个自动的命令去找了, 使用 <span style="color: #000000; font-size: 18px;"><span style="color: #843fa1;">PROBE_ACCURACY METHOD=tap tap_threshold=40000</span>&nbsp;<span style="color: #ba372a;">手动寻找</span></span></span></strong></p>
 <h4><span style="color: #000000;"><strong><span style="font-size: 18pt;">四. 关于温漂:</span></strong></span></h4>
 <p><strong><span style="font-size: 14pt; color: #e03e2d;">1.在不封箱的条件下, 温漂很低, 通常在0.04mm以下, 也不一定, 不好说</span></strong></p>
 <p><span style="font-size: 14pt;">z-offset=1mm, 热床温度从常温到100度, eddy线圈温度从常温到60度, 频率变化率为3Khz, 温漂造成的z偏移为0.02mm左右, 影响并不大, 可以用来Z限位</span></p>
@@ -111,8 +111,8 @@
 #samples_tolerance_retries: 3
 #tap_threshold: 0 # 0 means tap is disabled 2026-05-02 支持自动测量, 这个需要先注释掉</code></pre>
 <div class="tinymce-content_DoXK9" style="line-height: 1.1;">
-<p>就是设置&nbsp;<code>tap_threshold: 0</code>&nbsp;这个参数, 默认是0, 表示禁用tap功能, tap阈值要设置正确, 否则报错,&nbsp;最新的klipper版本不需要安装scipy库了, 更新了算法用不到了</p>
-<p><strong><span style="color: #843fa1; font-size: 18px;">tap_threshold数值以前是几十到几百, 现在klipper改了单位, 数值变大50倍</span></strong></p>
+<p>就是设置<strong><span style="color: #843fa1;">&nbsp;tap_threshold: 0&nbsp;</span></strong>这个参数, 默认是0, 表示禁用tap功能, tap阈值要设置正确, 否则报错,&nbsp;最新的klipper版本不需要安装scipy库了, 更新了算法用不到了</p>
+<p><strong><span style="color: #843fa1; font-size: 18px;">tap_threshold数值以前是几十到几百, 最近klipper改了阈值单位, 该数值变大50倍</span></strong></p>
 <p><span style="color: #e03e2d;"><strong>2026-05-02&nbsp; klipper更新支持自动测量, 这个需要先注释掉, 使用命令去寻找</strong></span></p>
 <p><strong><span style="color: #e03e2d; font-size: 14px;">tap阈值自动寻找, 依次输入这三个命令: </span></strong></p>
 <p><strong><span style="color: #e03e2d; font-size: 14px;">1.tap阈值粗略校准 PROBE_EDDY_CURRENT_TAP_CALIBRATE TAP=guess</span></strong></p>
@@ -124,7 +124,7 @@
 <p>&nbsp;</p>
 <p><strong><span style="color: #ba372a; font-size: 18px;">把下面的代码添加你的配置文件中, 添加到一个单独文件中, 方便管理</span></strong></p>
 <p><strong><span style="color: #ba372a; font-size: 18px;">2026-03-25以后klipper更新的配置参考, klipper更新了tap模式的算法, 添加了参数descend_z和tap_z_offset, 2026-05-02支持自动tap阈值测量</span></strong></p>
-<p><span style="color: #ba372a;"><strong><span style="font-size: 18px;"><span style="font-size: 18px;">2026-05-12添加max_sensor_hz参数, 设置最大频率值, 起到一个保护的作用, 默认5M, 我这个线圈频率超过了5M, 需要指定下最高值</span></span></strong></span></p>
+<p><span style="color: #ba372a;"><strong><span style="font-size: 18px;"><span style="font-size: 18px;">2026-05-12添加max_sensor_hz参数, 设置最大频率值, 起到一个保护的作用, 默认5M, 我这个线圈频率超过了5M, 需要指定下频率最大值</span></span></strong></span></p>
 </div>
 <pre class="language-python highlighter-hljs"><code># 先改klippy/extras/ldc1612.py 代码, 把 self.set_reg(REG_ERROR_CONFIG, (0x1f &lt;&lt; 11) | 1) 把0x1f改成0x1c, 把SETTLETIME=0.005改为 0.0002
 # 校准驱动电流: LDC_CALIBRATE_DRIVE_CURRENT CHIP=eddy_probe
