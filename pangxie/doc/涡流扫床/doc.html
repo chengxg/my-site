@@ -47,7 +47,7 @@
 </div>
 <div class="col col-auto align-self-center" data-v-e87ad99a=""><strong><span style="color: #000000; font-size: 18px;">&nbsp;tap模式检测时, 下压距离不对, 不在0.03-0.25之间, 或许与热床刚性有关, 实在调不好的话, 改<span style="color: #843fa1;">klippy\extras\probe_eddy_current.py</span>下的这个报错, 把这个报错检测范围改大</span></strong></div>
 <div class="col col-auto align-self-center" data-v-e87ad99a=""><strong><span style="color: #000000; font-size: 18px;"><span style="color: #e03e2d;"><span style="font-size: 18px;">13.&nbsp; !! Eddy: CLKIN frequency too low: 0.001 &lt; 0.002</span></span></span></strong></div>
-<div class="col col-auto align-self-center" data-v-e87ad99a=""><strong><span style="font-size: 18px;">说明i2c通信不稳定, 数据点获取的时间间隔不稳定</span></strong></div>
+<div class="col col-auto align-self-center" data-v-e87ad99a=""><strong><span style="font-size: 18px;">说明i2c通信不稳定, 数据点获取的时间间隔不稳定, 看usb或者can通信丢包是不是严重, 看探测时mcu占用率是不是爆了</span></strong></div>
 <div class="col col-auto align-self-center" data-v-e87ad99a="">&nbsp;</div>
 </div>
 </div>
@@ -75,7 +75,7 @@
 <p><strong><span style="font-size: 14pt; color: #e03e2d;">1.驱动电流校准命令&nbsp; LDC_CALIBRATE_DRIVE_CURRENT CHIP=eddy_probe</span></strong></p>
 <p><span style="font-size: 14pt; color: #843fa1;">这个校准驱动电流校准<strong>不要</strong>在离热床20mm处校准, <strong>而要</strong>在喷嘴接近热床的位置校准, 高度2mm左右, <strong>不用很准, </strong>因为已经禁用了振幅错误报告</span></p>
 <p><strong><span style="font-size: 14pt; color: #e03e2d;">2.eddy频率高度校准命令 PROBE_EDDY_CURRENT_CALIBRATE CHIP=eddy_probe</span></strong></p>
-<p><span style="font-size: 14pt; color: #e03e2d;"><span style="color: #b96ad9;">①在校准之前, 先<span style="font-size: 14pt;">要手动调平热床, 热床<span style="font-size: 14pt; color: #e03e2d;"><span style="color: #b96ad9;">不能</span></span>歪的厉害;</span></span></span></p>
+<p><span style="font-size: 14pt; color: #e03e2d;"><span style="color: #b96ad9;">①在校准之前, 先<span style="font-size: 14pt;">要手动调平热床, 热床<span style="font-size: 14pt; color: #e03e2d;"><span style="color: #b96ad9;">不能</span></span>歪的厉害, 先归位XY, Z可以使用下面步骤3设置一个位置</span></span></span></p>
 <p><span style="font-size: 14pt; color: #843fa1;">②如果你打算使用这个涡流来做<strong>虚拟Z限位</strong>, 那么首先要加热热床到80度, 喷嘴温度在150度, 保持喷嘴清洁;</span></p>
 <p><span style="font-size: 14pt; color: #843fa1;">③如果你当前没有没有Z限位, 那么你要先使用这个命令来设置一个当前的Z位置,&nbsp; <span style="color: #e03e2d;"><strong>SET_KINEMATIC_POSITION Z=填写最大Z高度 </strong></span>, </span><span style="font-size: 14pt; color: #843fa1;">这样就不用Z归位了</span></p>
 <p><span style="font-size: 14pt; color: #843fa1;">④然后执行 <strong><span style="color: #e03e2d;">LDC_CALIBRATE_DRIVE_CURRENT CHIP=eddy_probe</span></strong> 命令, 然后klipper进入手动probe的页面, 在页面手动控制Z轴移动到喷嘴跟热床接近的地方</span></p>
@@ -148,12 +148,12 @@ enable_force_move: true
 [probe_eddy_current eddy_probe]
 sensor_type: ldc1612
 i2c_address: 42
-i2c_mcu: toolhead
 frequency: 40000000
 i2c_speed: 400000
+i2c_mcu: toolhead     # 改成自己的mcu名字, 如果接到主板上这里填: mcu, 接到其他mcu上填写对应的名字
 # i2c_bus: i2c1
-i2c_software_scl_pin: toolhead:SCL1
-i2c_software_sda_pin: toolhead:SDA1
+i2c_software_scl_pin: toolhead:SCL1  # 软件i2c, 改成自己的引脚
+i2c_software_sda_pin: toolhead:SDA1  # 软件i2c, 改成自己的引脚
 # reg_drive_current: 25      #驱动电流, 直接写死不用校准, 改klippy/extras/ldc1612.py代码, 1: SETTLETIME = 0.0002 2: self.set_reg(REG_ERROR_CONFIG, (0x1c &lt;&lt; 11) | 1)
 x_offset: 0                  #记得设置x偏移
 y_offset: 20                 #记得设置y偏移
@@ -298,6 +298,7 @@ gcode:
 <p><strong><span style="color: #ba372a; font-size: 18px;">tap模式使用参考, 使用 <span style="color: #843fa1;">SET_Z_FROM_PROBE METHOD=tap</span> 命令, 使用前务必确保喷嘴干净, 最好加入磨嘴</span></strong></p>
 <p><strong><span style="color: #ba372a; font-size: 18px;">这个命令多次运行, 打印出来的probe_Z是负的, set_Z是3-4mm左右, 看set_Z的一致性来判断稳定性</span></strong></p>
 <p><strong><span style="color: #ba372a; font-size: 18px;">第一次调试执行这个命令后, 要垫A4纸, 设置Z=0, 微调Z偏移, 试试纸张的摩擦力, 再实际打印</span></strong></p>
+<p><strong><span style="color: #ba372a; font-size: 18px;">在mainsail中可能没有选择保存到endstop, 自己手动复制过去</span></strong></p>
 <p><strong><span style="color: #ba372a; font-size: 18px;"><img src="//image.lceda.cn/pullimage/q05luqZ96xJzMaOLeiunDcUcWTmwqoJJeJHUWrnb.png" alt="" height="320" width="800" /></span></strong></p>
 <p><strong><span style="color: #ba372a; font-size: 18px;"><img src="//image.lceda.cn/pullimage/EoXRJjmwpXOpGPxjeM1krN5Cm1TNJWVyYCaDlKJl.png" alt="" height="263" width="800" /></span></strong></p>
 <p><span style="color: #843fa1;"><strong><span style="font-size: 18px;">下面是实际使用方法参考的配置</span></strong></span></p>
