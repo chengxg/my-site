@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>3D Printed Eddy-Current Leveling Coil — Beginner Tutorial | Renquan Zhizi Open Source</title>
+<meta name="description" content="Beginner tutorial for the eddy-current leveling coil: step-by-step configuration file changes for the Little Crab bed scanning coil.">
+<link rel="icon" type="image/png" href="../../../assets/logo.png">
+<link rel="canonical" href="https://demo.chengxg.top/pangxie/en/articles/eddy-coil-simple/">
+<link rel="alternate" hreflang="zh" href="https://demo.chengxg.top/pangxie/articles/eddy-coil-simple/">
+<link rel="alternate" hreflang="en" href="https://demo.chengxg.top/pangxie/en/articles/eddy-coil-simple/">
+<link rel="alternate" hreflang="x-default" href="https://demo.chengxg.top/pangxie/articles/eddy-coil-simple/">
+<meta property="og:title" content="3D Printed Eddy-Current Leveling Coil — Beginner Tutorial | Renquan Zhizi Open Source">
+<meta property="og:description" content="Beginner tutorial for the eddy-current leveling coil: step-by-step configuration file changes for the Little Crab bed scanning coil.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://demo.chengxg.top/pangxie/en/articles/eddy-coil-simple/">
+<meta property="og:image" content="https://image.lceda.cn/pullimage/eWbm29HATI0A0czbDgBjarTNoBoz36E6GnmGguSv.png">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="zh_CN">
+<meta property="og:site_name" content="Renquan Zhizi Open Source">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="../../../assets/style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "3D Printed Eddy-Current Leveling Coil — Beginner Tutorial",
+  "description": "Beginner tutorial for the eddy-current leveling coil: step-by-step configuration file changes for the Little Crab bed scanning coil.",
+  "author": {
+    "@type": "Person",
+    "name": "仁泉之子"
+  },
+  "datePublished": "2026-09-14",
+  "dateModified": "2026-09-14",
+  "image": "https://image.lceda.cn/pullimage/eWbm29HATI0A0czbDgBjarTNoBoz36E6GnmGguSv.png",
+  "inLanguage": "en",
+  "mainEntityOfPage": "https://demo.chengxg.top/pangxie/en/articles/eddy-coil-simple/"
+}
+</script>
+</head>
+<body>
+<div class="page">
+<nav class="navbar">
+  <div class="nav-container">
+    <a href="../../" class="logo">
+      <img src="../../../assets/logo.png" alt="Logo" class="logo-image">
+      Renquan Zhizi Open Source
+    </a>
+    <div class="nav-links">
+      <a href="../../" class="nav-link">Home</a>
+      <a href="../../../articles/eddy-coil-simple/" class="nav-link lang-switch" title="切换到中文" hreflang="zh">中文</a>
+    </div>
+  </div>
+</nav>
+<main class="main-content">
+  <div class="article-detail">
+    <div class="article-content">
+      <div class="article-header">
+        <div class="article-meta">
+          <span class="category">3D Printing</span>
+          <span class="date">2026-09-14</span>
+        </div>
+        <h1>3D Printed Eddy-Current Leveling Coil — Beginner Tutorial</h1>
+        <div class="article-author">
+          <span>Author: 仁泉之子</span>
+        </div>
+      </div>
+
+      <div class="article-body">
+<h1 style="text-align: center;"><strong>Little Crab Eddy-Current Leveling — Beginner Tutorial</strong></h1>
+<p>&nbsp;</p>
+<p><span style="font-size: 14pt;"><strong><span style="color: #ba372a;">Leveling uses I2C communication, so the wiring must not be too long. Use pins wired
+        directly to the MCU — endstop / thermistor / fan pins cannot be used. The coil can be connected to SPI / I2C / UART pins or some spare stepper-driver
+        pins.</span></strong></span></p>
+<p><span style="font-size: 14pt;"><strong><span style="color: #ba372a;">Coil mounting height: the underside of the coil should be about 2 mm from the
+        nozzle.</span></strong></span></p>
+<p>&nbsp;</p>
+<h1><strong>1. Modify the code</strong></h1>
+<p><img src="https://image.lceda.cn/pullimage/eWbm29HATI0A0czbDgBjarTNoBoz36E6GnmGguSv.png" alt="" height="444" width="800" /></p>
+<h1><strong>2. Add the configuration</strong></h1>
+<p><img src="https://image.lceda.cn/pullimage/EZ4CmFvwP6s2MrfIhkZpkmQLi1317id5PeobH5ri.png" alt="" height="430" width="800" /></p>
+<p><img src="https://image.lceda.cn/pullimage/dlepqFnmfoaeklVUBAFPISe9mmnmXSOLCWkWXF5O.png" alt="" height="1009" width="800" /></p>
+<h1><strong>3. Modify the <span style="font-family: Roboto, sans-serif; font-size: 18pt; white-space: nowrap;">printer.cfg</span> configuration</strong></h1>
+<p><img src="https://image.lceda.cn/pullimage/yIQAUkUfrx0epHP3DphyezmTfnKAlbNgHmcU7O76.png" alt="" height="488" width="800" /></p>
+<p><img src="https://image.lceda.cn/pullimage/zQZhD5AnPlS0Rr6pJc7Ksj55DITIMTLWHdJmfAXg.png" alt="" height="502" width="800" /></p>
+<p>&nbsp;</p>
+<p><img src="https://image.lceda.cn/pullimage/mq7Rt9i12W7ra9lds4lwokgRDnZZD3qBr0SCXXJa.png" alt="" height="644" width="800" /></p>
+<p>&nbsp;</p>
+<p><img src="https://image.lceda.cn/pullimage/JnSiZXHue3EKmIneRkWdmIoP8vVemmOGZ0qjAjEe.png" alt="" height="369" width="800" /></p>
+<p>&nbsp;</p>
+<p><img src="https://image.lceda.cn/pullimage/dLEIsfOkGt0nPg4dYVwZqvbDEOGXGHJN9zbkbupP.png" alt="" height="759" width="800" /></p>
+<h1><strong>4. Modify the <span style="font-family: Roboto, sans-serif; font-size: 20px; white-space: nowrap;">printer_probe_eddy.cfg</span>
+    configuration</strong></h1>
+<p><img src="https://image.lceda.cn/pullimage/FS9uchhpSGke6c7Z3AEHCkxs5nJUDl018c0LF6Ao.png" alt="" height="547" width="800" /></p>
+<p><img src="https://image.lceda.cn/pullimage/7Y2Pv8sw3OzYwdSC3f1Wr97HSrZ6A9g2dxp2V1C6.png" alt="" height="523" width="800" /></p>
+<p><img src="https://image.lceda.cn/pullimage/jzAvZhB8pndQeb5gfqpSwsf6sFI6AsXGcmCZdOjy.png" alt="" height="454" width="800" /></p>
+<p><img src="https://image.lceda.cn/pullimage/eklZ0JIX0wsD8DmIRSp1QF9TVyTie7uuJMLsaJm9.png" alt="" height="517" width="800" /></p>
+<h1><strong>5. Some error messages — check whether MCU performance and communication are working normally</strong></h1>
+<p><img src="https://image.lceda.cn/pullimage/OCcmTPZTFfNeOE2dEjWCfMGaQUZ5wLmD0uYJLDIS.png" alt="" height="556" width="800" /></p>
+<p><img src="https://image.lceda.cn/pullimage/kKxS69oJlm31gsetxrUZk9zUPgw1ATyJty9VcAXX.png" alt="" height="435" width="800" /></p>
+      </div>
+
+      <div class="article-footer">
+        <a href="../../" class="btn-back">Back to Home</a>
+      </div>
+    </div>
+  </div>
+</main>
+<footer class="footer">
+  <p>© 2026 Renquan Zhizi. All rights reserved.</p>
+</footer>
+</div>
+</body>
+</html>

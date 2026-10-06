@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>3D Printed Eddy-Current Leveling Coil — Little Crab Bed Scanning Coil | Renquan Zhizi Open Source</title>
+<meta name="description" content="3D-printed eddy-current leveling coil (Little Crab bed scanning coil): native Klipper support, I2C communication, an IDM-like scanning solution. Includes BOM and Klipper eddy probe docs.">
+<link rel="icon" type="image/png" href="../../../assets/logo.png">
+<link rel="canonical" href="https://demo.chengxg.top/pangxie/en/articles/eddy-coil/">
+<link rel="alternate" hreflang="zh" href="https://demo.chengxg.top/pangxie/articles/eddy-coil/">
+<link rel="alternate" hreflang="en" href="https://demo.chengxg.top/pangxie/en/articles/eddy-coil/">
+<link rel="alternate" hreflang="x-default" href="https://demo.chengxg.top/pangxie/articles/eddy-coil/">
+<meta property="og:title" content="3D Printed Eddy-Current Leveling Coil — Little Crab Bed Scanning Coil | Renquan Zhizi Open Source">
+<meta property="og:description" content="3D-printed eddy-current leveling coil (Little Crab bed scanning coil): native Klipper support, I2C communication, an IDM-like scanning solution. Includes BOM and Klipper eddy probe docs.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://demo.chengxg.top/pangxie/en/articles/eddy-coil/">
+<meta property="og:image" content="https://image.lceda.cn/oshwhub/pullImage/805e1b56b7084d5bb3254237574abbdd.jpg">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="zh_CN">
+<meta property="og:site_name" content="Renquan Zhizi Open Source">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="../../../assets/style.css">
+<script defer src="../../../assets/cm-loader.js"></script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "3D Printed Eddy-Current Leveling Coil — Little Crab Bed Scanning Coil",
+  "description": "3D-printed eddy-current leveling coil (Little Crab bed scanning coil): native Klipper support, I2C communication, an IDM-like scanning solution. Includes BOM and Klipper eddy probe docs.",
+  "author": {
+    "@type": "Person",
+    "name": "仁泉之子"
+  },
+  "datePublished": "2026-09-14",
+  "dateModified": "2026-09-14",
+  "image": "https://image.lceda.cn/oshwhub/pullImage/805e1b56b7084d5bb3254237574abbdd.jpg",
+  "inLanguage": "en",
+  "mainEntityOfPage": "https://demo.chengxg.top/pangxie/en/articles/eddy-coil/"
+}
+</script>
+</head>
+<body>
+<div class="page">
+<nav class="navbar">
+  <div class="nav-container">
+    <a href="../../" class="logo">
+      <img src="../../../assets/logo.png" alt="Logo" class="logo-image">
+      Renquan Zhizi Open Source
+    </a>
+    <div class="nav-links">
+      <a href="../../" class="nav-link">Home</a>
+      <a href="../../../articles/eddy-coil/" class="nav-link lang-switch" title="切换到中文" hreflang="zh">中文</a>
+    </div>
+  </div>
+</nav>
+<main class="main-content">
+  <div class="article-detail">
+    <div class="article-content">
+      <div class="article-header">
+        <div class="article-meta">
+          <span class="category">3D Printing</span>
+          <span class="date">2026-09-14</span>
+        </div>
+        <h1>3D Printed Eddy-Current Leveling Coil — Little Crab Bed Scanning Coil</h1>
+        <div class="article-author">
+          <span>Author: 仁泉之子</span>
+        </div>
+      </div>
+
+      <div class="article-body">
+<div style="line-height: 2;">
+  <div style="line-height: 2;"><span style="font-size: 14pt;"><strong>1. 3D-printer eddy-current leveling — contactless bed scanning that is fast and precise, a
+        leveling method that is not to be missed;</strong></span></div>
+  <div style="line-height: 2;"><span style="font-size: 14pt;"><strong>2. This project aims to implement bed scanning with Klipper's built-in eddy driver. It
+        only needs <span style="color: #e03e2d;">I2C</span> communication — even boards without hardware I2C can use any two IOs for software I2C. Make sure the
+        I2C pins have no capacitors, diodes, or large series resistors attached. No <span style="color: #e03e2d;">CAN</span> or <span
+          style="color: #e03e2d;">USB</span> communication needed, wiring is simplified, any toolhead works, and the firmware upgrades together with your
+        Klipper version;</strong></span></div>
+  <div style="line-height: 2;"><span style="font-size: 14pt;"><strong>3. The board comes in a coil-only version and a coil with an onboard <span
+          style="color: #e03e2d;">LDC1612</span>. The coil-only version is for toolheads with an integrated <span style="color: #e03e2d;">LDC1612</span> chip
+        (the STM32F446 Little Crab toolhead); the version with the integrated <span style="color: #e03e2d;">LDC1612</span> works with any toolhead. Keep the
+        coil-only wiring short;</strong></span></div>
+  <div style="line-height: 2;"><span style="font-size: 14pt;"><strong>4. The version with the <span style="color: #e03e2d;">LDC1612</span> also integrates an
+        <span style="color: #e03e2d;">LIS2DW</span> accelerometer and an <span style="color: #e03e2d;">AHT20</span> temperature sensor — all three chips share
+        the I2C bus, minimizing wiring. The board costs only about 10 RMB to build. With the accelerometer on the coil close to the nozzle, resonance
+        compensation works well. <span style="color: #000000;">Note that the <span style="color: #e03e2d;">AHT20</span> requires upgrading to the latest Klipper
+          version.</span></strong></span></div>
+  <div style="line-height: 2;"><span style="font-size: 14pt;"><strong>5. The coil's resonant frequency is around 5.6 MHz — a high coil frequency, using a 40 MHz
+        active crystal oscillator. Measured with the coil 2 mm above the nozzle, the frequency change over 0-4 mm after Klipper calibration exceeds 400 kHz; the
+        maximum probing distance is over 7 mm — it can even scan the bed through a textured build plate. Distance noise is down to 0.1 µm. At a z-offset of 1
+        mm, the frequency change is over 6 kHz per 0.04 mm — extremely sensitive. The coil mounting height is about 2 mm above the nozzle;</strong></span></div>
+  <p><strong><span style="font-size: 14pt;">6. Bed-scanning video guide: see Bilibili — <a title="3D打印涡流线圈调平开源及Eddy current sensor error问题解决"
+          href="https://www.bilibili.com/video/BV14oqVBGERA/?spm_id_from=333.1387.homepage.video_card.click&amp;vd_source=80c1c161f08d9d188b6befe8e1a3d23a"
+          target="_blank" rel="noopener">3D printed eddy coil leveling open-source release and solving the "Eddy current sensor error" problem</a>. I named this
+        coil the Little Crab bed-scanning coil; I have produced a batch of them — purchases welcome;</span></strong></p>
+  <p><strong><span style="font-size: 14pt;">7. Klipper's eddy driver was upgraded in <span style="color: #e03e2d;">January 2026</span> to support the tap
+        function, similar to IDM's touch mode — no AHT20 temperature sensor needed, no temperature calibration, automatic Z offset. As of <span
+          style="color: #e03e2d;">2026-05-02</span> automatic tap-threshold measurement is supported. Tap introduction video: &nbsp;<a
+          href="https://www.bilibili.com/video/BV1QpAzzDEgy/?spm_id_from=333.1387.homepage.video_card.click&amp;vd_source=80c1c161f08d9d188b6befe8e1a3d23a">Introduction
+          to Klipper's built-in eddy leveling tap mode</a> (the video predates the update but the steps are about the same)</span></strong></p>
+  <p><span style="font-size: 18px;"><strong>8. Temperature drift refers to drift during contactless homing. Over the full temperature range drift is about 0.2
+        mm. With tap-mode nozzle endstopping you don't need to worry about drift — tap is algorithm-based: as the nozzle approaches the bed the frequency keeps
+        rising; once the nozzle touches the bed, the frequency growth slows and finally stops. The algorithm finds the inflection point where the frequency
+        growth changes — that's where the nozzle touched the bed.</strong></span></p>
+  <p><span style="font-size: 18px;"><strong>9. Questions? Join the QQ group: 1057494383. Latest tutorial at: &nbsp;<a
+          href="https://demo.chengxg.top/pangxie/#/articles/eddy_coil">https://demo.chengxg.top/pangxie/#/articles/eddy_coil&nbsp;</a></strong></span></p>
+</div>
+<p>&nbsp;</p>
+<h3><span style="font-size: 18pt;"><strong>I. Error message roundup:</strong></span></h3>
+<p><span style="font-size: 14pt; color: #e03e2d;"><strong>1. Unable to obtain 'i2c_read_response' response</strong></span></p>
+<p><strong><span style="font-size: 12pt;">If this appears when you send LDC_CALIBRATE_DRIVE_CURRENT chip=eddy_probe, the chip has a cold solder joint, or the
+      I2C pins are simply configured wrong.</span></strong></p>
+<p><span style="font-size: 14pt; color: #e03e2d;"><strong>2.&nbsp;&nbsp;Failed calibration - incomplete sensor data</strong></span></p>
+<p><strong><span style="font-size: 12pt;">During machine testing, sending PROBE_EDDY_CURRENT_CALIBRATE CHIP=eddy_probe seems to calibrate fine, but this message
+      appears when saving — also caused by a cold solder joint.</span></strong></p>
+<p><strong><span style="font-size: 12pt;">A likely cause is a cold solder joint on the intb_pin, or that pin being misconfigured. This standalone coil does not
+      need the intb_pin configured.</span></strong></p>
+<p><span style="font-size: 14pt; color: #e03e2d;"><strong>3. Failed calibration - frequency not increasing each step</strong></span></p>
+<p><strong><span style="font-size: 12pt;">Sending PROBE_EDDY_CURRENT_CALIBRATE CHIP=eddy_probe calibrates normally at first but this appears when saving. The
+      soldering is fine — the problem is with the first few data points probed: frequency increases with distance. Possibly the heavy bed causes vibration when
+      the nozzle is very close. Raise the nozzle to avoid vibrating against the bed at close range.</span></strong></p>
+<p><span style="font-size: 14pt; color: #e03e2d;"><strong>4. &nbsp;Error during homing z: Eddy current sensor error</strong></span></p>
+<p><strong><span style="font-size: 16px;">This one deserves a detailed explanation. The main cause is the LDC1612's amplitude error report: the drive current is
+      calibrated at 20 mm above the bed, but the LDC1612's optimal coil amplitude is between 1.2V and 1.8V — that optimal drive current only holds at that
+      height and temperature. When the height drops to around 2 mm, the drive current no longer applies and triggers the LDC1612 amplitude error report. Klipper
+      has this error report enabled, so the moment an amplitude error occurs the LDC1612 reports it — that's why this error keeps appearing. We measure
+      frequency; the amplitude doesn't need to be in the optimal range. So directly modify the Klipper code — change the LDC1612 register configuration to
+      disable this error report.</span></strong></p>
+<p><strong><span style="font-size: 16px;">The optimal drive current is affected by temperature, coil resonant frequency, sensor mounting height, and more. The
+      optimal drive frequency measured at 20 mm doesn't cover these situations. This error report is very sensitive, and amplitude errors come in two flavors —
+      amplitude-high and amplitude-low — while the drive current can only be set between 1 and 31, a limited range. It's very likely your mounting height is off
+      by just a hair and you can never reach the optimal drive current — always too high or too low. That's why no matter how you adjust the drive current, this
+      error keeps appearing. The error report must be disabled.</span></strong></p>
+<p><strong><span style="font-size: 18px; color: #e03e2d;">5. DigitalFilter require the SciPy module</span></strong></p>
+<p><strong><span style="font-size: 16px;">Enabling tap mode required installing the <span style="font-size: 18px; color: #e03e2d;">SciPy<span
+          style="color: #000000;"> library in early versions; later versions no longer need it.</span></span></span></strong></p>
+<p><strong><span style="font-size: 16px;"><span style="font-size: 18px; color: #e03e2d;"><span style="color: #000000;">Install command: <span
+            style="color: #843fa1;">~/klippy-env/bin/pip install scipy -i https://pypi.tuna.tsinghua.edu.cn/simple</span></span></span></span></strong></p>
+<p><span style="color: #e03e2d;"><strong><span style="font-size: 16px;"><span style="font-size: 18px;">6. MCU'mcu' I2C request to addr 42 reports error
+          START_NACK</span></span></strong></span></p>
+<p><strong><span style="color: #e03e2d;"><strong><span style="font-size: 16px;"><span style="font-size: 18px;">Invalid Idc1612 id (got 0,0 vs 5449,3055). This
+            is generally indicative of connection problems (e.g. faulty wiring) or a faulty Idc1612 chip</span></span></strong></strong></span></p>
+<p><span style="color: #000000;"><strong><span style="font-size: 16px;"><span style="font-size: 18px;">These errors mean I2C communication failed: 1. bad wiring
+          2. capacitors/diodes on the IO pins used 3. cold solder joints or a damaged chip.</span></span></strong></span></p>
+<p><span style="color: #e03e2d;"><strong><span style="font-size: 16px;"><span style="font-size: 18px;">7. Warning: Option'z_offset' in section
+          'probe_eddy_current eddy_probe' is deprecated</span></span></strong></span></p>
+<p><strong><span style="font-size: 18px;"><span style="color: #000000;">Klipper's eddy code was updated on <span
+          style="color: #ba372a; font-size: 18px;">2026-05-02</span> and the z_offset parameter was renamed</span>descend_z</span></strong></p>
+<p><strong><span style="color: #e03e2d; font-size: 18px;">8. Warning: ldc1612 eddy_probe: Should set 'max_sensor_hz' to at least 6153869</span></strong></p>
+<p><strong><span style="font-size: 18px; color: #000000;">Klipper added the max-frequency parameter on 2026-05-12 with a default of 5M. My coil's frequency
+      exceeds that, so add <span style="color: #843fa1;">max_sensor_hz: 7000000</span> to the configuration.</span></strong></p>
+<p><strong><span style="font-size: 18px; color: #000000;"><span style="color: #e03e2d; font-size: 18px;">9. !! Failed calibration - No usable
+        data</span></span></strong></p>
+<p><strong><span style="font-size: 18px;">If this appears during calibration, no data was obtained — most likely a wiring or soldering problem.</span></strong>
+</p>
+<p><strong style="color: #e03e2d;"><span style="font-size: 18px;">10. !! Error during homing stepper_z: Communication timeout during homing</span></strong></p>
+<div class="row" data-v-a74ea68c="" data-v-b92dbf60="">
+  <div class="col-md-6 col-lg-6 col-12" data-v-a74ea68c="">
+    <div class="app-draggable list-group" data-v-a74ea68c="">
+      <div class="mb-2 mb-md-4 v-card v-sheet theme--dark rounded-md collapsable-card" data-v-e87ad99a="" data-v-46100488="" data-v-a74ea68c="">
+        <div class="v-card__title collapsable-card-title card-heading" data-v-e87ad99a="">
+          <div class="row flex-nowrap no-gutters" data-v-e87ad99a="">
+            <div class="col col-auto align-self-center" data-v-e87ad99a=""><span style="color: #000000; font-size: 18px;"><strong>If this appears during homing
+                  — especially with a low-clock MCU like the STM32F072 — check whether the MCU load is maxed out. The latest Klipper raised the LDC1612 polling
+                  rate from 250/s to 400/s. In that case you need to edit the code to lower the rate.</strong></span></div>
+            <div class="col col-auto align-self-center" data-v-e87ad99a=""><span style="color: #000000; font-size: 18px;"><strong><span
+                    style="color: #e03e2d;"><span style="font-size: 18px;">11. &nbsp;!! Unable to detect tap: insufficient slope delta (-36983.054918 vs
+                      30633.703000)</span></span></strong></span></div>
+            <div class="col col-auto align-self-center" data-v-e87ad99a=""><span style="color: #000000; font-size: 18px;"><span
+                  style="color: #000000; font-size: 18px;"><strong>The tap-mode threshold is wrong. Use <span style="color: #843fa1;">PROBE_ACCURACY METHOD=tap
+                      tap_threshold=40000</span> to find the tap_threshold value manually&emsp;&emsp;</strong></span></span>
+              <div><span style="color: #000000; font-size: 18px;"><strong><span style="color: #e03e2d;"><span style="font-size: 18px;">12.&nbsp; !! Unable to
+                        detect tap: invalid depress distance (0.020411 vs 0.030000:0.250000)&nbsp;</span></span></strong></span></div>
+            </div>
+            <div class="col col-auto align-self-center" data-v-e87ad99a=""><strong><span style="color: #000000; font-size: 18px;">&nbsp;In tap-mode detection
+                  the press-down distance was wrong — not within 0.03-0.25. May be related to bed rigidity. If you really can't tune it, edit this error check
+                  in <span style="color: #843fa1;">klippy\extras\probe_eddy_current.py</span> and widen the accepted range.</span></strong></div>
+            <div class="col col-auto align-self-center" data-v-e87ad99a=""><strong><span style="color: #000000; font-size: 18px;"><span
+                    style="color: #e03e2d;"><span style="font-size: 18px;">13.&nbsp; !! Eddy: CLKIN frequency too low: 0.001 &lt;
+                      0.002</span></span></strong></span></div>
+            <div class="col col-auto align-self-center" data-v-e87ad99a=""><strong><span style="font-size: 18px;">I2C communication is unstable — the interval
+                  between data points is inconsistent. Check whether USB or CAN communication is dropping packets badly, and whether MCU load is maxed out
+                  during probing.</span></strong></div>
+            <div class="col col-auto align-self-center" data-v-e87ad99a="">&nbsp;</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<h3><span style="font-size: 18pt;"><strong>II.&nbsp;</strong></span><span style="font-size: 18pt;"><strong>Modifying the Klipper eddy driver
+      code:</strong></span></h3>
+<p><span style="font-size: 18px; color: #843fa1;"><strong>Klipper officially tested with BIQU's eddy, whose parameters differ from my coil, so some code
+      configuration needs changing. Klipper has been updated recently — check this; if you get no errors you can skip the changes.</strong></span></p>
+<div><span style="font-size: 14pt;"><strong><span style="color: #2dc26b;">1. SSH in and locate the Klipper directory</span></strong></span></div>
+<div>
+  <div><span style="font-size: 12pt; color: #000000;"><strong>Open the /klipper/klippy/extras/ldc1612.py file</strong></span></div>
+  <div>&nbsp;</div>
+</div>
+<div><strong><span style="font-size: 14pt; color: #2dc26b;">2. Modify the LDC1612 register configuration</span></strong></div>
+<div><span style="font-size: 12pt;"><strong><span style="color: #e03e2d;">SETTLETIME = 0.0002&nbsp;</span></strong><span
+      style="color: #169179;">&nbsp;<strong><span style="color: #000000;"># originally <span style="color: #843fa1;">0.005</span>, change to <span
+            style="color: #843fa1;">0.0002</span> — ensures the LDC1612 still returns data if the coil wire breaks, so you don't crash. Otherwise, after a wire
+          break the LDC1612 returns nothing and Klipper waits so long it crashes the nozzle.</span></strong></span></span></div>
+<div><span style="font-size: 12pt;"><strong><span style="color: #e03e2d;">self.set_reg(REG_ERROR_CONFIG, (0x1c &lt;&lt; 11) |
+        1)&nbsp;</span></strong>&nbsp;<strong># modify the REG_ERROR_CONFIG register — originally <span style="color: #843fa1;">0x1f</span>, change to <span
+        style="color: #843fa1;">0x1c</span> — to disable the amplitude error report and fix the sensor error</strong></span></div>
+<div><span style="font-size: 12pt;"><strong><span style="color: #000000;"><span style="color: #e03e2d;">self.data_rate = 400 <span style="color: #000000;">#
+            LDC1612 polling rate. Klipper's <span style="color: #ba372a;">current default is 400</span>, which stresses low-clock MCUs like the STM32F072 — MCU
+            load may max out, in which case change it to <span style="color: #ba372a;">250</span></span></span></span></strong></span></div>
+<div>&nbsp;</div>
+<div><span style="color: #2dc26b;"><strong><span style="font-size: 14pt;">3. Restart Klipper for the changes to take effect</span></strong></span></div>
+<div><span style="color: #000000;"><span style="font-size: 14pt;">After editing, save the file and restart the Klipper service (in
+      <strong>Fluidd</strong></span></span><span style="color: #000000;"><span style="font-size: 14pt;">, click <span style="color: #ba372a;">restart Klipper
+        service</span> in the top-right corner)</span></span></div>
+<div><span style="color: #000000;"><span style="font-size: 14pt;"><img src="https://image.lceda.cn/pullimage/h8ULQ0Joa6fR5W98jvwRBC1WZVZ98xxj320RVxws.png" alt=""
+        width="300" /></span></span></div>
+<p>&nbsp;</p>
+<h4><strong><span style="font-size: 18pt;">III. Commands for first-time eddy calibration:</span></strong></h4>
+<p><strong><span style="font-size: 14pt; color: #e03e2d;">1. Drive-current calibration command: LDC_CALIBRATE_DRIVE_CURRENT CHIP=eddy_probe</span></strong></p>
+<p><span style="font-size: 14pt; color: #843fa1;">Do <strong>not</strong> calibrate the drive current 20 mm above the bed — calibrate <strong>with the nozzle
+      close to the bed</strong>, at a height of about 2 mm. <strong>It doesn't need to be exact</strong>, since the amplitude error report is already
+    disabled.</span></p>
+<p><strong><span style="font-size: 14pt; color: #e03e2d;">2. Eddy frequency-height calibration command: PROBE_EDDY_CURRENT_CALIBRATE
+      CHIP=eddy_probe</span></strong></p>
+<p><span style="font-size: 14pt; color: #e03e2d;"><span style="color: #b96ad9;">① Before calibrating, first manually level the bed — it <span
+        style="font-size: 14pt; color: #e03e2d;"><span style="color: #b96ad9;">must not</span></span> be badly tilted. Home X and Y first; for Z you can set a
+      position using step ③ below.</span></span></p>
+<p><span style="font-size: 14pt; color: #843fa1;">② If you plan to use this eddy probe as a <strong>virtual Z endstop</strong>, first heat the bed to 80 °C and
+    the nozzle to 150 °C, keeping the nozzle clean;</span></p>
+<p><span style="font-size: 14pt; color: #843fa1;">③ If you currently have no Z endstop, set the current Z position with <span
+      style="color: #e03e2d;"><strong>SET_KINEMATIC_POSITION Z=&lt;maximum Z height&gt; </strong></span>, </span><span
+    style="font-size: 14pt; color: #843fa1;">so you can skip Z homing.</span></p>
+<p><span style="font-size: 14pt; color: #843fa1;">④ Then run <strong><span style="color: #e03e2d;">LDC_CALIBRATE_DRIVE_CURRENT CHIP=eddy_probe</span></strong>;
+    Klipper enters the manual probe page — use it to jog the Z axis down until the nozzle is close to the bed.</span></p>
+<p><span style="font-size: 14pt; color: #843fa1;">⑤ If this will be your Z endstop, you must nail the feeler-paper feel precisely. If not, close is good enough
+    — even 0.2 mm off doesn't matter;</span></p>
+<p><span style="font-size: 14pt; color: #843fa1;">⑥ Once done, Klipper automatically records the height-frequency relationship; just save the
+    configuration.</span></p>
+<p><strong><span style="font-size: 18px;"><span style="color: #e03e2d;">3. Tap-mode threshold calibration command: <span
+          style="color: #e03e2d;">PROBE_EDDY_CURRENT_TAP_CALIBRATE TAP=xxx</span></span></span></strong></p>
+<p><strong><span style="font-size: 16px; color: #b96ad9;">The 2026-05-02 Klipper update supports automatic measurement — you must first comment the parameter
+      out and use the commands to find it.</span></strong></p>
+<p><span style="font-size: 16px; color: #b96ad9;">① Make sure both the nozzle and the bed surface are clean. Power on the printer, home it, move the toolhead to
+    a position near the center of the bed, and make sure the nozzle is 3-10 mm above the bed.</span></p>
+<p><span style="font-size: 16px; color: #b96ad9;">② The next step is to command the nozzle to touch the bed. There is always some risk in this process, so be
+    ready to trigger an emergency stop (M112) at any time in case the probing descent does not stop after touching the bed. When ready, run:</span><span
+    style="font-size: 16px; color: #e67e23;">PROBE_EDDY_CURRENT_TAP_CALIBRATE TAP=guess</span><span style="font-size: 16px; color: #b96ad9;">This command makes
+    an initial rough guess of the <span style="color: #e67e23;">tap_threshold</span> value based on the data analyzed during the main probe calibration, then
+    performs the corresponding &ldquo;gentle tap probe&rdquo;. Ideally the command lowers the probe until it touches the bed, then lifts off and reports a valid
+    probe result.</span></p>
+<p class="ds-markdown-paragraph"><span style="font-size: 16px; color: #b96ad9;">③ The next step is to run the gentle tap probe again with the
+    &ldquo;refined&rdquo; threshold setting. The tool uses information collected from the previous successful tap probe to determine this improved threshold.
+    Make sure the nozzle is near the center of the bed, 3-10 mm above it, be ready for an emergency stop, then run:</span><span
+    style="font-size: 16px; color: #e67e23;">PROBE_EDDY_CURRENT_TAP_CALIBRATE TAP=refine</span><span style="font-size: 16px; color: #b96ad9;">Ideally this
+    command also succeeds; otherwise see the troubleshooting section. If it succeeds, continue to the next step.</span></p>
+<p class="ds-markdown-paragraph"><span style="font-size: 16px; color: #b96ad9;">④ If the probe with the refined threshold succeeds, the next test verifies the
+    threshold's stability across multiple probes. Make sure the nozzle is near the center of the bed, 3-10 mm above it, be ready for an emergency stop, then
+    run:</span><span style="font-size: 16px; color: #e67e23;">PROBE_EDDY_CURRENT_TAP_CALIBRATE TAP=verify</span><span
+    style="font-size: 16px; color: #b96ad9;">This command probes the bed five times in a row. Ideally it also succeeds; otherwise see the troubleshooting
+    section. If it succeeds, continue.</span></p>
+<p class="ds-markdown-paragraph"><span style="font-size: 16px; color: #b96ad9;">⑤ If all the above steps succeed, run <span
+      style="color: #e67e23;">SAVE_CONFIG</span> to save the <span style="color: #e67e23;">tap_threshold</span> parameter to the <span
+      style="color: #e67e23;">printer.cfg</span> file. Calibration is now complete.</span></p>
+<p class="ds-markdown-paragraph"><strong><span style="font-size: 18px; color: #ba372a;">If calibration errors out with a wrong threshold and you have to find it
+      manually, don't use the automatic commands — use <span style="color: #000000; font-size: 18px;"><span style="color: #843fa1;">PROBE_ACCURACY METHOD=tap
+          tap_threshold=40000</span>&nbsp;<span style="color: #ba372a;">to find it by hand</span></span></span></strong></p>
+<h4><span style="color: #000000;"><strong><span style="font-size: 18pt;">IV. About temperature drift:</span></strong></span></h4>
+<p><strong><span style="font-size: 14pt; color: #e03e2d;">1. Without an enclosure, temperature drift is low — usually under 0.04 mm, though it varies and is
+      hard to promise.</span></strong></p>
+<p><span style="font-size: 14pt;">At z-offset = 1 mm, with the bed going from room temperature to 100 °C and the eddy coil from room temperature to 60 °C, the
+    frequency change is 3 kHz and the resulting Z offset error is about 0.02 mm — minor, so it can be used as a Z endstop.</span></p>
+<p><span style="color: #e03e2d;"><strong><span style="font-size: 14pt;">2. In an enclosure, temperature drift is unacceptable.</span></strong></span></p>
+<p><span style="font-size: 14pt;">At z-offset = 1 mm, with the bed from room temperature to 108 °C and the eddy coil from room temperature to 80 °C, long-term
+    frequency drift can reach 26 kHz, giving a Z offset error of about 0.2 mm — unacceptable. How much it drifts depends on your machine. Drift mainly occurs as
+    the eddy temperature passes 65-80 °C. Under an enclosure, drift should be related to the whole printer structure's drift — the coil alone wouldn't drift
+    this much. But if the coil mount and the entire toolhead drift, that's rough — the longer it sits hot, the more it deforms.</span></p>
+<p><strong><span style="font-size: 14pt; color: #e03e2d;">3. Doing temperature calibration</span></strong></p>
+<p><span style="font-size: 14pt;">See the Klipper docs for the procedure — calibrate every 3-4 °C of coil temperature. Very time-consuming. And because drift
+    isn't only related to coil temperature — if the whole machine deforms, temperature calibration won't fix it. Enclosures are rough. Now that tap mode exists,
+    temperature calibration is no longer necessary.</span></p>
+<p><img src="https://image.lceda.cn/oshwhub/pullImage/d91dbc67e17e4a8bb75391df977f87da.png" alt="" height="402" width="800" /></p>
+<p><strong>Frequency drift chart while heating from room temperature to a 108 °C bed. This machine is enclosed, so drift is large — over 26 kHz of frequency
+    drift, a 0.2 mm error, possibly related to how many printed parts my machine has.</strong></p>
+<p><img src="https://image.lceda.cn/oshwhub/pullImage/d2ee0ec9e79e48ac81d78818862bc4cc.png" alt="" height="415" width="800" /></p>
+<p><strong>My other machine, heated to 108 °C the same way, semi-enclosed: full-range drift is much smaller — under 8 kHz of frequency drift, about a 0.05 mm
+    error.</strong></p>
+<p><span style="font-size: 14pt;"><strong
+      style="margin: 0px; padding: 0px; box-sizing: border-box; color: #444444; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background-color: #ffffff;"><span
+        style="margin: 0px; padding: 0px; box-sizing: border-box; color: #e03e2d;">4. Klipper has now added the tap feature, supporting nozzle endstopping and
+        automatic Z offset.</span></strong></span></p>
+<p><strong>Official setup guide: &nbsp;<a href="https://www.klipper3d.org/Eddy_Probe.html" target="_blank"
+      rel="noopener">https://www.klipper3d.org/Eddy_Probe.html</a></strong></p>
+<p><strong>My Chinese translation of the official guide: <a
+      href="https://demo.chengxg.top/pangxie/doc/%E6%B6%A1%E6%B5%81%E6%89%AB%E5%BA%8A/klipper_eddy_probe.html" target="_blank"
+      rel="noopener">klipper_eddy_probe.html</a></strong></p>
+<pre class="language-python highlighter-hljs"><code>[probe_eddy_current my_probe]
+# eddy probe configuration...
+# Recommended starting values for the tap
+#samples: 3
+#samples_tolerance: 0.025
+#samples_tolerance_retries: 3
+#tap_threshold: 0 # 0 means tap is disabled; automatic measurement supported since 2026-05-02, so comment this out first</code></pre>
+<div class="tinymce-content_DoXK9" style="line-height: 1.1;">
+  <p>It's the <strong><span style="color: #843fa1;">&nbsp;tap_threshold: 0&nbsp;</span></strong>parameter — the default 0 disables tap. The tap threshold must
+    be set correctly or you'll get errors. The latest Klipper versions no longer need the scipy library — the updated algorithm doesn't use it.</p>
+  <p><strong><span style="color: #843fa1; font-size: 18px;">The tap_threshold value used to be tens to hundreds; Klipper recently changed the threshold unit and
+        the value became 50× larger.</span></strong></p>
+  <p><span style="color: #e03e2d;"><strong>The 2026-05-02 Klipper update supports automatic measurement — comment the parameter out first and use the commands
+        to find it.</strong></span></p>
+  <p><strong><span style="color: #e03e2d; font-size: 14px;">Automatic tap-threshold search — run these three commands in order: </span></strong></p>
+  <p><strong><span style="color: #e03e2d; font-size: 14px;">1. Rough tap threshold calibration: PROBE_EDDY_CURRENT_TAP_CALIBRATE TAP=guess</span></strong></p>
+  <p><strong><span style="color: #e03e2d; font-size: 14px;">2. Precise tap threshold calibration: PROBE_EDDY_CURRENT_TAP_CALIBRATE TAP=refine</span></strong>
+  </p>
+  <p><strong><span style="color: #e03e2d; font-size: 14px;">3. Tap threshold verification, then save: PROBE_EDDY_CURRENT_TAP_CALIBRATE
+        TAP=verify</span></strong></p>
+  <p><strong><span style="color: #e03e2d; font-size: 14px;"><span style="font-size: 18px; color: #ba372a;">If calibration errors out with a wrong threshold and
+          you have to find it manually, don't use the automatic commands — use <span
+            style="color: #000000; font-size: 18px;"><code>PROBE_ACCURACY METHOD=tap tap_threshold=40000</code>&nbsp;<span style="color: #ba372a;">to find it by
+              hand</span></span></span></span></strong></p>
+  <p>&nbsp;</p>
+  <h4><span style="font-size: 18pt; color: #000000;"><strong>V. Klipper reference configuration:</strong></span></h4>
+  <p>&nbsp;</p>
+  <p><strong><span style="color: #ba372a; font-size: 18px;">Add the code below to your configuration — put it in a separate file for easier
+        management.</span></strong></p>
+  <p><strong><span style="color: #ba372a; font-size: 18px;">Reference for Klipper versions updated after 2026-03-25: the tap-mode algorithm was updated and the
+        descend_z and tap_z_offset parameters added; automatic tap threshold measurement supported since 2026-05-02.</span></strong></p>
+  <p><span style="color: #ba372a;"><strong><span style="font-size: 18px;"><span style="font-size: 18px;">The max_sensor_hz parameter was added on 2026-05-12 to
+            set a maximum frequency as protection, defaulting to 5M. My coil's frequency exceeds 5M, so the maximum must be
+            specified.</span></span></strong></span></p>
+</div>
+<pre class="language-python highlighter-hljs"><code># First edit klippy/extras/ldc1612.py: change self.set_reg(REG_ERROR_CONFIG, (0x1f &lt;&lt; 11) | 1) from 0x1f to 0x1c, and change SETTLETIME=0.005 to 0.0002
+# Calibrate drive current: LDC_CALIBRATE_DRIVE_CURRENT CHIP=eddy_probe
+# Calibrate the frequency-height mapping: PROBE_EDDY_CURRENT_CALIBRATE CHIP=eddy_probe
+# Set automatic Z offset in tap mode: SET_Z_FROM_PROBE METHOD=tap
+# Tap-mode single-point probe accuracy test: PROBE_ACCURACY METHOD=tap
+# Contactless single-point probe accuracy test: PROBE_ACCURACY
+# 2025-05-02 update, automatic tap threshold search:
+# 1. Rough tap threshold calibration: PROBE_EDDY_CURRENT_TAP_CALIBRATE TAP=guess
+# 2. Precise tap threshold calibration: PROBE_EDDY_CURRENT_TAP_CALIBRATE TAP=refine
+# 3. Tap threshold verification, then save: PROBE_EDDY_CURRENT_TAP_CALIBRATE TAP=verify
+# 4. Manual tap threshold search: PROBE_ACCURACY METHOD=tap tap_threshold=40000
+
+# Enable the M118 echo command and RESPOND command support
+[respond]
+
+# Enable the force-move command and SET_KINEMATIC_POSITION support
+[force_move]
+enable_force_move: true
+
+[probe_eddy_current eddy_probe]
+sensor_type: ldc1612
+i2c_address: 42
+frequency: 40000000
+i2c_speed: 400000
+i2c_mcu: toolhead     # change to your own MCU name; if wired to the mainboard put: mcu, or the name of whichever MCU it's on
+# i2c_bus: i2c1
+i2c_software_scl_pin: toolhead:SCL1  # software I2C, change to your own pin
+i2c_software_sda_pin: toolhead:SDA1  # software I2C, change to your own pin
+# reg_drive_current: 25      # drive current, hard-code it and skip calibration; edit klippy/extras/ldc1612.py: 1: SETTLETIME = 0.0002 2: self.set_reg(REG_ERROR_CONFIG, (0x1c &lt;&lt; 11) | 1)
+x_offset: 0                  # remember to set the X offset
+y_offset: 20                 # remember to set the Y offset
+descend_z: 2                 # formerly z_offset, the height where contactless probing stops
+max_sensor_hz: 7000000       # parameter added 2026-05-12, specifies the coil maximum frequency
+speed: 5                     # probing speed
+samples: 3                   # number of samples
+sample_retract_dist: 5.0     # nozzle lift distance while sampling
+samples_tolerance: 0.05
+samples_tolerance_retries: 3
+# tap_threshold: 45598.639   # tap-mode threshold parameter, unit Hz/mm; default 0 disables tap. Must be at least twice the measurement noise; too low and probing stops mid-air. Automatic tap threshold measurement added 2026-05-02 — comment this out
+tap_z_offset: 0              # gap adjustment, a recently added Klipper parameter; we still find position_endstop more convenient for adjusting the gap
+
+# Accelerometer configuration for the integrated-coil version
+[lis2dw]
+i2c_address: 25
+i2c_mcu: toolhead
+# i2c_bus: i2c1
+i2c_speed: 400000   # if MCU load is too high, you can raise the I2C speed
+i2c_software_scl_pin: toolhead:SCL1
+i2c_software_sda_pin: toolhead:SDA1
+[resonance_tester]
+accel_chip: lis2dw
+accel_per_hz: 50
+probe_points: 100, 100, 20
+
+# Onboard AHT20 temperature sensor configuration; requires the latest Klipper version
+# Don't use it on low-clock MCUs — it adds instability during printing
+# [temperature_probe eddy_probe]
+# horizontal_move_z: 2
+# sensor_type: AHT2X
+# i2c_mcu: toolhead
+# i2c_speed: 400000
+# i2c_address: 56
+# i2c_software_scl_pin: toolhead:SCL1
+# i2c_software_sda_pin: toolhead:SDA1
+# aht10_report_time: 5 # temperature report interval, minimum 5 seconds
+
+[gcode_macro Z_TILT_ADJUST]
+description: eddy fast Z leveling, 3-point leveling
+rename_existing: _Z_TILT_ADJUST
+gcode:
+  {% set PROBE_Z_OFFSET = printer.configfile.settings['probe_eddy_current eddy_probe'].descend_z|float %}
+  # ========== Save state ==========
+  SAVE_GCODE_STATE NAME=STATE_Z_TILT
+  # ========== Environment prep ==========
+  BED_MESH_CLEAR # clear any existing bed mesh
+  # ========== Main leveling ==========
+  # Level slowly first before the first leveling pass; only scan once the 3 points differ by a small amount, to avoid crashing into the bed
+  {% if not printer.z_tilt.applied %}
+    # Initial coarse leveling
+    _Z_TILT_ADJUST horizontal_move_z=8 retry_tolerance=1 SAMPLES=1
+  {% endif %}
+  # Fine leveling
+  _Z_TILT_ADJUST horizontal_move_z={PROBE_Z_OFFSET} retry_tolerance=0.0075 retries=20 METHOD=rapid_scan ADAPTIVE=1
+  # ========== Post-processing ==========
+  G90                               # absolute coordinates
+  G0 Z5 F300                        # lift Z axis
+  M117 Z_tilt Completed             # show completion status
+  # ========== Restore state ==========
+  RESTORE_GCODE_STATE NAME=STATE_Z_TILT
+  M400
+
+# Choose one of Z_TILT_ADJUST or QUAD_GANTRY_LEVEL
+#[gcode_macro QUAD_GANTRY_LEVEL]
+#rename_existing: _QUAD_GANTRY_LEVEL
+#description: eddy fast Z leveling, 4-point gantry leveling&nbsp;
+#gcode:
+# &nbsp; &nbsp;{% set PROBE_Z_OFFSET = printer.configfile.settings['probe_eddy_current eddy_probe'].descend_z|float %}
+# &nbsp; &nbsp;# ========== Save state ==========
+# &nbsp; &nbsp;SAVE_GCODE_STATE NAME=STATE_QGL
+# &nbsp; &nbsp;# ========== Environment prep ==========
+# &nbsp; &nbsp;BED_MESH_CLEAR # clear any existing bed mesh
+# &nbsp; &nbsp;# ========== Main leveling ==========
+# &nbsp; &nbsp;# Level slowly first before the first leveling pass; only scan once the 4 points differ by a small amount, to avoid crashing into the bed
+# &nbsp; &nbsp;{% if not printer.quad_gantry_level.applied %}
+# &nbsp; &nbsp; &nbsp;# Initial coarse leveling
+# &nbsp; &nbsp; &nbsp;_QUAD_GANTRY_LEVEL horizontal_move_z=10 retry_tolerance=1 SAMPLES=1
+# &nbsp; &nbsp;{% endif %}
+# &nbsp; &nbsp;# Fine leveling
+# &nbsp; &nbsp;_QUAD_GANTRY_LEVEL horizontal_move_z={PROBE_Z_OFFSET} retry_tolerance=0.0075 retries=20 METHOD=rapid_scan ADAPTIVE=1
+# &nbsp; &nbsp;# ========== Post-processing ==========
+# &nbsp; &nbsp;G90 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# absolute coordinates
+# &nbsp; &nbsp;G0 Z5 F300 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;   # lift Z axis
+# &nbsp; &nbsp;M117 QGL Completed &nbsp; &nbsp; &nbsp; # show completion status
+# &nbsp; &nbsp;# ========== Restore state ==========
+# &nbsp; &nbsp;RESTORE_GCODE_STATE NAME=STATE_QGL
+# &nbsp; &nbsp;M400
+
+# eddy fast bed mesh
+[gcode_macro BED_MESH_CALIBRATE]
+rename_existing: _BED_MESH_CALIBRATE
+gcode:
+    {% set PROBE_Z_OFFSET = printer.configfile.settings['probe_eddy_current eddy_probe'].descend_z|float %}
+    _BED_MESH_CALIBRATE horizontal_move_z={PROBE_Z_OFFSET} METHOD=rapid_scan {rawparams}
+
+[gcode_macro PROBE_EDDY_CURRENT_CALIBRATE_AUTO]
+description: for calibrating when using eddy for the first time
+gcode:
+  BED_MESH_CLEAR
+  G28 X Y
+  G90 # Abs positioning
+  G1 X20 Y20 F6000
+  {% if 'z' not in printer.toolhead.homed_axes %}
+    SET_KINEMATIC_POSITION Z={ printer.toolhead.axis_maximum.z-1 } # Allows the user to work it down until it touches.
+  {% endif %}
+  PROBE_EDDY_CURRENT_CALIBRATE CHIP=eddy_probe
+
+[gcode_macro _RELOAD_Z_OFFSET_FROM_PROBE]
+description: set the Z offset in tap mode. Run this command several times: the printed probe_Z is negative and set_Z is around 3-4 mm; judge stability by the consistency of set_Z. After running it during first-time setup, put an A4 sheet under the nozzle, set Z=0, check the paper's friction, then do a real print
+gcode:
+  {% set Z = printer.toolhead.position.z %}
+  {% set position_endstop = 0 %}
+  {% set raw_config = printer.configfile.config %}
+  {% if 'stepper_z' in raw_config %}
+      # Get the calibrated offset from position_endstop
+      {% set position_endstop = raw_config.stepper_z.position_endstop|trim|float %}
+  {% endif %}
+  {% set setZ = Z - printer.probe.last_probe_position.z + position_endstop %}
+  SET_KINEMATIC_POSITION Z={setZ}
+  # Run this command several times: the printed probe_Z is negative and set_Z is around 3-4 mm; judge stability by the consistency of set_Z
+  RESPOND MSG="position_Z={'%0.3f' | format(Z)} probe_Z={'%0.3f' | format(printer.probe.last_probe_position.z)} position_endstop={'%0.3f' | format(position_endstop)} set_Z={'%0.3f' | format(setZ)}"
+
+[gcode_macro SET_Z_FROM_PROBE]
+description: Z homing using tap mode, command: SET_Z_FROM_PROBE METHOD=tap
+gcode:
+  {% set METHOD = params.METHOD | default("automatic") %}
+  G0 Z5 F300
+  PROBE METHOD={METHOD} SAMPLES=3 # probe speed defaults to 5mm/s
+  _RELOAD_Z_OFFSET_FROM_PROBE
+  G0 Z5 F300</code></pre>
+<p><strong><span style="font-size: 18pt;"><span style="color: #ba372a; font-size: 18px;">Add the following at the very bottom of printer.cfg so the offset can
+        be saved to position_endstop — handy for watching the first layer in real time while printing, then saving to <span style="font-size: 18pt;"><span
+            style="color: #ba372a; font-size: 18px;">position_endstop</span></span> after the print</span></span></strong></p>
+<div class="tinymce-content_DoXK9">
+  <pre class="language-python highlighter-hljs"><code>#*#
+#*# [stepper_z]
+#*# position_endstop = 0</code></pre>
+  <p><strong><span style="font-size: 18pt;"><img src="https://image.lceda.cn/pullimage/OcSOrxq6Gv0OuDmnYpWKQDwG2Fq8XwgnX6mwCApi.png" alt="" height="206"
+          width="600" /></span></strong></p>
+  <div>
+    <div><strong><span style="color: #ba372a; font-size: 16px;">Modify the stepper_z configuration to enable the probe's virtual Z endstop, when replacing a
+          physical Z endstop</span></strong></div>
+  </div>
+  <p><strong><span style="font-size: 18pt;"><img src="https://image.lceda.cn/pullimage/mkarnav24Gk7og7503WIL6EYeV5BAcNdpo62JLkg.png" alt="" height="219"
+          width="600" /></span></strong></p>
+  <p><strong><span style="color: #ba372a; font-size: 18px;">Tap-mode usage reference: use the <span style="color: #843fa1;">SET_Z_FROM_PROBE METHOD=tap</span>
+        command. Before using it, make absolutely sure the nozzle is clean — nozzle wiping is strongly recommended.</span></strong></p>
+  <p><strong><span style="color: #ba372a; font-size: 18px;">Run this command several times: the printed probe_Z is negative and set_Z is around 3-4 mm; judge
+        stability by the consistency of set_Z.</span></strong></p>
+  <p><strong><span style="color: #ba372a; font-size: 18px;">After running it during first-time setup, put an A4 sheet under the nozzle, set Z=0, fine-tune the Z
+        offset, check the paper's friction, then do a real print.</span></strong></p>
+  <p><strong><span style="color: #ba372a; font-size: 18px;">In Mainsail there may be no save-to-endstop option — copy it over manually.</span></strong></p>
+  <p><strong><span style="color: #ba372a; font-size: 18px;"><img src="https://image.lceda.cn/pullimage/q05luqZ96xJzMaOLeiunDcUcWTmwqoJJeJHUWrnb.png" alt=""
+          height="320" width="800" /></span></strong></p>
+  <p><strong><span style="color: #ba372a; font-size: 18px;"><img src="https://image.lceda.cn/pullimage/EoXRJjmwpXOpGPxjeM1krN5Cm1TNJWVyYCaDlKJl.png" alt=""
+          height="263" width="800" /></span></strong></p>
+  <p><span style="color: #843fa1;"><strong><span style="font-size: 18px;">Below is a reference configuration for real-world usage</span></strong></span></p>
+  <pre class="language-python highlighter-hljs"><code>[gcode_macro CLEAN_NOZZLE]
+description: nozzle wipe
+gcode:
+  {% set wipe_count = 8 %}
+  G1 Z2 F300
+  G1 X20 Y5 F3600
+  G1 Z-0.1 F300
+  {% for wipe in range(wipe_count) %}
+    {% for coordinate in [(20, 1),(1, 1)] %}
+      G0 X{coordinate[0]} Y{coordinate[1]} F2000
+    {% endfor %}
+  {% endfor %}
+  G1 Z2 F300
+
+[gcode_macro PRINT_START]          # Set PRINT_START as the start-print macro and customize pre-print actions
+gcode:
+    BED_MESH_CLEAR                 # unload the bed mesh
+    G21
+    G90
+    G28                            # home all axes
+    G1 Z2 F500
+    G1 X20 Y2 F2000
+    G92 E0                         # reset extruder
+    M107                           # fans off
+
+    M190 S{params.BED}            # bed to target temperature
+    M109 150                      # nozzle to 150C
+    G28 Z F500
+    Z_TILT_ADJUST                 # auto leveling
+
+    G1 X20 Y20 F2000
+    SET_Z_FROM_PROBE METHOD=tap   # eddy tap-mode automatic Z offset
+    CLEAN_NOZZLE                  # wipe the nozzle
+    G1 X20 Y20 F2000
+    SET_Z_FROM_PROBE METHOD=tap   # eddy tap-mode automatic Z offset
+    SET_Z_FROM_PROBE METHOD=tap   # eddy tap-mode automatic Z offset, run once more for stability
+
+    ; check for adaptive mesh parameters
+    {% if params.MESH_MIN %}
+      ; receive adaptive mesh parameters from Orca; configure the slicer to pass them
+      BED_MESH_CALIBRATE PROFILE=default mesh_min={params.MESH_MIN} mesh_max={params.MESH_MAX} ALGORITHM={params.MESH_ALGO} PROBE_COUNT={params.PROBE_COUNT} ADAPTIVE=1 ADAPTIVE_MARGIN=0
+    {% else %}
+      BED_MESH_CALIBRATE PROFILE=default ADAPTIVE=1 ADAPTIVE_MARGIN=0  # probe the bed mesh every time
+    {% endif %}
+    BED_MESH_PROFILE LOAD=default # optionally load the default bed mesh
+    M109 S{params.EXTRUDER}       # nozzle to print temperature
+
+    # draw the purge line
+    G92 E0
+    G1 Y0.5 F6000
+    G1 X180 F6000
+    G1 Z0.32 F400
+    G1 X20 E40 F1000
+    G1 Z1.0 F200
+    G92 E0
+    G1 Y2 F2000
+    G1 Z0.32 F400
+    G1 X180 E40 F1000
+    G1 Z1.0 F200
+    G92 E0</code></pre>
+  <p>&nbsp;</p>
+  <h4><strong><span style="font-size: 18pt;">VI. Some of my Klipper calibration frequency-height data, measured with the coil mounted 1.6 mm from the
+        nozzle:</span></strong></h4>
+  <div>
+    <div><span style="color: #843fa1; font-size: 16px;"><strong><span style="color: #e03e2d;">Frequency-height data: at 0 mm the frequency changes 20 kHz per
+            0.04 mm; at 2 mm it changes 7 kHz per 0.04 mm; a probing distance over 7 mm is no problem.</span></strong></span></div>
+    <div><span style="color: #843fa1; font-size: 16px;"><strong>If the probed frequency-height data is incomplete — only the first small portion — your Z axis
+          has serious problems.</strong></span></div>
+    <div>
+      <pre class="language-python highlighter-hljs"><code>#*# [probe_eddy_current eddy_probe]
+#*# reg_drive_current = 25
+#*# calibrate =
+#*# 	0.050000:6153868.474,0.090000:6140581.388,0.130000:6127867.579,
+#*# 	0.170000:6115317.080,0.210000:6103169.564,0.250000:6091062.065,
+#*# 	0.290000:6079560.578,0.330000:6068234.991,0.370000:6057241.097,
+#*# 	0.410000:6046285.704,0.450000:6035889.644,0.490000:6025588.147,
+#*# 	0.530000:6015705.358,0.570000:6005756.039,0.610000:5996345.174,
+#*# 	0.650000:5987057.745,0.690000:5977972.925,0.730000:5969186.429,
+#*# 	0.770000:5960489.236,0.810000:5952050.306,0.850000:5943877.082,
+#*# 	0.890000:5935701.810,0.930000:5927889.235,0.970000:5920223.620,
+#*# 	1.010000:5912764.810,1.050000:5905289.017,1.090000:5898103.733,
+#*# 	1.130000:5890976.977,1.170000:5884077.907,1.210000:5877175.592,
+#*# 	1.250000:5870536.629,1.290000:5863888.852,1.330000:5857435.115,
+#*# 	1.370000:5850909.870,1.410000:5844620.816,1.450000:5838317.987,
+#*# 	1.490000:5832176.287,1.530000:5825956.173,1.570000:5819920.503,
+#*# 	1.610000:5813872.244,1.650000:5807985.030,1.690000:5802018.259,
+#*# 	1.730000:5796317.264,1.770000:5790468.287,1.810000:5784845.412,
+#*# 	1.850000:5779161.706,1.890000:5773692.038,1.930000:5768183.365,
+#*# 	1.970000:5762838.762,2.010000:5757423.702,2.050000:5752229.031,
+#*# 	2.090000:5747035.083,2.130000:5742004.153,2.170000:5736929.577,
+#*# 	2.210000:5732048.202,2.250000:5727181.192,2.290000:5722445.384,
+#*# 	2.330000:5717695.504,2.370000:5713156.223,2.410000:5708578.147,
+#*# 	2.450000:5704132.087,2.490000:5699695.770,2.530000:5695400.939,
+#*# 	2.570000:5691128.872,2.610000:5686991.617,2.650000:5682852.682,
+#*# 	2.690000:5678856.946,2.730000:5674900.982,2.770000:5671038.292,
+#*# 	2.810000:5667175.207,2.850000:5663429.908,2.890000:5659734.309,
+#*# 	2.930000:5656142.745,2.970000:5652550.183,3.010000:5649078.999,
+#*# 	3.050000:5645650.666,3.090000:5642298.806,3.130000:5638953.801,
+#*# 	3.170000:5635723.930,3.210000:5632522.605,3.250000:5629407.909,
+#*# 	3.290000:5626275.383,3.330000:5623281.125,3.370000:5620288.711,
+#*# 	3.410000:5617389.947,3.450000:5614468.779,3.490000:5611684.695,
+#*# 	3.530000:5608890.083,3.570000:5606189.363,3.610000:5603489.622,
+#*# 	3.650000:5600896.236,3.690000:5598289.136,3.730000:5595773.518,
+#*# 	3.770000:5593240.872,3.810000:5590811.838,3.850000:5588387.080,
+#*# 	3.890000:5586050.298,3.930000:5583692.707,3.970000:5581396.028,
+#*# 	4.010000:5579187.412,4.050000:5577017.456
+#*# tap_threshold = 46501.882
+#*#
+#*# [stepper_z]
+#*# position_endstop = 0.07</code></pre>
+    </div>
+  </div>
+  <p><span style="font-size: 16px;"><strong><span style="color: #e03e2d;">The extremely high frequency change exceeds 400 kHz, with noise under 0.2 µm. This
+          data is printed out after running the <span style="color: #843fa1;">frequency-height calibration</span>.</span></strong></span></p>
+  <p><span style="font-size: 16px; color: #843fa1;"><strong>If the measured noise is terrible — noise MAD_Hz in the hundreds — your Z axis has serious problems,
+        especially if it uses smooth rods; you may need to switch to linear bearings.</strong></span></p>
+  <pre class="language-python highlighter-hljs"><code>probe_eddy_current: noise 0.000178mm, MAD_Hz=24.995 in 4039 queries
+Total frequency range: 576851.018 Hz
+z: 0.290 # noise 0.000148mm, MAD_Hz=42.558
+z: 0.530 # noise 0.000244mm, MAD_Hz=60.201
+z: 1.010 # noise 0.000179mm, MAD_Hz=33.386
+z: 2.010 # noise 0.000108mm, MAD_Hz=14.666
+z: 3.010 # noise 0.000092mm, MAD_Hz=7.961</code></pre>
+  <p>&nbsp;</p>
+  <h4><span style="font-size: 18pt;"><strong>VII. About coil design:</span></strong></h4>
+  <p><span style="font-size: 14pt;"><strong>The coil shape has negligible effect — octagonal, circular, or superellipse coils all work about the
+        same.</strong></span></p>
+  <p><span style="font-size: 14pt;"><strong>To that end I also built an online tool for designing superellipse coils:&nbsp; </strong></span><a
+      href="https://demo.chengxg.top/eddy_coil_designer.html" target="_blank" rel="noopener"><span
+        style="font-size: 14pt;"><strong>https://demo.chengxg.top/eddy_coil_designer.html</strong></span></a></p>
+  <p><span style="font-size: 14pt;"><strong>TI's official coil design tool: <a href="https://webench.ti.com/wb5/LDC/#/spirals" target="_blank"
+          rel="noopener">https://webench.ti.com/wb5/LDC/#/spirals</a></strong></span></p>
+  <p><span style="font-size: 14pt;"><strong>My LDC1612 coil-frequency real-time online monitor sensor: &nbsp;<a
+          href="https://oshwhub.com/cxg01/3d-printer-weighing-hot-bed-sensor" target="_blank"
+          rel="noopener">https://oshwhub.com/cxg01/3d-printer-weighing-hot-bed-sensor, &nbsp;</a>it can also be used as an ordinary proximity
+        switch.</strong></span></p>
+  <p><img src="https://image.lceda.cn/oshwhub/pullImage/f4340e60774249159f501fe4c4672b02.png" alt="" height="766" width="800" /></p>
+  <p>&nbsp;</p>
+  <p>&nbsp;</p>
+  <p><img src="https://image.lceda.cn/oshwhub/pullImage/3f0394c1df9741c3aee7fd8709d071dd.jpg" alt="" height="600" width="800" /></p>
+  <p><img src="https://image.lceda.cn/oshwhub/pullImage/3ea96e6aa53c479dac7c0a5334c2923d.png" alt="" height="715" width="800" /></p>
+  <p><img src="https://image.lceda.cn/oshwhub/pullImage/f8f5c815fce745ba806155a94fc025b0.png" alt="" height="714" width="800" /></p>
+  <p><img src="https://image.lceda.cn/oshwhub/pullImage/70940b5295c14f2a8ca0be075b6e5255.jpg" alt="" height="600" width="800" /></p>
+</div>
+      </div>
+
+      <div class="article-attachments">
+        <h3>Attachments</h3>
+        <ul class="attachments-list">
+          <li>
+            <a href="../../../assets/files/涡流线圈BOM.xlsx" title="涡流线圈BOM.xlsx" class="attachment-link">
+              <span class="attachment-icon">📎</span>
+              <span class="attachment-name">涡流线圈BOM.xlsx</span>
+            </a>
+          </li>
+          <li>
+            <a href="../../../assets/files/klipper_eedy_probe.md" title="Klipper 涡流探针文档 (中文翻译).md" class="attachment-link">
+              <span class="attachment-icon">📎</span>
+              <span class="attachment-name">Klipper 涡流探针文档 (中文翻译).md</span>
+            </a>
+          </li>
+          <li>
+            <a href="../../../assets/files/klipper_eddy_probe.html" title="Klipper 涡流探针文档 (中文翻译).html" class="attachment-link">
+              <span class="attachment-icon">📎</span>
+              <span class="attachment-name">Klipper 涡流探针文档 (中文翻译).html</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div class="article-footer">
+        <a href="../../" class="btn-back">Back to Home</a>
+      </div>
+    </div>
+  </div>
+</main>
+<footer class="footer">
+  <p>© 2026 Renquan Zhizi. All rights reserved.</p>
+</footer>
+</div>
+</body>
+</html>

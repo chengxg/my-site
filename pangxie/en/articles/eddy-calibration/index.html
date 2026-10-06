@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>3D Printer Little Crab Eddy-Current XY Offset Calibration | Renquan Zhizi Open Source</title>
+<meta name="description" content="Open-source Klipper eddy-current tool calibration module for 3D printers: high repeatability, fast calibration, full configuration guide and firmware downloads.">
+<link rel="icon" type="image/png" href="../../../assets/logo.png">
+<link rel="canonical" href="https://demo.chengxg.top/pangxie/en/articles/eddy-calibration/">
+<link rel="alternate" hreflang="zh" href="https://demo.chengxg.top/pangxie/articles/eddy-calibration/">
+<link rel="alternate" hreflang="en" href="https://demo.chengxg.top/pangxie/en/articles/eddy-calibration/">
+<link rel="alternate" hreflang="x-default" href="https://demo.chengxg.top/pangxie/articles/eddy-calibration/">
+<meta property="og:title" content="3D Printer Little Crab Eddy-Current XY Offset Calibration | Renquan Zhizi Open Source">
+<meta property="og:description" content="Open-source Klipper eddy-current tool calibration module for 3D printers: high repeatability, fast calibration, full configuration guide and firmware downloads.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://demo.chengxg.top/pangxie/en/articles/eddy-calibration/">
+<meta property="og:image" content="https://image.lceda.cn/oshwhub/pullImage/0eabde7c9534417ea0ae664181588d82.jpg">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="zh_CN">
+<meta property="og:site_name" content="Renquan Zhizi Open Source">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="../../../assets/style.css">
+<script defer src="../../../assets/cm-loader.js"></script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "3D Printer Little Crab Eddy-Current XY Offset Calibration",
+  "description": "Open-source Klipper eddy-current tool calibration module for 3D printers: high repeatability, fast calibration, full configuration guide and firmware downloads.",
+  "author": {
+    "@type": "Person",
+    "name": "仁泉之子"
+  },
+  "datePublished": "2026-06-03",
+  "dateModified": "2026-06-03",
+  "image": "https://image.lceda.cn/oshwhub/pullImage/0eabde7c9534417ea0ae664181588d82.jpg",
+  "inLanguage": "en",
+  "mainEntityOfPage": "https://demo.chengxg.top/pangxie/en/articles/eddy-calibration/"
+}
+</script>
+</head>
+<body>
+<div class="page">
+<nav class="navbar">
+  <div class="nav-container">
+    <a href="../../" class="logo">
+      <img src="../../../assets/logo.png" alt="Logo" class="logo-image">
+      Renquan Zhizi Open Source
+    </a>
+    <div class="nav-links">
+      <a href="../../" class="nav-link">Home</a>
+      <a href="../../../articles/eddy-calibration/" class="nav-link lang-switch" title="切换到中文" hreflang="zh">中文</a>
+    </div>
+  </div>
+</nav>
+<main class="main-content">
+  <div class="article-detail">
+    <div class="article-content">
+      <div class="article-header">
+        <div class="article-meta">
+          <span class="category">3D Printing</span>
+          <span class="date">2026-06-03</span>
+        </div>
+        <h1>3D Printer Little Crab Eddy-Current XY Offset Calibration</h1>
+        <div class="article-author">
+          <span>Author: 仁泉之子</span>
+        </div>
+      </div>
+
+      <div class="article-body">
+<p><span style="color: #000000; font-size: 14pt;"><strong>1. The Little Crab eddy-current XY offset calibration — two months of <span
+        style="color: #ba372a;">original self-developed</span> work. DIY printers now have eddy-current XY calibration too — <span
+        style="color: #ba372a;">currently the only one of its kind</span>.</strong></span></p>
+<p><span style="color: #000000; font-size: 14pt;"><strong>2. Automatically calibrates the XY center position of a 3D printer's tools (hotends/nozzles) using an
+      LDC1612 eddy-current sensor. Mainly intended for multi-hotend or multi-toolhead printers, solving the XY offset problem between different
+      toolheads.</strong></span>
+</p>
+<p><span style="color: #000000; font-size: 14pt;"><strong>3. Fast probing, easy to use, extremely high repeatability: with the hotend unchanged, probing
+      repeatability is under 0.005 mm, and fixed-offset accuracy is under 0.02 mm.</strong></span></p>
+<p><span style="font-size: 14pt;"><span style="color: #000000;"><strong>4.</strong></span><strong>Working principle:</strong><span
+      style="color: #000000;"><strong>as the nozzle sweeps across the coil's center point, the frequency traces a parabola, reaching an extremum exactly at the
+        center. Near the center, the frequency waveform is parabolic — just find the vertex of the parabola to locate the center. As long as the nozzle sweeps
+        past the center area from at least two directions, the exact center of the coil can be determined.</strong></span></span></p>
+<p><span style="color: #000000; font-size: 14pt;"><strong>5. This coil currently only measures XY offset calibration. Z calibration requires a nozzle-Z-limiting
+      probe such as a pressure bed or eddy scanning-bed tap. <span style="color: #ba372a;">Pay attention to the nozzle scanning height — it should sweep about
+        0.5 mm above the coil.</span></strong></span></p>
+<p><span style="font-size: 14pt;"><span style="color: #000000;"><strong>6. This feature is a Klipper plugin that reuses Klipper's eddy driver ldc1612.py; it
+        requires the latest Klipper version. See my eddy bed-scanning project for details: </strong></span><strong><a
+        href="https://oshwhub.com/cxg01/3d-da-yin-wo-liu-diao-ping">3D Printed Eddy-Current Leveling Coil — Little Crab Bed Scanning Coil</a>
+      &nbsp;<span style="color: #000000;">You can also simply flip the eddy bed-scanning coil over and use it for XY offset calibration.</span></strong></span>
+</p>
+<p><span style="color: #000000; font-size: 14pt;"><strong>7. Note that I2C communication consumes resources — you need a high-clock MCU; the STM32F072 won't do.
+      If you must use one, you'll need to edit ldc1612.py to lower the sampling rate; see the bed-scanning tutorial. This module is fixed to the heated bed and
+      needs wiring to the mainboard.</strong></span></p>
+<p><span style="font-size: 14pt;"><strong><span style="color: #000000;"><span style="color: #ba372a;"><span style="color: #000000;">8. Eddy-current XY
+            calibration GitHub repo: <a href="https://github.com/chengxg/tool_eddy_calibration">https://github.com/chengxg/tool_eddy_calibration</a>&nbsp;
+            &nbsp;</span></span></span></strong></span></p>
+<p><span style="font-size: 14pt;"><strong><span style="color: #000000;"><span style="color: #ba372a;"><span style="color: #000000;">&nbsp; &nbsp;The tutorial is
+            also at: <a
+              href="https://demo.chengxg.top/pangxie/#/articles/eddy_calibration">https://demo.chengxg.top/pangxie/#/articles/eddy_calibration</a></span></span></span></strong></span>
+</p>
+<p><span style="font-size: 14pt;"><strong><span style="color: #000000;"><span style="color: #ba372a;"><span style="color: #000000;">&nbsp; &nbsp;Hotend-swapping
+            project:</span> <a
+            href="https://github.com/cx330-TXY/Simple-Multi-Hotend">https://github.com/cx330-TXY/Simple-Multi-Hotend</a></span></span></strong></span></p>
+<p><span style="font-size: 14pt;"><strong><span style="color: #000000;">9. Little Crab QQ group: 1057494383; hotend-swapping QQ group:
+        757271588.</span></strong></span></p>
+<div>
+  <div>&nbsp;</div>
+  <div><strong><span style="font-size: 18pt;">Installing the plugin</span></strong></div>
+  <div><span style="font-size: 14pt;"><strong>Download the plugin file and upload it to the Klipper extras directory &nbsp;<span
+          style="color: #ba372a;">/klipper/klippy/extras/tool_eddy_calibration.py<span style="color: #000000;">, then restart the Klipper
+            service.</span></span></strong></span></div>
+  <div><span style="font-size: 14pt;"><strong><span style="color: #ba372a;"><img
+            src="https://image.lceda.cn/oshwhub/pullImage/9bf8ad65e8114744a3ca2d1bb64ed506.png" alt="" height="631" width="600" /></span></strong></span></div>
+  <div>&nbsp;</div>
+  <div>&nbsp;</div>
+</div>
+<h2 id="commands"><span style="font-size: 18pt;">I. Tool-Calibration Plugin G-code Command Reference</span></h2>
+<p><strong><span style="font-size: 14pt;">Add the sensor configuration block</span></strong></p>
+<blockquote>
+  <div>
+    <div>
+      <div><span style="font-size: 12pt; color: #236fa1;">[tool_eddy_calibration calibrator_xy]</span></div>
+      <div><span style="font-size: 12pt; color: #236fa1;">sensor_type: ldc1612</span></div>
+      <div><span style="font-size: 12pt; color: #236fa1;">frequency: 40000000</span></div>
+      <div><span style="font-size: 12pt; color: #236fa1;">reg_drive_current: 22 &nbsp; &nbsp; # comment this out if you use the drive-current calibration
+          command</span></div>
+      <div><span style="font-size: 12pt; color: #236fa1;">max_sensor_hz: 3000000 &nbsp; &nbsp;# coil maximum frequency</span></div>
+      <div><span style="font-size: 12pt; color: #236fa1;"># LDC1612 I2C configuration</span></div>
+      <div><span style="font-size: 12pt; color: #236fa1;">i2c_speed: 400000</span></div>
+      <div><span style="font-size: 12pt; color: #236fa1;">i2c_address: 42 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # address jumper connection</span></div>
+      <div><span style="font-size: 12pt; color: #236fa1;">i2c_mcu: mcu &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# change to your own</span></div>
+      <div><span style="font-size: 12pt; color: #236fa1;">i2c_software_scl_pin: SCL # change to your own</span></div>
+      <div><span style="font-size: 12pt; color: #236fa1;">i2c_software_sda_pin: SDA # change to your own</span></div>
+      <div><span style="font-size: 12pt; color: #236fa1;"># PCB coil position, approximate</span></div>
+      <div><span style="font-size: 12pt; color: #236fa1;">coil_x: 28.7 &nbsp;# change to your own</span></div>
+      <div><span style="font-size: 12pt; color: #236fa1;">coil_y: 12.6 &nbsp;# change to your own</span></div>
+      <div><span style="font-size: 12pt; color: #236fa1;">coil_z: 0.4 &nbsp; # change to your own, Z coordinate of the coil plane</span></div>
+      <div><span style="font-size: 12pt; color: #236fa1;">coil_inner_diameter: 2.0 &nbsp; &nbsp;# coil inner diameter</span></div>
+      <div><span style="font-size: 12pt; color: #236fa1;"># Scanning parameters</span></div>
+      <div><span style="font-size: 12pt; color: #236fa1;">scan_height: 0.4 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# scanning height above the PCB coil center,
+          added on top of coil_z; the nozzle should scan about 0.5 mm above the coil</span></div>
+      <div><span style="font-size: 12pt; color: #236fa1;">scan_speed: 4.0 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # scanning speed; slower is not necessarily
+          better</span></div>
+      <div><span style="font-size: 12pt; color: #236fa1;">scan_length: 4.0 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# scan length, must at least cover the coil
+          inner diameter</span></div>
+      <div><span style="font-size: 12pt; color: #236fa1;">scan_safe_z: 2.0 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# safe Z height, just needs to be higher
+          than scan_height</span></div>
+      <div><span style="font-size: 12pt; color: #236fa1;">travel_speed_xy: 100.0 &nbsp; &nbsp; &nbsp;# XY travel speed</span></div>
+      <div><span style="font-size: 12pt; color: #236fa1;">travel_speed_z: 10.0 &nbsp; &nbsp; &nbsp; &nbsp;# Z travel speed</span></div>
+      <div><span style="font-size: 12pt; color: #236fa1;">save_data: True &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # whether to save probe data to a CSV
+          file</span></div>
+    </div>
+  </div>
+  <div>&nbsp;</div>
+</blockquote>
+<h3><strong><span style="font-size: 14pt; color: #ba372a;">1. TEST_LDC1612 &mdash; sensor test command</span></strong></h3>
+<p><strong>Quickly checks whether the LDC1612 sensor is working, collecting frequency data over a short period and printing statistics. <span
+      style="color: #ba372a;">Use this after soldering to verify it works.</span></strong></p>
+<p><span style="color: #000000;"><strong>The sensor coil's resonant frequency is currently around 2.2 MHz.</strong></span></p>
+<p><strong><span style="color: #ba372a;"><img src="https://image.lceda.cn/oshwhub/pullImage/a7ded5764e09433fabb606e23b34e38e.png" alt="" height="345"
+        width="716" /></span></strong></p>
+<hr />
+<h3><strong><span style="font-size: 14pt; color: #ba372a;">2. TOOL_EDDY_CALIBRATE &mdash; calibrate the tool center</span></strong></h3>
+<p><span style="font-size: 12pt;"><strong>Runs the full tool XY center-position calibration — the core command. When it finishes, the result is stored in the
+      plugin's</strong></span><span style="font-size: 14pt; color: #ba372a;"><strong>last_result</strong></span><span style="font-size: 12pt;"><strong>
+      variable.</strong></span></p>
+<p><span style="font-size: 12pt;"><strong>In G-code you can read it like this: {% set res = printer["tool_eddy_calibration calibrator_xy"]['0'] %}&nbsp;
+    </strong></span><span style="font-size: 12pt;"><strong>X coordinate res.x, </strong></span><span style="font-size: 12pt;"><strong>Y coordinate res.y,
+    </strong></span><span style="font-size: 12pt;"><strong>Z coordinate res.z</strong></span></p>
+<div>
+  <div>&nbsp;</div>
+  <div>
+    <table style="border-collapse: collapse; width: 99.9967%; height: 523.073px;" border="1">
+      <tbody>
+        <tr style="height: 22.75px;">
+          <td style="height: 22.75px; width: 16.6941%;"><span style="font-size: 14pt; color: #843fa1;"><strong>Parameter</strong></span></td>
+          <td style="height: 22.75px; width: 10.1852%;"><span style="font-size: 14pt; color: #843fa1;"><strong>Required</strong></span></td>
+          <td style="height: 22.75px; width: 10.7879%;"><span style="font-size: 14pt; color: #843fa1;"><strong>Default</strong></span></td>
+          <td style="height: 22.75px; width: 62.3165%;"><span style="font-size: 14pt; color: #843fa1;"><strong>Description</strong></span></td>
+        </tr>
+        <tr style="height: 22.75px;">
+          <td style="height: 22.75px; width: 16.6941%; line-height: 1;"><span style="color: #e67e23;"><strong>TOOL</strong></span></td>
+          <td style="height: 22.75px; width: 10.1852%; line-height: 1;"><span style="color: #e67e23;"><strong>Yes</strong></span></td>
+          <td style="height: 22.75px; width: 10.7879%; line-height: 1;"><span style="color: #e67e23;"><strong>-</strong></span></td>
+          <td style="height: 22.75px; width: 62.3165%; line-height: 1;"><span style="color: #e67e23;"><strong>Tool identifier, e.g. 0, 1</strong></span></td>
+        </tr>
+        <tr style="height: 22.75px;">
+          <td style="height: 22.75px; width: 16.6941%; line-height: 1;"><span style="color: #e67e23;"><strong>DIR</strong></span></td>
+          <td style="height: 22.75px; width: 10.1852%; line-height: 1;"><span style="color: #e67e23;"><strong>No</strong></span></td>
+          <td style="height: 22.75px; width: 10.7879%; line-height: 1;"><span style="color: #e67e23;"><strong>45,135</strong></span></td>
+          <td style="height: 22.75px; width: 62.3165%; line-height: 1;"><span style="color: #e67e23;"><strong>Scan direction angles (comma-separated),
+                0&deg;=X+, 90&deg;=Y+,
+                at least two directions</strong></span></td>
+        </tr>
+        <tr style="height: 83.9688px;">
+          <td style="height: 83.9688px; width: 16.6941%; line-height: 1;"><span style="color: #e67e23;"><strong>PRE_DIR</strong></span></td>
+          <td style="height: 83.9688px; width: 10.1852%; line-height: 1;"><span style="color: #e67e23;"><strong>No</strong></span></td>
+          <td style="height: 83.9688px; width: 10.7879%; line-height: 1;"><span style="color: #e67e23;"><strong>Same as DIR</strong></span></td>
+          <td style="height: 83.9688px; width: 62.3165%; line-height: 1;">
+            <p><span style="color: #e67e23;"><strong>Pre-scan direction angles (used on first calibration)</strong></span></p>
+            <p><span style="color: #e67e23;"><strong>Used to refine the manually configured coil center (coil_x, coil_y)</strong></span></p>
+          </td>
+        </tr>
+        <tr style="height: 83.9688px;">
+          <td style="height: 83.9688px; width: 16.6941%; line-height: 1;"><span style="color: #e67e23;"><strong>REPEATS</strong></span></td>
+          <td style="height: 83.9688px; width: 10.1852%; line-height: 1;"><span style="color: #e67e23;"><strong>No</strong></span></td>
+          <td style="height: 83.9688px; width: 10.7879%; line-height: 1;"><span style="color: #e67e23;"><strong>1</strong></span></td>
+          <td style="height: 83.9688px; width: 62.3165%; line-height: 1;">
+            <p><span style="color: #e67e23;"><strong>Number of repeat measurements (1-10); averaging multiple runs improves precision</strong></span></p>
+            <p><span style="color: #e67e23;"><strong>A single pass is already quite accurate — usually one is enough</strong></span></p>
+          </td>
+        </tr>
+        <tr style="height: 83.9688px;">
+          <td style="height: 83.9688px; width: 16.6941%; line-height: 1;"><span style="color: #e67e23;"><strong>PAIR_CANCEL</strong></span></td>
+          <td style="height: 83.9688px; width: 10.1852%; line-height: 1;"><span style="color: #e67e23;"><strong>No</strong></span></td>
+          <td style="height: 83.9688px; width: 10.7879%; line-height: 1;"><span style="color: #e67e23;"><strong>0</strong></span></td>
+          <td style="height: 83.9688px; width: 62.3165%; line-height: 1;">
+            <p><span style="color: #e67e23;"><strong>Pair-cancel motion hysteresis (0=off, 1=on)</strong></span></p>
+            <p><span style="color: #e67e23;"><strong>Usually not needed: belts have motion hysteresis, so the center found from the reverse direction differs by
+                  about 0.03 mm</strong></span></p>
+          </td>
+        </tr>
+        <tr style="height: 83.9688px;">
+          <td style="height: 83.9688px; width: 16.6941%; line-height: 1;"><span style="color: #e67e23;"><strong>SCAN_HEIGHT_OFFSET</strong></span></td>
+          <td style="height: 83.9688px; width: 10.1852%; line-height: 1;"><span style="color: #e67e23;"><strong>No</strong></span></td>
+          <td style="height: 83.9688px; width: 10.7879%; line-height: 1;"><span style="color: #e67e23;"><strong>0.0</strong></span></td>
+          <td style="height: 83.9688px; width: 62.3165%; line-height: 1;">
+            <p><span style="color: #e67e23;"><strong>Fine Z offset adjustment (+ away from coil, - toward coil)</strong></span></p>
+            <p><span style="color: #e67e23;"><strong>For hotends with large height differences, to avoid crashing due to the height gap</strong></span></p>
+          </td>
+        </tr>
+        <tr style="height: 118.948px;">
+          <td style="height: 118.948px; width: 16.6941%; line-height: 1;"><span style="color: #e67e23;"><strong>CENTER_XY</strong></span></td>
+          <td style="height: 118.948px; width: 10.1852%; line-height: 1;"><span style="color: #e67e23;"><strong>No</strong></span></td>
+          <td style="height: 118.948px; width: 10.7879%; line-height: 1;"><span style="color: #e67e23;"><strong>-</strong></span></td>
+          <td style="height: 118.948px; width: 62.3165%; line-height: 1;">
+            <p><span style="color: #e67e23;"><strong>Overrides the initial scan center point, format X,Y&nbsp; &nbsp;</strong></span></p>
+            <p><span style="color: #e67e23;"><strong>If not set, (coil_x, coil_y) from the config is used</strong></span></p>
+            <p><span style="color: #e67e23;"><strong>Generally used when different hotends' XY offsets are so large that the center point is badly
+                  displaced</strong></span></p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div>
+    <div>
+      <blockquote>
+        <div>&nbsp;</div>
+      </blockquote>
+    </div>
+  </div>
+</div>
+<p><span style="font-size: 14pt; color: #843fa1;"><strong>Command usage examples:</strong></span></p>
+<p><strong><span style="font-size: 14pt;">; Basic calibration (default 45&deg; and 135&deg; directions) <span style="color: #ba372a;">TOOL_EDDY_CALIBRATE TOOL=0
+      </span></span></strong></p>
+<p><strong><span style="font-size: 14pt;">; Automatic reverse-direction scanning with pair-cancel of motion hysteresis&nbsp; <span
+        style="color: #ba372a;">TOOL_EDDY_CALIBRATE TOOL=0 DIR=0,90
+        PAIR_CANCEL=1</span></span></strong></p>
+<p><strong><span style="font-size: 14pt;">; 3 repeat measurements + fine-tuned scan height&nbsp; <span style="color: #ba372a;">TOOL_EDDY_CALIBRATE TOOL=1
+        DIR=45,135 REPEATS=3
+        SCAN_HEIGHT_OFFSET=0.2</span></span></strong></p>
+<p><strong><span style="font-size: 14pt;">; Specify pre-scan directions <span style="color: #ba372a;">TOOL_EDDY_CALIBRATE TOOL=0 PRE_DIR=0,90
+        DIR=45,135</span></span></strong></p>
+<p><strong><span style="font-size: 14pt;">; Specify the initial scan center point <span style="color: #ba372a;">TOOL_EDDY_CALIBRATE TOOL=0 CENTER_XY=33.0,11.0
+        DIR=0,90</span></span></strong></p>
+<p>&nbsp;</p>
+<p><span style="font-size: 14pt; color: #843fa1;"><strong>Command execution flow:</strong></span></p>
+<blockquote>
+  <p><strong><span style="font-size: 12pt; color: #843fa1;">1. Check that the printer is homed</span></strong></p>
+  <p><strong><span style="font-size: 12pt; color: #843fa1;">2. Determine the scan center: use the existing center point first &rarr; then the CENTER_XY
+        parameter override &rarr; finally the configured coil_x/coil_y</span></strong></p>
+  <p><strong><span style="font-size: 12pt; color: #843fa1;">3. If no exact center is known yet, pre-scan along the PRE_DIR directions to refine the manually
+        specified approximate coil center. The scan result is cached and skipped on subsequent runs</span></strong></p>
+  <p><strong><span style="font-size: 12pt; color: #843fa1;">4. Scan along each direction given by DIR, collecting frequency data</span></strong></p>
+  <p><strong><span style="font-size: 12pt; color: #843fa1;">5. Detect the frequency peak position for each direction</span></strong></p>
+  <p><strong><span style="font-size: 12pt; color: #843fa1;">6. Reconstruct the center coordinates via LSQ or the pair-averaging method</span></strong></p>
+  <p><strong><span style="font-size: 12pt; color: #843fa1;">7. If REPEATS &gt; 1, repeat steps 4-6 and average</span></strong></p>
+  <p><strong><span style="font-size: 12pt; color: #843fa1;">8. Finally, move to directly above the detected center point</span></strong></p>
+</blockquote>
+<hr />
+<h3>&nbsp;</h3>
+<h3><img src="https://image.lceda.cn/oshwhub/pullImage/4bbdaa47530640e1a42347574ce4aa14.png" alt="" height="520" width="800" /></h3>
+<p><span style="font-size: 14pt; color: #843fa1;"><strong>This printed center-point position can be written back into the coil's <span
+        style="color: #236fa1; font-size: 14pt;">coil_x,coil_y</span> coordinates in the configuration.</strong></span></p>
+<p>&nbsp;</p>
+<h3><span style="font-size: 14pt; color: #ba372a;">3. GET_TOOL_CENTER &mdash; query calibration results</span></h3>
+<p><strong><span style="font-size: 12pt;">Queries the last calibration result for the given tool.</span></strong></p>
+<pre class="highlighter-hljs">&nbsp;</pre>
+<hr />
+<h3><span style="color: #ba372a;"><strong><span style="font-size: 14pt;">4. SET_TOOL_Z &mdash; set the tool Z coordinate</span></strong></span></h3>
+<p><strong><span style="font-size: 12pt;">This module currently does not support Z calibration. Sets the tool's Z coordinate value, typically from an external
+      probe's measurement — the Z position obtained via a pressure bed or eddy tap.</span></strong></p>
+<p><strong><span style="font-size: 12pt;"><img src="https://image.lceda.cn/oshwhub/pullImage/8e89fa342bbd4028be12c07686c3714d.png" alt="" height="188"
+        width="800" /></span></strong></p>
+<hr />
+<h3><span style="font-size: 14pt; color: #ba372a;"><strong>5. CLEAR_TOOL_CENTER &mdash; clear the scan center point</strong></span></h3>
+<p><span style="font-size: 12pt;"><strong>Used to clear the pre-scanned center point from the TOOL_EDDY_CALIBRATE command. After clearing,
+      running</strong></span><strong><span style="font-size: 14pt; color: #ba372a;">TOOL_EDDY_CALIBRATE<span style="font-size: 12pt; color: #000000;"> again
+        will first do a pre-scan to find the center point, then do the precise scan.</span></span></strong>
+</p>
+<p><img src="https://image.lceda.cn/oshwhub/pullImage/d9bc7e0e6f6a464780fbbed18009a1b2.png" alt="" height="203" width="800" /></p>
+<h3><span style="color: #ba372a; font-size: 14pt;"><strong>6. LDC_CALIBRATE_DRIVE_CURRENT CHIP=calibrator_xy &mdash; coil drive-current calibration
+      command</strong></span></h3>
+<p><span style="font-size: 12pt;"><strong>This command is the same as Klipper's eddy bed-scanning one; see my Little Crab eddy bed-scanning project for
+      usage.</strong></span></p>
+<p>&nbsp;</p>
+<h2><span style="font-size: 18pt;">II. Practical configuration of the tool-calibration plugin in the hotend-swapping project</span></h2>
+<p><span style="color: #843fa1; font-size: 12pt;"><strong>calibration-eddy.cfg — complete configuration file</strong></span></p>
+<div>
+  <blockquote>
+    <div>
+      <div>
+        <div><span style="font-size: 12pt; color: #236fa1;"># Hotend-swapping project eddy tool calibration
+            https://github.com/cx330-TXY/Simple-Multi-Hotend</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;"># Find the center point: TOOL_EDDY_CALIBRATE TOOL=0 DIR=45,135 REPEATS=1</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;"># Query calibration result: GET_TOOL_CENTER TOOL=0</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;"># Set tool Z coordinate: SET_TOOL_Z TOOL=0 Z=-0.1</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;"># Clear the scan center point: &nbsp;CLEAR_TOOL_CENTER TOOL=0</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;"># Coil drive-current calibration command: LDC_CALIBRATE_DRIVE_CURRENT CHIP=calibrator_xy</span>
+        </div>
+        <br />
+        <div><span style="font-size: 12pt; color: #236fa1;">[tool_eddy_calibration calibrator_xy]</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;">sensor_type: ldc1612</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;">frequency: 40000000</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;">reg_drive_current: 22 &nbsp; &nbsp; # comment this out if you use the drive-current calibration
+            command</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;">max_sensor_hz: 3000000 &nbsp; &nbsp;# coil maximum frequency</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;"># LDC1612 I2C configuration</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;">i2c_speed: 400000</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;">i2c_address: 42 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # address jumper connection</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;">i2c_mcu: mcu &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# change to your own</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;">i2c_software_scl_pin: SCL # change to your own</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;">i2c_software_sda_pin: SDA # change to your own</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;"># PCB coil position, approximate</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;">coil_x: 28.7 &nbsp;# change to your own</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;">coil_y: 12.6 &nbsp;# change to your own</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;">coil_z: 0.4 &nbsp; # change to your own, Z coordinate of the coil plane</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;">coil_inner_diameter: 2.0 &nbsp; &nbsp;# coil inner diameter</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;"># Scanning parameters</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;">scan_height: 0.4 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# scanning height above the PCB coil
+            center, added on top of coil_z; the nozzle should scan about 0.5 mm above the coil</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;">scan_speed: 4.0 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # scanning speed; slower is not
+            necessarily better</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;">scan_length: 4.0 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# scan length, must at least cover the
+            coil inner diameter</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;">scan_safe_z: 2.0 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# safe Z height, just needs to be higher
+            than scan_height</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;">travel_speed_xy: 100.0 &nbsp; &nbsp; &nbsp;# XY travel speed</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;">travel_speed_z: 10.0 &nbsp; &nbsp; &nbsp; &nbsp;# Z travel speed</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;">save_data: True &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # whether to save probe data to a CSV
+            file</span></div>
+        <br />
+        <div><span style="font-size: 12pt; color: #236fa1;">[gcode_macro _TOOL_CALIB_VARS]</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;">variable_safe_x: 20.0 &nbsp; &nbsp; &nbsp; &nbsp;# change to your own, tool-change/parking safe-area
+            X, where the nozzle pokes the bed</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;">variable_safe_y: 35.0 &nbsp; &nbsp; &nbsp; &nbsp;# change to your own, tool-change/parking safe-area
+            Y, where the nozzle pokes the bed</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;">variable_safe_z: 5.0 &nbsp; &nbsp; &nbsp; &nbsp; # change to your own, tool-change/parking safe-area
+            Z height</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;">variable_tool_count: 2 &nbsp; &nbsp; &nbsp; # change to your own, total number of tools (e.g. 0, 1 —
+            2 in total)</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;">gcode:</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; # No commands here; this macro only stores variables</span></div>
+        <br />
+        <div><span style="font-size: 12pt; color: #236fa1;"># ---------------------------------------------------------</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;"># Calibrate a single tool</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;"># Usage example: CALIBRATE_TOOL TOOL=1</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;"># ---------------------------------------------------------</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;">[gcode_macro CALIBRATE_TOOL]</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;">gcode:</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; {% set tool = params.TOOL|default(0)|int %}</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; {% set vars = printer["gcode_macro _TOOL_CALIB_VARS"] %}</span></div>
+        <br />
+        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; G1 X{vars.safe_x} Y{vars.safe_y} Z{vars.safe_z} F9000</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; T{tool}</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; SET_GCODE_OFFSET X=0 Y=0 Z=0 MOVE=0</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; G1 X{vars.safe_x} Y{vars.safe_y} Z{vars.safe_z} F9000</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; M109 S150 T{tool} &nbsp; &nbsp; # heat to 150C</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; # CLEAN_NOZZLE # set up nozzle wiping yourself as needed, otherwise results are
+            inaccurate</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; # Get the Z offset using a nozzle-limiting probe</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; PROBE METHOD=tap SAMPLES=3</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; G1 X{vars.safe_x} Y{vars.safe_y} Z{vars.safe_z} F9000</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; DO_CALIBRATE_TOOL TOOL={tool}</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; _DO_SAVE_CALIB_RESULT TOOL={tool}</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; M400 &nbsp; # [KEY] wait for all moves to finish</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; G90</span></div>
+        <br />
+        <div><span style="font-size: 12pt; color: #236fa1;">[gcode_macro DO_CALIBRATE_TOOL]</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;">gcode:</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; {% set tool = params.TOOL|default(0)|int %}</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; {% set probeZ = printer.probe.last_probe_position.z %}</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; # Clear the previous center point</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; CLEAR_TOOL_CENTER TOOL={tool}</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; # Set the Z position probed by the nozzle-limiting probe</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; SET_TOOL_Z TOOL={tool} Z={probeZ}</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; {% set tool0ProbeZ = 0.0 %}</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; {% if '0' in printer["tool_eddy_calibration calibrator_xy"] %}</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; &nbsp;
+            {% set tool0ProbeZ = printer["tool_eddy_calibration calibrator_xy"]["0"].z %}</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; {% endif %}</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; # Perform XY offset calibration, applying a Z offset relative to tool0 to avoid the
+            nozzle hitting the coil</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; TOOL_EDDY_CALIBRATE TOOL={tool} DIR=0,90 PAIR_CANCEL=0
+            SCAN_HEIGHT_OFFSET={probeZ-tool0ProbeZ}</span></div>
+        <br />
+        <div><span style="font-size: 12pt; color: #236fa1;">[gcode_macro _DO_SAVE_CALIB_RESULT]</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;">gcode:</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; {% set tool = params.TOOL|int %}</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; {% set res0 = printer["tool_eddy_calibration calibrator_xy"]["0"] %}</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; {% set res = printer["tool_eddy_calibration calibrator_xy"][tool|string] %}</span>
+        </div>
+        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp;</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; {% if tool == 0 %}</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; &nbsp; &nbsp; # T0 always stores 0</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; &nbsp; &nbsp; SAVE_VARIABLE VARIABLE=t0_offset_x VALUE=0.0</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; &nbsp; &nbsp; SAVE_VARIABLE VARIABLE=t0_offset_y VALUE=0.0</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; &nbsp; &nbsp; SAVE_VARIABLE VARIABLE=t0_offset_z VALUE=0.0</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; &nbsp; &nbsp; {action_respond_info("✅ T0 reference point coordinates locked")}</span>
+        </div>
+        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; {% else %}</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; &nbsp; &nbsp; # Other tools store the probed result</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; &nbsp; &nbsp; SAVE_VARIABLE VARIABLE=t{tool}_offset_x
+            VALUE={(res.x-res0.x)|round(4)}</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; &nbsp; &nbsp; SAVE_VARIABLE VARIABLE=t{tool}_offset_y
+            VALUE={(res.y-res0.y)|round(4)}</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; &nbsp; &nbsp; SAVE_VARIABLE VARIABLE=t{tool}_offset_z
+            VALUE={(res.z-res0.z)|round(4)}</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; &nbsp; &nbsp; {action_respond_info("✅ T" ~ tool ~ " offsets saved
+            automatically")}</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; {% endif %}</span></div>
+        <br />
+        <div><span style="font-size: 12pt; color: #236fa1;"># ---------------------------------------------------------</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;"># Batch-calibrate all tools</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;"># ---------------------------------------------------------</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;">[gcode_macro CALIBRATE_ALL_TOOLS]</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;">gcode:</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; {% set vars = printer["gcode_macro _TOOL_CALIB_VARS"] %}</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; {action_respond_info("Starting fully automatic tool calibration...")}</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; # Pre-heat everything to 150C — mind your power supply capacity</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; {% for t in range(0, vars.tool_count) %}</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; &nbsp; &nbsp; M104 S150 T{t}</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; {% endfor %}</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; # Iterate over all tools (range(0, N) yields 0 to N-1)</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; {% for t in range(0, vars.tool_count) %}</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; &nbsp; &nbsp; CALIBRATE_TOOL TOOL={t}</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; {% endfor %}</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; # Turn heaters off</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; {% for t in range(0, vars.tool_count) %}</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; &nbsp; &nbsp; M104 S0 T{t}</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; {% endfor %}</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; untool</span></div>
+        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; {action_respond_info("All tools calibrated")}</span></div>
+      </div>
+    </div>
+  </blockquote>
+</div>
+<h2 id="algorithm"><span style="font-size: 18pt;">III. Scanning algorithm overview</span></h2>
+<h3><span style="font-size: 14pt;">1. Scanning process</span></h3>
+<p><span style="font-size: 12pt;">The scan in each direction is a straight-line move of length L at angle &theta; about the center point:</span></p>
+<ul>
+  <li><span style="font-size: 12pt;">Start: (center_x - L/2 &middot; cos&theta;, center_y - L/2 &middot; sin&theta;)</span></li>
+  <li><span style="font-size: 12pt;">End: (center_x + L/2 &middot; cos&theta;, center_y + L/2 &middot; sin&theta;)</span></li>
+</ul>
+<p><span style="font-size: 12pt;">During the scan, frequency data is sampled at a fixed rate (LDC1612 default 400 sps) while print time is recorded, so
+    frequency can be mapped to position.</span></p>
+<h3><span style="font-size: 14pt;">2. Peak detection</span></h3>
+<p><span style="font-size: 12pt;">Peak detection has three steps:</span></p>
+<ol>
+  <li><span style="font-size: 12pt;"><strong>Coarse location</strong>: excluding the outer 15% of the data, search for the frequency extremum in the middle
+      region</span></li>
+  <li><span style="font-size: 12pt;"><strong>Automatic type detection</strong> (auto mode): compare the mean frequency of the central 30% region against the
+      outer 15% regions to determine whether the waveform is <span style="color: #843fa1;"><strong>peak-shaped (large coil)</strong></span> or <strong><span
+          style="color: #843fa1;">valley-shaped (small coil)</span></strong></span></li>
+  <li><span style="font-size: 12pt;"><strong>Fine location</strong>: near the extremum, a <strong>weighted least-squares parabola fit</strong> (Gaussian
+      weights) achieves sub-sample positioning accuracy</span></li>
+</ol>
+<p><span style="font-size: 12pt;">Parabola fitting formula: <span style="color: #ba372a;"><strong>y = a&middot;x&sup2; + b&middot;x + c</strong></span>, with
+    the extremum at <strong><span style="color: #ba372a;">x = -b/(2a)</span></strong>. The weights follow a Gaussian distribution — the closer to the peak, the
+    larger the weight — suppressing the influence of noisy points far from the peak.</span></p>
+<h3><span style="font-size: 14pt;">3. Center reconstruction algorithm</span></h3>
+<p><span style="font-size: 12pt;">Two reconstruction methods are available depending on the <span style="color: #ba372a;"><strong>PAIR_CANCEL</strong></span>
+    parameter:</span></p>
+<h4><span style="font-size: 12pt;">LSQ method (PAIR_CANCEL=0)</span></h4>
+<p><span style="font-size: 12pt;">Directly solves for the center coordinates by least squares over the projections of each direction's peak. Suited to
+    asymmetric scan directions or a small number of directions.</span></p>
+<h4><span style="font-size: 12pt;">Pair-averaging method (PAIR_CANCEL=1)</span></h4>
+<p><span style="font-size: 12pt;">Averages the projections of the &theta; and &theta;+180&deg; directions, canceling the motion system's directional hysteresis
+    (different accuracy forward vs. backward), then solves with LSQ.</span></p>
+<p><span style="font-size: 12pt;">For example, <span style="color: #ba372a;"><strong>DIR=0,90</strong></span> with <span
+      style="color: #ba372a;"><strong>PAIR_CANCEL=1</strong></span> automatically expands into the four directions <strong><span
+        style="color: #ba372a;">0,90,180,270</span></strong>, forming two pairs of opposite symmetric scans.</span></p>
+<p>&nbsp;</p>
+<h2><span style="font-size: 18pt;">IV. Probing accuracy and nozzle eccentricity</span></h2>
+<p><span style="font-size: 12pt;"><strong><span style="color: #843fa1;">The eddy-current sensor detects the nozzle's center of mass. If the nozzle's center of
+        mass is eccentric relative to the orifice center, you can add a fixed offset when loading the offset values.</span></strong></span></p>
+<p><span style="font-size: 12pt;"><strong><span style="color: #843fa1;"><img src="https://image.lceda.cn/oshwhub/pullImage/13e1671773754d50a00b529ae29675a5.png"
+          alt="" height="524" width="800" /></span></strong></span></p>
+<p><span style="font-size: 12pt;"><img src="https://image.lceda.cn/oshwhub/pullImage/34d943b4dc58434d81cba1477ad462bb.png" alt="" height="266"
+      width="800" /></span></p>
+<p><span style="font-size: 12pt; color: #ba372a;"><strong>Currently all offsets are computed relative to the first nozzle. If the first nozzle itself is
+      eccentric, the error of every subsequent nozzle includes not only its own eccentricity but also the first nozzle's eccentricity stacked on
+      top.</strong></span></p>
+<p><span style="font-size: 12pt; color: #ba372a;"><strong>To eliminate this fixed error further, we can make a fake nozzle to serve as the reference — a conical
+      locating pin that is solid inside, so there is no eccentricity.</strong></span></p>
+<p><span style="font-size: 12pt; color: #ba372a;"><strong>This removes the reference nozzle's eccentricity problem, and in theory halves the fixed offset
+      error.</strong></span></p>
+<p><span style="font-size: 14pt; color: #ba372a;"><strong><img src="https://image.lceda.cn/oshwhub/pullImage/86651f7a55644d579ea6559e973b7cef.jpg" alt=""
+        height="600" width="800" /></strong></span></p>
+<pre class="highlighter-hljs">&nbsp;</pre>
+<p><img src="https://image.lceda.cn/oshwhub/pullImage/5154ab165ae24e2d9ad3eff5e06debb9.png" alt="" height="384" width="800" /></p>
+<p><span style="font-size: 14pt;"><strong>This page tool is provided: import the CSV saved by the plugin and you can see the frequency waveform as the coil is
+      swept — the frequency is lowest at the center point.</strong></span></p>
+<p><span style="font-size: 14pt;"><strong><img src="https://image.lceda.cn/oshwhub/pullImage/d035c106a53f420d8f9bc512ba42928f.png" alt="" height="1787"
+        width="800" /></strong></span></p>
+<p><span style="font-size: 14pt;"><strong>Single-hotend repeat-measurement positioning accuracy is very high — repeatability is basically under 0.01
+      mm.</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="font-size: 14pt;"><strong><img src="https://image.lceda.cn/oshwhub/pullImage/125364cacb9f4abab69a6a73791530e8.jpg" alt="" height="600"
+        width="800" /></strong></span></p>
+<p>&nbsp;</p>
+<p><span style="font-size: 14pt;"><strong><img src="https://image.lceda.cn/oshwhub/pullImage/e1abb72cb9ba4538a42752f2b7ce44ff.jpg" alt="" height="600"
+        width="800" /></strong></span></p>
+<p>&nbsp;</p>
+<p><img src="https://image.lceda.cn/oshwhub/pullImage/86f5acaa74bc42e2ac5c513c6fe94aae.jpg" alt="" height="600" width="800" /></p>
+<p>&nbsp;</p>
+<p><img src="https://image.lceda.cn/oshwhub/pullImage/8935f7fb73f14ee5a129cb4eb6e4ef40.jpg" alt="" height="600" width="800" /></p>
+<p>&nbsp;</p>
+<p><img src="https://image.lceda.cn/oshwhub/pullImage/8d40a01ebdd34ff8a1483e178be1e334.png" alt="" height="549" width="800" /></p>
+<p>&nbsp;</p>
+<p><img src="https://image.lceda.cn/oshwhub/pullImage/5c14a5f2fac04179ad134578522289e5.png" alt="" height="393" width="800" /></p>
+<p>&nbsp;</p>
+<p><img src="https://image.lceda.cn/oshwhub/pullImage/e86fc45aa06b47b6828e9afcc40da88a.png" alt="" height="673" width="800" /></p>
+<p>&nbsp;</p>
+<p><img src="https://image.lceda.cn/oshwhub/pullImage/d16fc6b8d6c64a99bee178aa0bdd56b1.jpg" alt="" height="600" width="800" /></p>
+<p><span style="font-size: 12pt;"><strong>You can also use my eddy bed-scanning coil flipped over — but its coil diameter is large, so it's affected by the
+      heater block and the retaining spring clip, possibly causing a fixed offset of about 0.05 mm.</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="font-size: 18pt; color: #169179;"><strong>------------------2026-07-23 update&nbsp; dual-coil board added------------------</strong></span></p>
+<p><span style="font-size: 14pt; color: #843fa1;"><strong>This is the recently mass-produced board. In the future the large coil may be used for eddy-current PA
+      calibration — it can detect nozzle deflection under force. The large coil can also be used for XY offset calibration, but it effectively senses the heater
+      block rather than the nozzle, so it is less accurate than the small coil. Currently the Klipper firmware only supports the coil on channel 0; channel 1 is
+      not usable yet. I will modify the code later to add support for the channel-1 coil. Channel 0 is wired to the small coil and channel 1 to the large
+      coil.</strong></span></p>
+<p><span style="font-size: 14pt; color: #ba372a;"><strong>The hole in the middle of the large coil lets the nozzle purge material into it; by detecting nozzle
+      deflection during extruder acceleration and deceleration, the pressure inside the nozzle can be inferred, and from that the material's PA value can be
+      determined. This is still just an idea — research hasn't started yet.</strong></span></p>
+<p>&nbsp;</p>
+<p><img src="https://image.lceda.cn/pullimage/Q5b69nFFEEhOWH90v37Wp5oYOgYghzKB9IIeVSD6.jpeg" alt="" height="3072" width="800" /></p>
+<p><img src="https://image.lceda.cn/pullimage/Ue2deD8JOAD63kVi9bfWEtVLJqPmGCQ096fLidA3.png" alt="" height="549" width="800" /></p>
+<p id="1791267925477"></p>
+<p>&nbsp;</p>
+<p id="1791267855831"></p>
+      </div>
+
+      <div class="article-attachments">
+        <h3>Attachments</h3>
+        <ul class="attachments-list">
+          <li>
+            <a href="https://image.lceda.cn/oshwhub/project/attachments/6bf1692a7d9d47c9a291c5b0b8f2560a.zip" title="tool_eddy_calibration.zip" class="attachment-link">
+              <span class="attachment-icon">📎</span>
+              <span class="attachment-name">tool_eddy_calibration.zip</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div class="article-footer">
+        <a href="../../" class="btn-back">Back to Home</a>
+      </div>
+    </div>
+  </div>
+</main>
+<footer class="footer">
+  <p>© 2026 Renquan Zhizi. All rights reserved.</p>
+</footer>
+</div>
+</body>
+</html>

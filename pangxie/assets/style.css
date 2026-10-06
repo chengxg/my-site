@@ -1,0 +1,410 @@
+/* 站点样式 — 合并自原 Vue 应用: src/style.css + Navbar.vue + Home.vue + ArticleDetail.vue */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  line-height: 1.6;
+  font-weight: 400;
+  color: #333;
+  background-color: #f5f7fa;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ec 100%);
+}
+
+.page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-content {
+  flex: 1;
+}
+
+a {
+  color: #667eea;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* ===== 导航栏 ===== */
+
+.navbar {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 1rem 0;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.nav-container {
+  max-width: 90%;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: white;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.logo:hover {
+  text-decoration: none;
+}
+
+.logo-image {
+  height: 32px;
+  width: 32px;
+  object-fit: contain;
+  background: wheat;
+  border-radius: 4px;
+}
+
+.nav-links {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+}
+
+.nav-link {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  transition: opacity 0.3s;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  opacity: 0.8;
+  text-decoration: none;
+}
+
+.lang-switch {
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 20px;
+  padding: 0.15rem 0.9rem;
+  font-size: 0.9rem;
+}
+
+/* ===== 页脚 ===== */
+
+.footer {
+  background: #333;
+  color: white;
+  text-align: center;
+  padding: 1.5rem;
+  margin-top: auto;
+}
+
+.footer p {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+/* ===== 首页卡片网格 ===== */
+
+.home {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.works {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2rem;
+}
+
+.work-card {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.work-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.work-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.work-link:hover {
+  text-decoration: none;
+}
+
+.work-image {
+  height: 200px;
+  overflow: hidden;
+  background: #f5f5f5;
+}
+
+.work-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s;
+  background: wheat;
+}
+
+.work-card:hover .work-image img {
+  transform: scale(1.05);
+}
+
+.work-info {
+  padding: 1.5rem;
+}
+
+.work-info h3 {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.work-info p {
+  color: #666;
+  line-height: 1.5;
+  font-size: 0.95rem;
+}
+
+@media (max-width: 768px) {
+  .works {
+    grid-template-columns: 1fr;
+  }
+
+  .nav-container {
+    padding: 0 1rem;
+  }
+
+  .nav-links {
+    gap: 1rem;
+  }
+}
+
+/* ===== 文章页 ===== */
+
+.article-detail {
+  max-width: 90%;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.article-content {
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  word-wrap: break-word;
+}
+
+.article-header {
+  margin-bottom: 0;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid #eee;
+}
+
+.article-meta {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.category {
+  background: #f0f0f0;
+  color: #667eea;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.date {
+  color: #999;
+  font-size: 0.9rem;
+}
+
+.article-header h1 {
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 0.75rem;
+}
+
+.article-author {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.article-body {
+  line-height: 1.8;
+  color: #444;
+}
+
+.article-body h2 {
+  font-size: 1.5rem;
+  margin: 1.5rem 0 1rem;
+  color: #333;
+}
+
+.article-body h3 {
+  font-size: 1.25rem;
+  margin: 1.25rem 0 0.75rem;
+  color: #333;
+}
+
+.article-body p {
+  margin-bottom: 1rem;
+}
+
+.article-body ul,
+.article-body ol {
+  margin-bottom: 1rem;
+  padding-left: 1.5rem;
+}
+
+.article-body li {
+  margin-bottom: 0.5rem;
+}
+
+.article-body img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 1rem 0;
+}
+
+.article-body .cm-editor {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+}
+
+.article-body .cm-editor.cm-focused {
+  outline: none;
+}
+
+.article-body .cm-scroller {
+  overflow: auto;
+}
+
+.article-body .codemirror-container {
+  margin-bottom: 1rem;
+}
+
+.article-body code {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.article-body pre.code-mirror-processed {
+  display: none;
+}
+
+.article-attachments {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #eee;
+}
+
+.article-attachments h3 {
+  font-size: 1.25rem;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.attachments-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.attachments-list li {
+  margin-bottom: 4px;
+}
+
+.attachment-link {
+  display: flex;
+  align-items: center;
+  color: #667eea;
+  text-decoration: none;
+  padding: 0 0.5rem;
+  height: 32px;
+  border-radius: 6px;
+  transition: background-color 0.3s;
+}
+
+.attachment-link:hover {
+  background-color: #f5f5f5;
+  text-decoration: none;
+}
+
+.attachment-icon {
+  margin-right: 0.75rem;
+  font-size: 1.2rem;
+}
+
+.attachment-name {
+  font-size: 0.95rem;
+  font-weight: 500;
+  word-break: break-all;
+}
+
+.article-footer {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #eee;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.btn-back {
+  color: #667eea;
+  text-decoration: none;
+  font-weight: 500;
+  transition: opacity 0.3s;
+}
+
+.btn-back:hover {
+  opacity: 0.7;
+}
+
+/* ===== 404 ===== */
+
+.not-found {
+  text-align: center;
+  padding: 4rem 2rem;
+}
+
+.not-found h2 {
+  color: #999;
+  margin-bottom: 1rem;
+}

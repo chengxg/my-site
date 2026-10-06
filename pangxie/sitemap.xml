@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://demo.chengxg.top/pangxie/</loc>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://demo.chengxg.top/pangxie/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://demo.chengxg.top/pangxie/en/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://demo.chengxg.top/pangxie/"/>
+  </url>
+  <url>
+    <loc>https://demo.chengxg.top/pangxie/en/</loc>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://demo.chengxg.top/pangxie/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://demo.chengxg.top/pangxie/en/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://demo.chengxg.top/pangxie/"/>
+  </url>
+  <url>
+    <loc>https://demo.chengxg.top/pangxie/articles/eddy-calibration/</loc>
+    <lastmod>2026-06-03</lastmod>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://demo.chengxg.top/pangxie/articles/eddy-calibration/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://demo.chengxg.top/pangxie/en/articles/eddy-calibration/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://demo.chengxg.top/pangxie/articles/eddy-calibration/"/>
+  </url>
+  <url>
+    <loc>https://demo.chengxg.top/pangxie/en/articles/eddy-calibration/</loc>
+    <lastmod>2026-06-03</lastmod>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://demo.chengxg.top/pangxie/articles/eddy-calibration/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://demo.chengxg.top/pangxie/en/articles/eddy-calibration/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://demo.chengxg.top/pangxie/articles/eddy-calibration/"/>
+  </url>
+  <url>
+    <loc>https://demo.chengxg.top/pangxie/articles/eddy-coil/</loc>
+    <lastmod>2026-09-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://demo.chengxg.top/pangxie/articles/eddy-coil/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://demo.chengxg.top/pangxie/en/articles/eddy-coil/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://demo.chengxg.top/pangxie/articles/eddy-coil/"/>
+  </url>
+  <url>
+    <loc>https://demo.chengxg.top/pangxie/en/articles/eddy-coil/</loc>
+    <lastmod>2026-09-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://demo.chengxg.top/pangxie/articles/eddy-coil/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://demo.chengxg.top/pangxie/en/articles/eddy-coil/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://demo.chengxg.top/pangxie/articles/eddy-coil/"/>
+  </url>
+  <url>
+    <loc>https://demo.chengxg.top/pangxie/articles/eddy-coil-simple/</loc>
+    <lastmod>2026-09-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://demo.chengxg.top/pangxie/articles/eddy-coil-simple/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://demo.chengxg.top/pangxie/en/articles/eddy-coil-simple/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://demo.chengxg.top/pangxie/articles/eddy-coil-simple/"/>
+  </url>
+  <url>
+    <loc>https://demo.chengxg.top/pangxie/en/articles/eddy-coil-simple/</loc>
+    <lastmod>2026-09-14</lastmod>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://demo.chengxg.top/pangxie/articles/eddy-coil-simple/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://demo.chengxg.top/pangxie/en/articles/eddy-coil-simple/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://demo.chengxg.top/pangxie/articles/eddy-coil-simple/"/>
+  </url>
+  <url>
+    <loc>https://demo.chengxg.top/pangxie/articles/pressure-sensor/</loc>
+    <lastmod>2026-02-28</lastmod>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://demo.chengxg.top/pangxie/articles/pressure-sensor/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://demo.chengxg.top/pangxie/en/articles/pressure-sensor/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://demo.chengxg.top/pangxie/articles/pressure-sensor/"/>
+  </url>
+  <url>
+    <loc>https://demo.chengxg.top/pangxie/en/articles/pressure-sensor/</loc>
+    <lastmod>2026-02-28</lastmod>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://demo.chengxg.top/pangxie/articles/pressure-sensor/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://demo.chengxg.top/pangxie/en/articles/pressure-sensor/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://demo.chengxg.top/pangxie/articles/pressure-sensor/"/>
+  </url>
+  <url>
+    <loc>https://demo.chengxg.top/pangxie/articles/can-toolhead/</loc>
+    <lastmod>2026-05-04</lastmod>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://demo.chengxg.top/pangxie/articles/can-toolhead/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://demo.chengxg.top/pangxie/en/articles/can-toolhead/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://demo.chengxg.top/pangxie/articles/can-toolhead/"/>
+  </url>
+  <url>
+    <loc>https://demo.chengxg.top/pangxie/en/articles/can-toolhead/</loc>
+    <lastmod>2026-05-04</lastmod>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://demo.chengxg.top/pangxie/articles/can-toolhead/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://demo.chengxg.top/pangxie/en/articles/can-toolhead/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://demo.chengxg.top/pangxie/articles/can-toolhead/"/>
+  </url>
+  <url>
+    <loc>https://demo.chengxg.top/pangxie/articles/board-4layer/</loc>
+    <lastmod>2026-02-28</lastmod>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://demo.chengxg.top/pangxie/articles/board-4layer/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://demo.chengxg.top/pangxie/en/articles/board-4layer/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://demo.chengxg.top/pangxie/articles/board-4layer/"/>
+  </url>
+  <url>
+    <loc>https://demo.chengxg.top/pangxie/en/articles/board-4layer/</loc>
+    <lastmod>2026-02-28</lastmod>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://demo.chengxg.top/pangxie/articles/board-4layer/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://demo.chengxg.top/pangxie/en/articles/board-4layer/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://demo.chengxg.top/pangxie/articles/board-4layer/"/>
+  </url>
+  <url>
+    <loc>https://demo.chengxg.top/pangxie/articles/board-2layer/</loc>
+    <lastmod>2026-02-28</lastmod>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://demo.chengxg.top/pangxie/articles/board-2layer/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://demo.chengxg.top/pangxie/en/articles/board-2layer/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://demo.chengxg.top/pangxie/articles/board-2layer/"/>
+  </url>
+  <url>
+    <loc>https://demo.chengxg.top/pangxie/en/articles/board-2layer/</loc>
+    <lastmod>2026-02-28</lastmod>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://demo.chengxg.top/pangxie/articles/board-2layer/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://demo.chengxg.top/pangxie/en/articles/board-2layer/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://demo.chengxg.top/pangxie/articles/board-2layer/"/>
+  </url>
+</urlset>

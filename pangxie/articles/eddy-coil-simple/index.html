@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>3D打印涡流调平线圈-小白教程 | 仁泉之子开源</title>
+<meta name="description" content="涡流调平线圈小白教程：手把手讲解配置文件修改，适合新手上手小螃蟹扫床线圈。">
+<link rel="icon" type="image/png" href="../../assets/logo.png">
+<link rel="canonical" href="https://demo.chengxg.top/pangxie/articles/eddy-coil-simple/">
+<link rel="alternate" hreflang="zh" href="https://demo.chengxg.top/pangxie/articles/eddy-coil-simple/">
+<link rel="alternate" hreflang="en" href="https://demo.chengxg.top/pangxie/en/articles/eddy-coil-simple/">
+<link rel="alternate" hreflang="x-default" href="https://demo.chengxg.top/pangxie/articles/eddy-coil-simple/">
+<meta property="og:title" content="3D打印涡流调平线圈-小白教程 | 仁泉之子开源">
+<meta property="og:description" content="涡流调平线圈小白教程：手把手讲解配置文件修改，适合新手上手小螃蟹扫床线圈。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://demo.chengxg.top/pangxie/articles/eddy-coil-simple/">
+<meta property="og:image" content="https://image.lceda.cn/pullimage/eWbm29HATI0A0czbDgBjarTNoBoz36E6GnmGguSv.png">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:locale:alternate" content="en_US">
+<meta property="og:site_name" content="仁泉之子开源">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="../../assets/style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "3D打印涡流调平线圈-小白教程",
+  "description": "涡流调平线圈小白教程：手把手讲解配置文件修改，适合新手上手小螃蟹扫床线圈。",
+  "author": {
+    "@type": "Person",
+    "name": "仁泉之子"
+  },
+  "datePublished": "2026-09-14",
+  "dateModified": "2026-09-14",
+  "image": "https://image.lceda.cn/pullimage/eWbm29HATI0A0czbDgBjarTNoBoz36E6GnmGguSv.png",
+  "inLanguage": "zh-CN",
+  "mainEntityOfPage": "https://demo.chengxg.top/pangxie/articles/eddy-coil-simple/"
+}
+</script>
+</head>
+<body>
+<div class="page">
+<nav class="navbar">
+  <div class="nav-container">
+    <a href="../../" class="logo">
+      <img src="../../assets/logo.png" alt="Logo" class="logo-image">
+      仁泉之子开源
+    </a>
+    <div class="nav-links">
+      <a href="../../" class="nav-link">首页</a>
+      <a href="../../en/articles/eddy-coil-simple/" class="nav-link lang-switch" title="Switch to English" hreflang="en">English</a>
+    </div>
+  </div>
+</nav>
+<main class="main-content">
+  <div class="article-detail">
+    <div class="article-content">
+      <div class="article-header">
+        <div class="article-meta">
+          <span class="category">3D打印</span>
+          <span class="date">2026-09-14</span>
+        </div>
+        <h1>3D打印涡流调平线圈-小白教程</h1>
+        <div class="article-author">
+          <span>作者：仁泉之子</span>
+        </div>
+      </div>
+
+      <div class="article-body">
+<h1 style="text-align: center;"><strong>小螃蟹涡流调平小白教程</strong></h1>
+<p>&nbsp;</p>
+<p><span style="font-size: 14pt;"><strong><span style="color: #ba372a;">调平采用i2c通信, 线不能太长了, 要使用直通mcu的引脚, 限位/温控/风扇不能用,&nbsp;
+                                可以接在spi/i2c/串口及部分空余驱动的引脚上</span></strong></span></p>
+<p><span style="font-size: 14pt;"><strong><span style="color: #ba372a;">线圈安装高度为: 线圈底面距离喷嘴2mm左右处</span></strong></span></p>
+<p>&nbsp;</p>
+<h1><strong>1.修改代码</strong></h1>
+<p><img src="https://image.lceda.cn/pullimage/eWbm29HATI0A0czbDgBjarTNoBoz36E6GnmGguSv.png" alt="" height="444" width="800" /></p>
+<h1><strong>2.添加配置</strong></h1>
+<p><img src="https://image.lceda.cn/pullimage/EZ4CmFvwP6s2MrfIhkZpkmQLi1317id5PeobH5ri.png" alt="" height="430" width="800" /></p>
+<p><img src="https://image.lceda.cn/pullimage/dlepqFnmfoaeklVUBAFPISe9mmnmXSOLCWkWXF5O.png" alt="" height="1009" width="800" /></p>
+<h1><strong>3.修改<span style="font-family: Roboto, sans-serif; font-size: 18pt; white-space: nowrap;">printer.cfg</span>配置</strong></h1>
+<p><img src="https://image.lceda.cn/pullimage/yIQAUkUfrx0epHP3DphyezmTfnKAlbNgHmcU7O76.png" alt="" height="488" width="800" /></p>
+<p><img src="https://image.lceda.cn/pullimage/zQZhD5AnPlS0Rr6pJc7Ksj55DITIMTLWHdJmfAXg.png" alt="" height="502" width="800" /></p>
+<p>&nbsp;</p>
+<p><img src="https://image.lceda.cn/pullimage/mq7Rt9i12W7ra9lds4lwokgRDnZZD3qBr0SCXXJa.png" alt="" height="644" width="800" /></p>
+<p>&nbsp;</p>
+<p><img src="https://image.lceda.cn/pullimage/JnSiZXHue3EKmIneRkWdmIoP8vVemmOGZ0qjAjEe.png" alt="" height="369" width="800" /></p>
+<p>&nbsp;</p>
+<p><img src="https://image.lceda.cn/pullimage/dLEIsfOkGt0nPg4dYVwZqvbDEOGXGHJN9zbkbupP.png" alt="" height="759" width="800" /></p>
+<h1><strong>4.修改<span style="font-family: Roboto, sans-serif; font-size: 20px; white-space: nowrap;">printer_probe_eddy.cfg</span>配置</strong></h1>
+<p><img src="https://image.lceda.cn/pullimage/FS9uchhpSGke6c7Z3AEHCkxs5nJUDl018c0LF6Ao.png" alt="" height="547" width="800" /></p>
+<p><img src="https://image.lceda.cn/pullimage/7Y2Pv8sw3OzYwdSC3f1Wr97HSrZ6A9g2dxp2V1C6.png" alt="" height="523" width="800" /></p>
+<p><img src="https://image.lceda.cn/pullimage/jzAvZhB8pndQeb5gfqpSwsf6sFI6AsXGcmCZdOjy.png" alt="" height="454" width="800" /></p>
+<p><img src="https://image.lceda.cn/pullimage/eklZ0JIX0wsD8DmIRSp1QF9TVyTie7uuJMLsaJm9.png" alt="" height="517" width="800" /></p>
+<h1><strong>5. 一些报错问题,看mcu性能和通信是否正常</strong></h1>
+<p><img src="https://image.lceda.cn/pullimage/OCcmTPZTFfNeOE2dEjWCfMGaQUZ5wLmD0uYJLDIS.png" alt="" height="556" width="800" /></p>
+<p><img src="https://image.lceda.cn/pullimage/kKxS69oJlm31gsetxrUZk9zUPgw1ATyJty9VcAXX.png" alt="" height="435" width="800" /></p>
+      </div>
+
+      <div class="article-footer">
+        <a href="../../" class="btn-back">返回首页</a>
+      </div>
+    </div>
+  </div>
+</main>
+<footer class="footer">
+  <p>© 2026 仁泉之子. 保留所有权利.</p>
+</footer>
+</div>
+</body>
+</html>

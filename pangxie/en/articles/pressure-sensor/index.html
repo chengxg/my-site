@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pressure Leveling Sensor | Renquan Zhizi Open Source</title>
+<meta name="description" content="DIY pressure leveling sensor for 3D printers: high-speed strain-gauge sampling, data visualization, with op-amp, CS1237, and LDC1612 eddy-current versions, plus firmware downloads.">
+<link rel="icon" type="image/png" href="../../../assets/logo.png">
+<link rel="canonical" href="https://demo.chengxg.top/pangxie/en/articles/pressure-sensor/">
+<link rel="alternate" hreflang="zh" href="https://demo.chengxg.top/pangxie/articles/pressure-sensor/">
+<link rel="alternate" hreflang="en" href="https://demo.chengxg.top/pangxie/en/articles/pressure-sensor/">
+<link rel="alternate" hreflang="x-default" href="https://demo.chengxg.top/pangxie/articles/pressure-sensor/">
+<meta property="og:title" content="Pressure Leveling Sensor | Renquan Zhizi Open Source">
+<meta property="og:description" content="DIY pressure leveling sensor for 3D printers: high-speed strain-gauge sampling, data visualization, with op-amp, CS1237, and LDC1612 eddy-current versions, plus firmware downloads.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://demo.chengxg.top/pangxie/en/articles/pressure-sensor/">
+<meta property="og:image" content="https://image.lceda.cn/oshwhub/pullImage/6f82e7f2ee3f403fbeceb076ef977f6c.png">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="zh_CN">
+<meta property="og:site_name" content="Renquan Zhizi Open Source">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="../../../assets/style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Pressure Leveling Sensor",
+  "description": "DIY pressure leveling sensor for 3D printers: high-speed strain-gauge sampling, data visualization, with op-amp, CS1237, and LDC1612 eddy-current versions, plus firmware downloads.",
+  "author": {
+    "@type": "Person",
+    "name": "仁泉之子"
+  },
+  "datePublished": "2026-02-28",
+  "dateModified": "2026-02-28",
+  "image": "https://image.lceda.cn/oshwhub/pullImage/6f82e7f2ee3f403fbeceb076ef977f6c.png",
+  "inLanguage": "en",
+  "mainEntityOfPage": "https://demo.chengxg.top/pangxie/en/articles/pressure-sensor/"
+}
+</script>
+</head>
+<body>
+<div class="page">
+<nav class="navbar">
+  <div class="nav-container">
+    <a href="../../" class="logo">
+      <img src="../../../assets/logo.png" alt="Logo" class="logo-image">
+      Renquan Zhizi Open Source
+    </a>
+    <div class="nav-links">
+      <a href="../../" class="nav-link">Home</a>
+      <a href="../../../articles/pressure-sensor/" class="nav-link lang-switch" title="切换到中文" hreflang="zh">中文</a>
+    </div>
+  </div>
+</nav>
+<main class="main-content">
+  <div class="article-detail">
+    <div class="article-content">
+      <div class="article-header">
+        <div class="article-meta">
+          <span class="category">3D Printing</span>
+          <span class="date">2026-02-28</span>
+        </div>
+        <h1>Pressure Leveling Sensor</h1>
+        <div class="article-author">
+          <span>Author: 仁泉之子</span>
+        </div>
+      </div>
+
+      <div class="article-body">
+<div class="detail_tinymce-content__PdW9_ tinymce-content">
+      <p>A DIY weigh-scale pressure leveling sensor for 3D printers. The weigh-scale pressure bed is currently one of the few reliable nozzle-endstop sensor
+            solutions — alternatives like piezo vibration sensors or pressure-film sensors on the toolhead mount less stably and are less dependable, with a
+            risk of crashing.</p>
+      <p>A browser-based visualization host page is provided — no installation needed, just open the URL: <a
+                  href="https://demo.chengxg.top/tiaoping-sensor/html/index.html" target="_blank"
+                  rel="noopener">https://demo.chengxg.top/tiaoping-sensor/html/index.html</a></p>
+      <p>&nbsp;</p>
+      <p>The hardware uses an STC32G8K64 clocked at 24 MHz. This MCU doesn't even need a crystal — its minimal system is extremely simple. Its ADC sampling rate
+            reaches 800 kS/s. Although this chip uses the C251 architecture with weak compute, its ADC is considerably stronger than those of the ESP32/ESP8266,
+            which is more than enough for this application.</p>
+      <p>All passives are 0805 capacitors and resistors — easy to solder, total cost around 10 RMB.</p>
+      <p>Video introduction: &nbsp; <a
+                  href="https://www.bilibili.com/video/BV1RZgFeTE9K/?spm_id_from=333.999.0.0&amp;vd_source=80c1c161f08d9d188b6befe8e1a3d23a">https://www.bilibili.com/video/BV1RZgFeTE9K/?spm_id_from=333.999.0.0&amp;vd_source=80c1c161f08d9d188b6befe8e1a3d23a</a>
+      </p>
+      <p>When the ADC change stays below a threshold over a set interval, the bed is considered at rest and the reading is automatically set as the calibration
+            (zero) value.</p>
+      <p>ADC data can be streamed to the page as fast as every 0.25 ms, letting you inspect the waveform during leveling to determine the optimal trigger force.
+            The firmware is fully asynchronous and non-blocking, so even streaming at such a high rate does not affect leveling accuracy.</p>
+      <p>Communicating with the browser page requires a USB-to-serial module; the baud rate is 1M.</p>
+      <p>The module offers four gain settings — 50×, 200×, 1000×, 5000×. Just pick one channel according to your needs. Setting a channel's gain to 0 disables
+            it; the fewer channels enabled, the higher the refresh rate. With all four channels enabled the refresh rate reaches 15 k/s; with a single channel,
+            30 k/s.</p>
+      <p>&nbsp;</p>
+      <p><span style="color:#e03e2d"><strong>The baud rate is fairly high — you need a CH340-based USB-to-serial module to connect to this module. Modules based
+                        on other chips may fail to connect.</strong></span></p>
+      <p><span style="color:#000000"><strong>Because the endstop signal output is in series with a 100-ohm resistor, some mainboards may fail to trigger the
+                        endstop; the resistor needs to be reduced.</strong></span></p>
+      <p>&nbsp;</p>
+      <p><img src="https://image.lceda.cn/pullimage/JoZUGTVk92mJyQBt6xaAjpMYlolHgVtFz50wHi5g.png"></p>
+      <p>&nbsp;</p>
+      <p>&nbsp;</p>
+      <p>&nbsp;</p>
+      <p>&nbsp;</p>
+      <p>&nbsp;</p>
+      <p>&nbsp;</p>
+      <p><img src="https://image.lceda.cn/pullimage/jWm1QYRHMlkMuxtCu8jcXy3xbFjqFbMRs8wArd2y.jpeg" width="689" height="516"></p>
+      <p>&nbsp;</p>
+      <p><strong>Compiling the code in TianwenBlock</strong></p>
+      <p><strong><img src="https://image.lceda.cn/oshwhub/2305b00f40624698a1451e2c16023508.jpg"></strong></p>
+      <p>&nbsp;</p>
+      <p><strong>Downloading via STC-ISP</strong></p>
+      <p><img src="https://image.lceda.cn/oshwhub/13480db300d54c088c3231254f60a003.jpg"></p>
+      <p>&nbsp;</p>
+      <p>&nbsp;</p>
+      <p><strong>2024-10-07 update</strong></p>
+      <p>The firmware has been ported to the STM32F072C8T6, clocked at 48 MHz. The framework code is generated by STM32CubeMX, and the development tool is
+            PlatformIO in VS Code — easier to use, lower cost, better performance. The refresh rate is raised to 50 k/s, serial data now goes through a USB
+            virtual COM port (no CH340 needed), the baud rate is freely adjustable, and the 200× gain channel has been dropped.</p>
+      <p><img src="https://image.lceda.cn/oshwhub/769afaaba64d4e8eae2ab03832e5a3f3.png"></p>
+      <p>Firmware is flashed with STM32CubeProgrammer</p>
+      <p><img src="https://image.lceda.cn/oshwhub/8fe4262c47354eae90eb9f961b594688.png"></p>
+      <p><img src="https://image.lceda.cn/oshwhub/00e86d536d654df8af0d850bc2b21807.jpg"></p>
+      <p>&nbsp;</p>
+      <p>&nbsp;</p>
+      <p>&nbsp;</p>
+      <p><strong>-----------------------<span style="font-size:18pt">&nbsp;<span style="color:#169179">2025-05-05 major update&nbsp; — new-generation pressure
+                              leveling sensor</span></span><span style="color:#169179">-</span>-------------------</strong></p>
+      <p>&nbsp;</p>
+      <p>&nbsp;</p>
+      <p><span style="font-size:14pt;color:#169179">This full redesign keeps a single sampling channel, using two cascaded INA180A2 stages for a maximum gain of
+                  2500×, balancing precision against data noise. A two-stage RC filter greatly reduces noise — ±4 counts under clean conditions and only ±10
+                  with interference — allowing lower trigger thresholds. The software is also a major upgrade: higher performance and easier operation.</span>
+      </p>
+      <p>&nbsp;</p>
+      <ul>
+            <li><span style="font-size:14pt;color:#169179">1. Two cascaded INA180A2 op-amps plus an added inverting channel, so signal polarity no longer
+                        matters. Some sensors have large zero drift and the zero point can invert. The INA180A2 is also cheaper.</span></li>
+            <li><span style="font-size:14pt;color:#b96ad9">2. PCB area greatly reduced, sized to match the pressure toolhead; a hub board adapts it to the
+                        pressure bed.</span></li>
+            <li><span style="font-size:14pt;color:#169179">3. Experimental support for a four-wire probe, similar to FLY's new ALPS pressure leveling: use the
+                        probe's activate_gcode and deactivate_gcode to actively control probe enabling, so probing only runs during Z probing — greatly reducing
+                        interference from XY moves. The trigger direction can be changed: with some sensors the reading decreases under load once installed, in
+                        which case you adjust the trigger direction.</span></li>
+            <li><span style="font-size:14pt;color:#b96ad9">4. Brand-new browser-based host UI — good-looking, smooth, no installation required. Parameter
+                        adjustment is simpler with more options, including button-adjustable trigger thresholds. The overall UX logic is more user-friendly, and
+                        the ECharts chart is optimized to store up to 120 s of waveform data — up to 12 million data points at 100 k samples per second with
+                        real-time refreshing. It runs smoothly and is suitable for ultra-high-speed strain-gauge acquisition.</span></li>
+            <li><span style="font-size:14pt;color:#169179">5. Optimized firmware: trigger detection reaches 200 k/s and data output up to 100 k/s — far faster
+                        than the CS1237 solution. Serial communication runs at 2M baud, and the USB-to-serial chip is an AI8H2K12U with driver-free support on
+                        Windows 10/11.</span></li>
+            <li><span style="font-size:14pt;color:#b96ad9">6. Data import/export added. Measured single-point probing accuracy is very high: at a probe speed of
+                        30 mm/s the single-point accuracy is 0.003750, and at 5 mm/s 0.00125 is very likely. You can analyze the actual noise data for
+                        quantitative research — a DIY module reaching Bambu Lab's level is not a dream.</span></li>
+            <li><span style="color:#169179"><span style="font-size:14pt">7. Forces the endstop signal when readings drop below 50 or exceed 4000. A watchdog
+                              timer is added to prevent accidents from an MCU crash — stronger protection.</span></span></li>
+            <li><span style="font-size:14pt;color:#b96ad9">8. The MCU is back to the STC32G8K64 in a TSSOP-20 package — easy to solder and cheap. STC-ISP sets
+                        the run frequency to 40 MHz. Fully register-level code, easily outperforming the library-based STM32F072C8T6, with better ADC precision
+                        too. The integrated AI8H2K12U USB-to-serial is cheaper and faster than a CH340 and won't blue-screen your PC, achieving <strong><span
+                                    style="color:#169179">200 k/s</span></strong> refresh with full-bandwidth real-time streaming at 2M baud.</span></li>
+            <li><span style="font-size:14pt"><span style="color:#169179">9. A button is added for adjusting the trigger threshold, similar to the AIR001
+                              approach</span> &nbsp;<a href="https://oshwhub.com/aoang/air001_bedprobe">https://oshwhub.com/aoang/air001_bedprobe</a></span>
+            </li>
+            <li><span style="font-size:14pt"><span style="color:#b96ad9">10. The web page is hosted on GitHub, which is slow to access from mainland China — you
+                              can download it and open it locally. Page address: </span> <a
+                              href="http://demo.chengxg.top/tiaoping-sensor2/">https://demo.chengxg.top/tiaoping-sensor2/</a></span></li>
+            <li><span style="font-size:14pt;color:#169179">11. You can substitute other INA180 variants — INA180A1 (20×), INA180A3 (100×), INA180A4 (200×) — to
+                        compose other gains. Higher gain means more noise and more zero-drift sensitivity. The default combination is two INA180A2 at 50×50. You
+                        can also change the RC values between the two stages to alter sensitivity: smaller resistance gives higher sensitivity but more
+                        susceptibility to interference.</span></li>
+            <li><span style="font-size:14pt;color:#b96ad9">12. TVS-protected; input voltage must not exceed 7V. The Type-C input has diode isolation, and USB
+                        power is isolated from the mainboard supply — no need to worry about your PC's safety.</span></li>
+            <li><span style="font-size:14pt;color:#169179">13. On first firmware download you must <span style="color:#e03e2d">short</span> the capacitor shown
+                        in the picture so the MCU resets before the program can be flashed. For subsequent downloads, use the "Restart MCU" button in the host
+                        software to reset.</span></li>
+            <li><span style="font-size:14pt;color:#b96ad9">14. In normal operation LED1 blinks once per second. One sample is taken every 100 µs; when each
+                        sample stays within the zeroing deviation for 3 s, the module auto-zeros using the average of the samples, and LED1 blinks rapidly a few
+                        times to indicate zeroing. LED2 is the trigger status indicator.</span></li>
+      </ul>
+      <p><img src="https://image.lceda.cn/oshwhub/pullImage/3c69e7974c054801ba07adb28f291fdd.png" alt="" width="800" height="450"></p>
+      <p><img src="https://image.lceda.cn/oshwhub/pullImage/f75aeb68c3a24d7a9a2c40a276a39c59.png" alt="" width="800" height="562"></p>
+      <p><img src="https://image.lceda.cn/oshwhub/pullImage/ff5c6651bae74c7a8cea3f94ffe559a7.png" alt="" width="800" height="387"></p>
+      <p><img src="https://image.lceda.cn/oshwhub/pullImage/c7bff731b64f46e4ad990ab3245ae535.jpg" alt="" width="800" height="600"></p>
+      <p><img src="https://image.lceda.cn/oshwhub/pullImage/31a0b4059fa046788f6b7d6aa76a0847.png" alt="" width="800" height="382"></p>
+      <p><img src="https://image.lceda.cn/oshwhub/pullImage/f9967b29b6704a999df69727d0dead48.png" alt="" width="800" height="602"></p>
+      <p><strong>-----------------------<span style="font-size:18pt">&nbsp;<span style="color:#169179">2025-08-31 update&nbsp; — new-generation pressure
+                              leveling sensor, CS1237 and LDC1612 versions</span></span><span style="color:#169179">-</span>-------------------</strong></p>
+      <p>&nbsp;</p>
+      <p><span style="color:#b96ad9;font-size:18pt">The CS1237 version parallel-connects multiple chips to speed up sampling and uses a REF303 voltage
+                  reference, so data noise is very small. Compared with the op-amp version it has higher sensitivity, better linearity and a wider measurement
+                  range — the only downside is a lower sampling rate. The highest Klipper probe precision is slightly below the op-amp version but still
+                  sufficient: 0.00375 is achievable. You can solder just one CS1237; the difference from two in parallel is small.</span></p>
+      <ul>
+            <li><span style="font-size:14pt;color:#e67e23">A filtering feature is added; enabling it effectively reduces data noise, at the cost of added
+                        latency.</span></li>
+            <li><span style="font-size:14pt;color:#e67e23">A zeroing-time setting is added: within the configured number of seconds, when data fluctuation is
+                        below the configured zeroing deviation, it auto-zeros.</span></li>
+            <li><span style="color:#843fa1"><span style="font-size:14pt">Data protection: when the absolute value of the reading is below 30 or above 10000, the
+                              data is considered abnormal and the endstop output is triggered.</span></span></li>
+            <li><span style="font-size:14pt;color:#843fa1">If no data is read for more than 20 ms, the CS1237 chip is considered faulty and the endstop output
+                        is triggered.</span></li>
+            <li><span style="font-size:14pt;color:#843fa1">If the reading stays unchanged for a long time, the CS1237 chip is also considered faulty and the
+                        endstop output is triggered.</span></li>
+            <li><span style="font-size:14pt;color:#169179">When using multiple sensors in parallel on a pressure bed, connect each one individually and check
+                        that the readings agree. Pay attention to data polarity and the direction readings move under load — they must be consistent.</span>
+            </li>
+            <li><span style="font-size:14pt;color:#169179">Don't rely on the marked mounting direction of load-cell sensors; go by the actual data. Avoid a
+                        state where the reading is negative at rest and positive under load.</span></li>
+            <li><span style="font-size:14pt;color:#e67e23">Interference with pressure sensors is real. Heated-bed interference splits into PWM interference and
+                        AC interference. PWM interference can be solved by grounding the bed; AC interference is introduced by that grounding and requires
+                        coupling the DC supply's GND with the earth line. If the noise is small you can leave it alone.</span>
+            </li>
+            <li><span style="font-size:14pt;color:#e67e23">PWM interference is easy to spot; AC interference only shows up when you unplug your laptop's power
+                        adapter — with the adapter plugged in, the laptop's USB port grounds the system. That's why some people see no noise with USB plugged in
+                        but noise once unplugged.</span></li>
+            <li><span style="font-size:14pt;color:#e67e23">Data noise is below 8 with no interference, 20 with AC interference, 50 with PWM interference, and 30
+                        with both AC and PWM interference. PWM interference alone clearly has the biggest impact — in short, grounding the heated bed solves the
+                        problem well.</span></li>
+      </ul>
+      <p><span style="color:#b96ad9;font-size:18pt"><img src="https://image.lceda.cn/oshwhub/pullImage/be3d8fbefbd74e958e401de5e246b2e4.png" alt="" width="800"
+                        height="799"></span></p>
+      <p><span style="color:#b96ad9;font-size:18pt"><img src="https://image.lceda.cn/oshwhub/pullImage/d5891e453b4f4a898cd7e140c9468c69.png" alt="" width="800"
+                        height="591"></span></p>
+      <p><span style="color:#b96ad9;font-size:18pt"><img src="https://image.lceda.cn/oshwhub/pullImage/a053e99c8d824110a96e91a115f52c86.png" alt="" width="800"
+                        height="495"></span></p>
+      <p><span style="color:#b96ad9;font-size:18pt"><img src="https://image.lceda.cn/oshwhub/pullImage/5cd8a493bac445f29fd09306d4b40a20.png" alt="" width="800"
+                        height="490"></span></p>
+      <p><span style="color:#b96ad9;font-size:18pt"><img src="https://image.lceda.cn/oshwhub/pullImage/b60a31eeaa8e42d696dbdf1aa7d491fa.png" alt="" width="800"
+                        height="509"></span></p>
+      <p><span style="color:#b96ad9;font-size:18pt"><img src="https://image.lceda.cn/oshwhub/pullImage/91513b4cb205474c916ba89371f51f7c.png" alt="" width="800"
+                        height="605"></span></p>
+      <p>&nbsp;</p>
+      <p><span style="font-size:18pt;color:#ba372a">The LDC1612 version implements a proximity-switch function: it can be used either as a contactless endstop
+                  (an ordinary proximity switch) or as a nozzle endstop (similar to IDM's touch function).<br>The nozzle endstop works by watching the data
+                  rise: when the nozzle touches the bed the data stops rising, and at that moment the endstop triggers. It demands a very clean nozzle and PEI
+                  sheet. It works, but it is not as reliable as pressure leveling — this version is exploratory only.</span></p>
+      <p><span style="font-size:14pt;color:#169179">To use it, first place the coil near the nozzle, about 2 mm above the nozzle tip. Then move the bed to about
+                  1 mm below the nozzle and take the current reading as the trigger threshold — that's the proximity-switch function. When the reading exceeds
+                  the trigger threshold, the endstop output triggers. In nozzle-endstop mode, the trigger fires when the reading is above the threshold and
+                  continues rising until it stops increasing or slightly decreases — that's when the nozzle is deemed to have touched the bed.</span></p>
+      <p><span style="font-size:14pt;color:#169179">Mode control lets a single IO pin switch the module between nozzle triggering and contactless triggering —
+                  e.g. contactless endstop for mesh probing and leveling, nozzle endstop for Z homing.</span></p>
+      <p><img src="https://image.lceda.cn/oshwhub/pullImage/2872a7fb551a46c88ee1c6076e45c11d.png" alt="" width="800" height="799"></p>
+      <p><img src="https://image.lceda.cn/oshwhub/pullImage/a7bd04263abd4da885365da91bf2f2f1.png" alt="" width="800" height="506"></p>
+      <p><img src="https://image.lceda.cn/oshwhub/pullImage/57684525bfc44648b2d4fab0a2341be4.png" alt="" width="800" height="408"></p>
+      <p><img src="https://image.lceda.cn/oshwhub/pullImage/cd168553071a4639b5d16ad2e209dfc6.png" alt="" width="800" height="385"></p>
+      <p>&nbsp;</p>
+      <p><strong>-----------------------<span style="font-size:18pt">&nbsp;<span style="color:#169179">2026-02-13 update&nbsp; — new-generation pressure
+                              leveling sensor, CS1237 version + panelized hub board</span></span><span
+                        style="color:#169179">-</span>-------------------</strong></p>
+      <p><span style="font-size:14pt;color:#843fa1"><strong>1. The hub board is panelized with the pressure module and connected by wires in between. For
+                        pressure-bed use, connect them directly in parallel for easier wiring; for pressure-toolhead use, snap them apart to save
+                        space.</strong></span></p>
+      <p><span style="font-size:14pt;color:#843fa1"><strong>2. The CS1237 version now has a firmware whose readings can cross the zero point — particularly
+                        useful for sensors with an uncertain zero. Older versions work too.</strong></span></p>
+      <p><span style="font-size:14pt;color:#843fa1"><strong>3. This one is drawn in LCEDA Pro; the project files are provided as attachments.</strong></span>
+      </p>
+      <p><span style="font-size:14pt;color:#843fa1"><strong>4. Minor update: the module's mounting screw holes are no longer connected to GND; everything else
+                        is unchanged. The hub board gained a ground point connected to the board's GND through a capacitor and resistor. The hub board's XH2.54
+                        terminals can be either SMD or through-hole. See the descriptions above for other details.</strong></span></p>
+      <p>&nbsp;</p>
+      <p><img src="https://image.lceda.cn/oshwhub/pullImage/d5de0399e587469d863c4d28c8fef1f9.jpg" alt="" width="800" height="600"></p>
+      <p><span style="font-size:14pt"><strong><img src="https://image.lceda.cn/oshwhub/pullImage/f058483a117d487dae284c722f095401.png" alt="" width="800"
+                              height="425"></strong></span></p>
+      <p><span style="font-size:14pt"><strong><img src="https://image.lceda.cn/oshwhub/pullImage/a5515efdc20842e4ac5363e23ffbed40.png" alt="" width="800"
+                              height="364"></strong></span></p>
+</div>
+      </div>
+
+      <div class="article-attachments">
+        <h3>Attachments</h3>
+        <ul class="attachments-list">
+          <li>
+            <a href="https://image.lceda.cn/oshwhub/project/attachments/a8eb5238939a4e87bfd92ac39a938ffb.zip" title="tiaoping-sensor.zip" class="attachment-link">
+              <span class="attachment-icon">📎</span>
+              <span class="attachment-name">tiaoping-sensor.zip</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://image.lceda.cn/oshwhub/project/attachments/5ab0404e40424d3ab2db3ff3f07ada00.zip" title="新一代压力调平模块.zip" class="attachment-link">
+              <span class="attachment-icon">📎</span>
+              <span class="attachment-name">新一代压力调平模块.zip</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://image.lceda.cn/oshwhub/project/attachments/802e276335894a1ea9732ea05cbdced0.zip" title="CS1237&amp;LDC1612版-V20250831.zip" class="attachment-link">
+              <span class="attachment-icon">📎</span>
+              <span class="attachment-name">CS1237&amp;LDC1612版-V20250831.zip</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://image.lceda.cn/oshwhub/project/attachments/a297c03e0e73424293cf68c5f2aff7c2.zip" title="CS1237-V20260213版.zip" class="attachment-link">
+              <span class="attachment-icon">📎</span>
+              <span class="attachment-name">CS1237-V20260213版.zip</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div class="article-footer">
+        <a href="../../" class="btn-back">Back to Home</a>
+      </div>
+    </div>
+  </div>
+</main>
+<footer class="footer">
+  <p>© 2026 Renquan Zhizi. All rights reserved.</p>
+</footer>
+</div>
+</body>
+</html>

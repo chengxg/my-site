@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>3D Printer CAN Toolhead — STM32F446 Little Crab Full-Spec Toolhead | Renquan Zhizi Open Source</title>
+<meta name="description" content="The first STM32F446-based toolhead: full-spec Little Crab toolhead with all XH2.54 terminals, USB/serial/CAN switching, integrated LDC1612 eddy-current scanning and MAX31865. Downloads included.">
+<link rel="icon" type="image/png" href="../../../assets/logo.png">
+<link rel="canonical" href="https://demo.chengxg.top/pangxie/en/articles/can-toolhead/">
+<link rel="alternate" hreflang="zh" href="https://demo.chengxg.top/pangxie/articles/can-toolhead/">
+<link rel="alternate" hreflang="en" href="https://demo.chengxg.top/pangxie/en/articles/can-toolhead/">
+<link rel="alternate" hreflang="x-default" href="https://demo.chengxg.top/pangxie/articles/can-toolhead/">
+<meta property="og:title" content="3D Printer CAN Toolhead — STM32F446 Little Crab Full-Spec Toolhead | Renquan Zhizi Open Source">
+<meta property="og:description" content="The first STM32F446-based toolhead: full-spec Little Crab toolhead with all XH2.54 terminals, USB/serial/CAN switching, integrated LDC1612 eddy-current scanning and MAX31865. Downloads included.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://demo.chengxg.top/pangxie/en/articles/can-toolhead/">
+<meta property="og:image" content="https://image.lceda.cn/oshwhub/pullImage/bf1f45bbe33e4a15bb56e70bd93339ee.jpg">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="zh_CN">
+<meta property="og:site_name" content="Renquan Zhizi Open Source">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="../../../assets/style.css">
+<script defer src="../../../assets/cm-loader.js"></script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "3D Printer CAN Toolhead — STM32F446 Little Crab Full-Spec Toolhead",
+  "description": "The first STM32F446-based toolhead: full-spec Little Crab toolhead with all XH2.54 terminals, USB/serial/CAN switching, integrated LDC1612 eddy-current scanning and MAX31865. Downloads included.",
+  "author": {
+    "@type": "Person",
+    "name": "仁泉之子"
+  },
+  "datePublished": "2026-05-04",
+  "dateModified": "2026-05-04",
+  "image": "https://image.lceda.cn/oshwhub/pullImage/bf1f45bbe33e4a15bb56e70bd93339ee.jpg",
+  "inLanguage": "en",
+  "mainEntityOfPage": "https://demo.chengxg.top/pangxie/en/articles/can-toolhead/"
+}
+</script>
+</head>
+<body>
+<div class="page">
+<nav class="navbar">
+  <div class="nav-container">
+    <a href="../../" class="logo">
+      <img src="../../../assets/logo.png" alt="Logo" class="logo-image">
+      Renquan Zhizi Open Source
+    </a>
+    <div class="nav-links">
+      <a href="../../" class="nav-link">Home</a>
+      <a href="../../../articles/can-toolhead/" class="nav-link lang-switch" title="切换到中文" hreflang="zh">中文</a>
+    </div>
+  </div>
+</nav>
+<main class="main-content">
+  <div class="article-detail">
+    <div class="article-content">
+      <div class="article-header">
+        <div class="article-meta">
+          <span class="category">3D Printing</span>
+          <span class="date">2026-05-04</span>
+        </div>
+        <h1>3D Printer CAN Toolhead — STM32F446 Little Crab Full-Spec Toolhead</h1>
+        <div class="article-author">
+          <span>Author: 仁泉之子</span>
+        </div>
+      </div>
+
+      <div class="article-body">
+<p><span style="font-size: 14pt;"><strong>This 3D printer toolhead is for the Klipper firmware — the STM32F446 Little Crab full-spec toolhead. It uses the
+      STM32F446RCT6 as the MCU: abundant resources, strong performance, and switchable USB/serial/CAN communication — use whichever you like. All terminal
+      blocks are XH2.54 — large and easy to wire.</strong></span></p>
+<p>&nbsp;</p>
+<p><span style="font-size: 14pt;"><strong><span style="color: #e67e23;">1. 3 endstop ports — two with 5V supply, one with switchable 5V/24V supply. STOP2 has
+        diode isolation and accepts high-voltage input, so other three-wire devices can be connected.</span></strong></span></p>
+<p><span style="font-size: 14pt;"><strong><span style="color: #e67e23;">2. 2 thermistor terminals — one for the hotend, the other usable for the scanning coil's
+        temperature compensation; 1 onboard thermistor measures chamber temperature.</span></strong></span></p>
+<p><span style="font-size: 14pt;"><strong><span style="color: #e67e23;">3. 3 controlled fans, 1 heated-bed-class high-power heater cartridge
+        output.</span></strong></span></p>
+<p><span style="font-size: 14pt;"><strong><span style="color: #e67e23;">4. 1 4-pin I2C terminal breakout, 1 4-pin expansion terminal, 5V power
+        output.</span></strong></span></p>
+<p><span style="font-size: 14pt;"><strong><span style="color: #e67e23;">5. 1 4-pin CAN terminal breakout — flash an ordinary CAN firmware, or a UTOC firmware if
+        you prefer.</span></strong></span></p>
+<p><span style="font-size: 14pt;"><strong><span style="color: #e67e23;">6. Integrated TMC2226 stepper driver — good heat dissipation, easy to
+        solder.</span></strong></span></p>
+<p><span style="font-size: 14pt;"><strong><span style="color: #e67e23;">7. Integrated LDC1612 chip with direct bed-scanning support; use the companion coil
+        (very compact) or an IDM coil.</span></strong></span></p>
+<p><span style="font-size: 14pt;"><strong><span style="color: #e67e23;">8. Integrated MAX31865 chip supporting PT100/PT1000 temperature sensors, 2-wire and
+        3-wire.</span></strong></span></p>
+<p><span style="font-size: 14pt;"><strong><span style="color: #e67e23;">9. Integrated ADXL345 accelerometer.</span></strong></span></p>
+<p><span style="font-size: 14pt;"><strong><span style="color: #e67e23;">10. SPI pads broken out — 5 spare IOs total, highly expandable.</span></strong></span>
+</p>
+<p>&nbsp;</p>
+<p><span style="font-size: 14pt; color: #e03e2d;">At one point the TJA1051T/3 CAN chips I bought were not great: hot-plugging the toolhead left the MCU in a bad
+    state, unable to enter DFU for flashing. The circuit has since been redesigned so that even a counterfeit CAN chip cannot affect the MCU. Pin 8 of the CAN
+    chip supports both the REF function (e.g. TJA1050T) and chips whose pin 5 is VIO (e.g. TJA1051T/3, SIT1051T/3). If you use a 1050-series chip, do not solder
+    the diode next to it.</span></p>
+<p><span style="font-size: 14pt;">You can flash USB firmware, CAN firmware, or serial firmware, plus a UTOC firmware. When talking to the host or mainboard,
+    both ends must use the same interface.</span></p>
+<p><strong><span style="font-size: 14pt;">Once the top side is fully soldered, you can already flash firmware over USB-to-serial.</span></strong></p>
+<p><span style="font-size: 14pt;"><span style="color: #e03e2d;"><strong>Most terminals have no protection — double-check your wiring before connecting. In
+        particular, mechanical endstop switches: connect only IO and GND, never all three wires!</strong></span></span></p>
+<p><span style="font-size: 14pt;"><strong>Related high-performance full-IO-protection mainboard:</strong> &nbsp;<a
+      href="https://oshwhub.com/cxg01/3d-da-yin-zhu-ban-stm32-gao-xing-neng-mi-ni-8-zhou-zhu-ban-si-ceng-ban">https://oshwhub.com/cxg01/3d-da-yin-zhu-ban-stm32-gao-xing-neng-mi-ni-8-zhou-zhu-ban-si-ceng-ban</a></span>
+</p>
+<p><span style="font-size: 14pt;"><strong>For the eddy-current coil, see my other project:</strong> &nbsp;<a
+      href="https://oshwhub.com/cxg01/3d-da-yin-wo-liu-diao-ping">https://oshwhub.com/cxg01/3d-da-yin-wo-liu-diao-ping</a></span></p>
+<p>&nbsp;</p>
+<p><span style="font-size: 14pt;"><strong>Toolhead MCU configuration</strong></span></p>
+<p>&nbsp;</p>
+<blockquote>
+  <div><span style="color: #b96ad9; font-size: 14pt;">[mcu toolhead]</span></div>
+  <div><span style="color: #b96ad9; font-size: 14pt;"># USB / serial communication</span></div>
+  <div><span style="color: #b96ad9; font-size: 14pt;"># serial: /dev/serial/by-path/platform-xhci-hcd.0.auto-usb-0:1.1:1.0-port0</span></div>
+  <div><span style="color: #b96ad9; font-size: 14pt;"># baud: 500000&nbsp; &nbsp;# serial baud rate</span></div>
+  <div><span style="color: #b96ad9; font-size: 14pt;"># restart_method: command</span></div>
+  <div><span style="color: #b96ad9; font-size: 14pt;"># CAN communication</span></div>
+  <div><span style="color: #b96ad9; font-size: 14pt;">canbus_uuid: 6cb6cbf28f16</span></div>
+</blockquote>
+<p>&nbsp;</p>
+<p><span style="font-size: 14pt;"><strong>MCU pin definitions</strong></span></p>
+<blockquote>
+  <pre class="highlighter-hljs"><code>[board_pins toolhead_pins_f446]
+mcu: toolhead # stm32f446 toolhead
+aliases:
+&nbsp; &nbsp; H1=PB2, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # heater
+&nbsp; &nbsp; FAN1=PB3,FAN2=PB4,FAN3=PC2, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # fans
+&nbsp; &nbsp; STOP1=PD2,STOP2=PB5,STOP3=PA2, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# endstops, STOP2 has diode isolation
+&nbsp; &nbsp; T1=PB0,T2=PC4,T3=PC5, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # thermistors, T3 = chamber temp
+  &nbsp;  EN1=PC12,DIR1=PC10,STEP1=PA15,UART1=PA14, &nbsp; &nbsp;# TMC2226 stepper driver
+&nbsp; &nbsp; ADXL_CS=PC6,ADXL_MOSI=PC9,ADXL_MISO=PC8,ADXL_SCK=PC7, ADXL_INT1=PC3, # ADXL345 version, software SPI
+      # LIS_CS=PC8,LIS_MOSI=PC6,LIS_MISO=PC7,LIS_SCK=PC9, LIS_INT1=PC3, # LIS2DW version, software SPI
+&nbsp; &nbsp; MAX_DYDY=PA3, MAX_CS=PA4, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# MAX31865 hardware SPI, spi_bus: spi1
+&nbsp; &nbsp; LDC_SDA=PC0,LDC_SCL=PC1,LDC_INTB=PC13, &nbsp; &nbsp; # LDC1612, crystal frequency 40 MHz
+&nbsp; &nbsp; WS2812=PA8, &nbsp;# WS2812
+  &nbsp; LED=PB1, &nbsp; &nbsp; # Klipper run indicator, high = LED on</code></pre>
+</blockquote>
+<p>&nbsp;</p>
+<p><span style="font-size: 14pt;"><strong>PT100 configuration</strong></span></p>
+<blockquote>
+  <div>
+    <div><span style="color: #b96ad9; font-size: 14pt;">[temperature_sensor PT100]</span></div>
+    <div><span style="color: #b96ad9; font-size: 14pt;">sensor_type: MAX31865</span></div>
+    <div><span style="color: #b96ad9; font-size: 14pt;">sensor_pin: toolhead:MAX_CS</span></div>
+    <div><span style="color: #b96ad9; font-size: 14pt;">min_temp: -200</span></div>
+    <div><span style="color: #b96ad9; font-size: 14pt;">max_temp: 300</span></div>
+    <div><span style="color: #b96ad9; font-size: 14pt;">spi_bus: spi1</span></div>
+    <div><span style="color: #b96ad9; font-size: 14pt;"># spi_software_sclk_pin: toolhead:PA5</span></div>
+    <div><span style="color: #b96ad9; font-size: 14pt;"># spi_software_mosi_pin: toolhead:PA6</span></div>
+    <div><span style="color: #b96ad9; font-size: 14pt;"># spi_software_miso_pin: toolhead:PA7</span></div>
+    <div><span style="color: #b96ad9; font-size: 14pt;">rtd_nominal_r: 100</span></div>
+    <div><span style="color: #b96ad9; font-size: 14pt;">rtd_reference_r: 427.27&nbsp; #&nbsp; reference resistor</span></div>
+    <div><span style="color: #b96ad9; font-size: 14pt;">rtd_num_of_wires: 3</span></div>
+  </div>
+</blockquote>
+<p>&nbsp;</p>
+<p><span style="font-size: 14pt;"><strong>ADXL345 configuration</strong></span></p>
+<blockquote>
+  <div><span style="color: #b96ad9; font-size: 14pt;"># ADXL345 accelerometer</span></div>
+  <div><span style="color: #b96ad9; font-size: 14pt;">[adxl345]</span></div>
+  <div><span style="color: #b96ad9; font-size: 14pt;">cs_pin: toolhead:ADXL_CS</span></div>
+  <div><span style="color: #b96ad9; font-size: 14pt;">spi_software_sclk_pin: toolhead:ADXL_SCK</span></div>
+  <div><span style="color: #b96ad9; font-size: 14pt;">spi_software_mosi_pin: toolhead:ADXL_MOSI</span></div>
+  <div><span style="color: #b96ad9; font-size: 14pt;">spi_software_miso_pin: toolhead:ADXL_MISO</span></div>
+  <div>&nbsp;</div>
+  <div>
+    <div>
+      <div><span style="color: #b96ad9; font-size: 14pt;">[resonance_tester]</span></div>
+      <div><span style="color: #b96ad9; font-size: 14pt;">accel_chip: adxl345</span></div>
+      <div><span style="color: #b96ad9; font-size: 14pt;">accel_per_hz: 50</span></div>
+      <div><span style="color: #b96ad9; font-size: 14pt;">probe_points: 100, 100, 20</span></div>
+    </div>
+  </div>
+</blockquote>
+<p>&nbsp;</p>
+<div>
+  <div><span style="font-size: 14pt;"><strong>WS2812 configuration</strong></span></div>
+  <blockquote>
+    <div><span style="font-size: 14pt; color: #b96ad9;">[neopixel my_neopixel]</span></div>
+    <div><span style="font-size: 14pt; color: #b96ad9;">pin: toolhead:WS2812</span></div>
+    <div><span style="font-size: 14pt; color: #b96ad9;"># &nbsp; The pin connected to the neopixel.</span></div>
+    <div><span style="font-size: 14pt; color: #b96ad9;"># &nbsp; This parameter must be provided.</span></div>
+    <div><span style="font-size: 14pt; color: #b96ad9;">chain_count: 1</span></div>
+    <div><span style="font-size: 14pt; color: #b96ad9;"># &nbsp; The number of neopixel chips in the daisy chain.</span></div>
+    <div><span style="font-size: 14pt; color: #b96ad9;"># &nbsp; Defaults to 1 (one neopixel chip connected to this pin).</span></div>
+    <div><span style="font-size: 14pt; color: #b96ad9;">color_order: GRB</span></div>
+  </blockquote>
+</div>
+<p>&nbsp;</p>
+<p><span style="font-size: 14pt;"><strong>Klipper's built-in eddy-current configuration</strong></span></p>
+<blockquote>
+  <div><span style="color: #236fa1; font-size: 14pt;">[probe_eddy_current eddy_probe]</span></div>
+  <div><span style="color: #236fa1; font-size: 14pt;">sensor_type: ldc1612</span></div>
+  <div><span style="color: #236fa1; font-size: 14pt;">i2c_address: 42</span></div>
+  <div><span style="color: #236fa1; font-size: 14pt;">i2c_mcu: toolhead</span></div>
+  <div><span style="color: #236fa1; font-size: 14pt;">frequency: 40000000</span></div>
+  <div><span style="color: #236fa1; font-size: 14pt;">i2c_speed: 400000</span></div>
+  <div><span style="color: #236fa1; font-size: 14pt;">intb_pin: toolhead:LDC_INTB</span></div>
+  <div><span style="color: #236fa1; font-size: 14pt;">i2c_software_scl_pin: toolhead:LDC_SCL</span></div>
+  <div><span style="color: #236fa1; font-size: 14pt;">i2c_software_sda_pin: toolhead:LDC_SDA</span></div>
+  <div>
+    <div>
+      <div><span style="font-size: 14pt; color: #236fa1;">x_offset: 0 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# remember to set the X
+          offset</span></div>
+      <div><span style="font-size: 14pt; color: #236fa1;">y_offset: -15 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# remember to set the Y
+          offset</span></div>
+      <div><span style="font-size: 14pt; color: #236fa1;">z_offset: 3 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# remember to set the Z
+          offset; must not be too low</span></div>
+      <div><span style="font-size: 14pt; color: #236fa1;">speed: 5 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # probing speed</span>
+      </div>
+      <div><span style="font-size: 14pt; color: #236fa1;">samples: 3 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # number of samples</span>
+      </div>
+      <div><span style="font-size: 14pt; color: #236fa1;">sample_retract_dist: 5.0 &nbsp; &nbsp; # nozzle lift distance while sampling</span></div>
+      <div><span style="font-size: 14pt; color: #236fa1;">samples_tolerance: 0.05</span></div>
+      <div><span style="font-size: 14pt; color: #236fa1;">samples_tolerance_retries: 2</span></div>
+    </div>
+  </div>
+  <br />
+  <div><span style="color: #236fa1; font-size: 14pt;">[temperature_probe eddy_probe]</span></div>
+  <div><span style="color: #236fa1; font-size: 14pt;">sensor_type: Generic 3950</span></div>
+  <div><span style="color: #236fa1; font-size: 14pt;">sensor_pin: toolhead:T2</span></div>
+  <div><span style="color: #236fa1; font-size: 14pt;">horizontal_move_z: 3</span></div>
+  <div><span style="font-size: 14pt;">&nbsp;</span></div>
+  <div><strong><span style="font-size: 14pt;"># For other settings, see the eddy-current coil configuration in my other project</span></strong></div>
+</blockquote>
+<p>&nbsp;</p>
+<p><strong><span style="font-size: 18pt;">Post-soldering verification:</span></strong></p>
+<p>&nbsp;</p>
+<blockquote>
+  <p><span style="color: #169179;"><span style="font-size: 14pt;">After soldering, do not solder the through-hole terminals yet — flash the firmware first via
+        USB-to-serial.</span></span></p>
+  <p><span style="color: #169179;"><span style="font-size: 14pt;">Of course, you can also finish soldering both sides and then flash via USB.</span></span></p>
+  <p><span style="color: #169179;"><span style="font-size: 14pt;">If STM32CubeProgrammer keeps failing to connect, the MCU soldering has a
+        problem.</span></span></p>
+  <p><span style="color: #e03e2d;"><span style="font-size: 14pt;">Just power the board from 5V for verification — none of these chip checks need
+        24V.</span></span></p>
+  <p><strong><span style="font-size: 14pt; color: #e03e2d;">1. ADXL345 / LIS2DW chips</span></strong></p>
+  <p><span style="font-size: 14pt; color: #843fa1;">Simply run the <strong>ACCELEROMETER_QUERY </strong> command; the console should print accelerometer data
+      like // accelerometer values (x, y, z): 9400.615463, 74.020594, -766.095498</span></p>
+  <p><strong><span style="font-size: 14pt; color: #e03e2d;">2. MAX31865 chip</span></strong></p>
+  <p><span style="font-size: 14pt; color: #843fa1;">Prepare a PT100 sensor, add the PT100 configuration, and check that a temperature shows up. If something is
+      wrong, Klipper will raise an error.</span></p>
+  <p><strong><span style="font-size: 14pt; color: #e03e2d;">3. LDC1612 chip</span></strong></p>
+  <p><span style="font-size: 14pt; color: #843fa1;">Connect the coil and run <strong>LDC_CALIBRATE_DRIVE_CURRENT chip=eddy_probe</strong>; it should return: //
+      probe_eddy_current eddy_probe: reg_drive_current: 19</span></p>
+  <p><strong><span style="font-size: 14pt; color: #e03e2d;">4. TMC2226 chip</span></strong></p>
+  <p><span style="font-size: 14pt; color: #843fa1;">In the [extruder] configuration, set the minimum extrusion temperature to min_temp: -200. Without the
+      extruder motor connected and without 24V power, click "Extrude" on the web UI — no error means it passes.</span></p>
+  <p><span style="color: #e03e2d;"><strong><span style="font-size: 14pt;">5. Hotend heater MOS</span></strong></span></p>
+  <p><span style="font-size: 14pt; color: #843fa1;">Simply command a temperature; the heating indicator LED lighting up is enough.</span></p>
+  <p><span style="font-size: 14pt; color: #e03e2d;"><strong>6. WS2812B LED</strong></span></p>
+  <p><span style="font-size: 14pt; color: #843fa1;"><span style="font-size: 14pt;">Add the relevant configuration and set a color on the web UI — as long as it
+        lights up, it works.</span></span></p>
+</blockquote>
+<p>&nbsp;</p>
+<p><strong><span style="font-size: 18pt;">LDC1612 error issues:</span></strong></p>
+<blockquote>
+  <p><span style="font-size: 14pt;"><strong>For eddy-current issues, see my other eddy coil project: &nbsp;<a
+          href="https://oshwhub.com/cxg01/3d-da-yin-wo-liu-diao-ping">https://oshwhub.com/cxg01/3d-da-yin-wo-liu-diao-ping</a></strong></span></p>
+</blockquote>
+<p>&nbsp;</p>
+<p><img src="https://image.lceda.cn/oshwhub/pullImage/be9cca46dd454e04b63a37eb0779abba.png" alt="" height="448" width="800" /></p>
+<p>&nbsp;</p>
+<p><img src="https://image.lceda.cn/oshwhub/pullImage/998fa0f7989b455e8512a077a17a4263.png" alt="" height="693" width="800" /></p>
+<p>&nbsp;</p>
+<p><img src="https://image.lceda.cn/oshwhub/pullImage/bfc1435fd728415ba661afab8b637f62.png" alt="" height="716" width="800" /></p>
+<p>&nbsp;</p>
+<p><img src="https://image.lceda.cn/oshwhub/pullImage/0cc4aa97c8424915b1c404a32c526e47.jpg" alt="" height="600" width="800" /></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><img src="https://image.lceda.cn/oshwhub/pullImage/0d563f068fa24d0fb32306a62ab9ef06.jpg" alt="" height="600" width="800" /></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><img src="https://image.lceda.cn/oshwhub/pullImage/a16cc68b91184b4c90826795691fdb5c.png" alt="" height="388" width="800" /></p>
+<p>&nbsp;</p>
+<p><img src="https://image.lceda.cn/oshwhub/pullImage/0ccdf922a1344bb8a858959d040087c9.jpg" alt="" height="600" width="800" /></p>
+<p>&nbsp;</p>
+<p><img src="https://image.lceda.cn/oshwhub/pullImage/d46d91d9bc184f239a41495cac5037a3.png" alt="" height="296" width="800" /></p>
+<p>&nbsp;</p>
+<p><span style="font-size: 14pt; color: #e03e2d;">-------------------------------- <strong>2026-03-23 minor update</strong>
+    ---------------------------------------------------------</span></p>
+<p><span style="color: #843fa1;"><span style="font-size: 14pt;">The onboard LDC1612 chip is removed and replaced by a standalone eddy-current coil for more
+      stable performance. The freed coil terminal is now broken out as two IOs, <strong>PC0</strong> and <strong>PC1</strong>, increasing the IO count. All
+      broken-out terminal IOs have a 220-ohm series resistor for protection.</span></span></p>
+<p>&nbsp;</p>
+<p><span style="font-size: 14pt; color: #e03e2d;">-------------------------------- <strong>2026-04-20 minor update</strong>
+    ---------------------------------------------------------</span></p>
+<p><span style="color: #843fa1;"><span style="font-size: 18.6667px;">Still no LDC1612 — <span style="font-size: 14pt;">replaced by a standalone eddy-current
+        coil for more stable performance.</span></span></span></p>
+<p><span style="color: #843fa1;"><span style="font-size: 18.6667px;">ADXL345 accelerometer prices have gotten too high lately — higher than the MCU itself — so
+      it is replaced by the LIS2DW with adjusted pins. The SN74LV1T34DBVR-TP MOS driver chip has also gotten much more expensive; other drop-in substitutes work
+      fine.</span></span></p>
+<p><span style="color: #3598db;"><strong><span style="color: #843fa1;"><span style="font-size: 18.6667px;">The LIS2DW pins have been
+          adjusted:</span></span></strong></span></p>
+<p><span style="color: #843fa1;"><span style="font-size: 18.6667px;"><span
+        style="color: #236fa1; font-size: 14pt;"><strong>LIS_CS=PC8,LIS_MOSI=PC6,LIS_MISO=PC7,LIS_SCK=PC9, LIS_INT1=PC3, # LIS2DW version, software
+          SPI</strong></span></span></span></p>
+<p><span style="color: #843fa1;"><span style="font-size: 18.6667px;"><img src="https://image.lceda.cn/oshwhub/pullImage/79f64c6b16e1405c8754128eca08c145.png"
+        alt="" height="448" width="800" /></span></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #843fa1;"><span style="font-size: 18.6667px;"><img src="https://image.lceda.cn/oshwhub/pullImage/59880ccfef0f47a0a027429f46a6f795.jpg"
+        alt="" height="600" width="800" /></span></span></p>
+<p>&nbsp;</p>
+<div>
+  <div>&nbsp;</div>
+</div>
+      </div>
+
+      <div class="article-attachments">
+        <h3>Attachments</h3>
+        <ul class="attachments-list">
+          <li>
+            <a href="https://image.lceda.cn/oshwhub/project/attachments/b0b77faead7647d68cb2d81b1b481e4a.zip" title="3D打印stm32f446小螃蟹满配工具头.zip" class="attachment-link">
+              <span class="attachment-icon">📎</span>
+              <span class="attachment-name">3D打印stm32f446小螃蟹满配工具头.zip</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div class="article-footer">
+        <a href="../../" class="btn-back">Back to Home</a>
+      </div>
+    </div>
+  </div>
+</main>
+<footer class="footer">
+  <p>© 2026 Renquan Zhizi. All rights reserved.</p>
+</footer>
+</div>
+</body>
+</html>

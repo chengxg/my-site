@@ -1,14 +1,126 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="zh-CN">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/png" href="./logo.png" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>仁泉之子开源</title>
-    
-  </head>
-  <body>
-    <div id="app"></div>
-  <script  src="./assets/index-CEnRi54x.js"></script>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>仁泉之子开源 — 3D打印机 DIY 硬件教程</title>
+<meta name="description" content="仁泉之子开源：原创 3D 打印机 DIY 硬件教程，包括 Klipper 主板、CAN 工具头、涡流调平线圈、压力调平传感器等开源项目，提供固件、BOM、pin 图等全套资料下载。">
+<link rel="icon" type="image/png" href="assets/logo.png">
+<link rel="canonical" href="https://demo.chengxg.top/pangxie/">
+<link rel="alternate" hreflang="zh" href="https://demo.chengxg.top/pangxie/">
+<link rel="alternate" hreflang="en" href="https://demo.chengxg.top/pangxie/en/">
+<link rel="alternate" hreflang="x-default" href="https://demo.chengxg.top/pangxie/">
+<meta property="og:title" content="仁泉之子开源 — 3D打印机 DIY 硬件教程">
+<meta property="og:description" content="仁泉之子开源：原创 3D 打印机 DIY 硬件教程，包括 Klipper 主板、CAN 工具头、涡流调平线圈、压力调平传感器等开源项目，提供固件、BOM、pin 图等全套资料下载。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://demo.chengxg.top/pangxie/">
+<meta property="og:image" content="https://demo.chengxg.top/pangxie/assets/logo.png">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:locale:alternate" content="en_US">
+<meta property="og:site_name" content="仁泉之子开源">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<div class="page">
+<nav class="navbar">
+  <div class="nav-container">
+    <a href="./" class="logo">
+      <img src="assets/logo.png" alt="Logo" class="logo-image">
+      仁泉之子开源
+    </a>
+    <div class="nav-links">
+      <a href="./" class="nav-link active">首页</a>
+      <a href="en/" class="nav-link lang-switch" title="Switch to English" hreflang="en">English</a>
+    </div>
+  </div>
+</nav>
+<main class="main-content">
+  <div class="home">
+    <section class="works">
+      <div class="work-card">
+        <a href="articles/eddy-calibration/" class="work-link">
+          <div class="work-image">
+            <img src="https://image.lceda.cn/oshwhub/pullImage/0eabde7c9534417ea0ae664181588d82.jpg" alt="3D打印小螃蟹涡流校准XY偏移" loading="lazy">
+          </div>
+          <div class="work-info">
+            <h3>3D打印小螃蟹涡流校准XY偏移</h3>
+            <p>首款原创开源的3D打印klipper涡流对刀模块, 超高的重复定位精度, 快速的对刀速度, 绝妙的对刀思路</p>
+          </div>
+        </a>
+      </div>
+      <div class="work-card">
+        <a href="articles/eddy-coil/" class="work-link">
+          <div class="work-image">
+            <img src="https://image.lceda.cn/oshwhub/pullImage/805e1b56b7084d5bb3254237574abbdd.jpg" alt="3D打印涡流调平线圈-小螃蟹扫床线圈" loading="lazy">
+          </div>
+          <div class="work-info">
+            <h3>3D打印涡流调平线圈-小螃蟹扫床线圈</h3>
+            <p>这是一个3D打印的涡流调平线圈, klipper自带驱动的涡流扫床线圈, 类似idm扫床线圈, 采用I2C通信</p>
+          </div>
+        </a>
+      </div>
+      <div class="work-card">
+        <a href="articles/eddy-coil-simple/" class="work-link">
+          <div class="work-image">
+            <img src="https://image.lceda.cn/pullimage/eWbm29HATI0A0czbDgBjarTNoBoz36E6GnmGguSv.png" alt="3D打印涡流调平线圈-小白教程" loading="lazy">
+          </div>
+          <div class="work-info">
+            <h3>3D打印涡流调平线圈-小白教程</h3>
+            <p>3D打印涡流调平线圈-小白教程, 文件配置修改教程</p>
+          </div>
+        </a>
+      </div>
+      <div class="work-card">
+        <a href="articles/pressure-sensor/" class="work-link">
+          <div class="work-image">
+            <img src="https://image.lceda.cn/oshwhub/pullImage/6f82e7f2ee3f403fbeceb076ef977f6c.png" alt="压力调平传感器" loading="lazy">
+          </div>
+          <div class="work-info">
+            <h3>压力调平传感器</h3>
+            <p>diy3D打印机压力调平传感器, 压力调平是目前为数不多的靠谱的喷嘴限位的传感器方案, 超高速应变片数据采集, 数据可视化, 有运算放大器版, CS1237版和LDC1612涡流版</p>
+          </div>
+        </a>
+      </div>
+      <div class="work-card">
+        <a href="articles/can-toolhead/" class="work-link">
+          <div class="work-image">
+            <img src="https://image.lceda.cn/oshwhub/pullImage/bf1f45bbe33e4a15bb56e70bd93339ee.jpg" alt="3D打印CAN工具头-stm32f446小螃蟹满配工具头" loading="lazy">
+          </div>
+          <div class="work-info">
+            <h3>3D打印CAN工具头-stm32f446小螃蟹满配工具头</h3>
+            <p>首款使用stm32f446的工具头,小螃蟹工具头, 端子拉满, 并且全部都是xh2.54的端子, 支持usb/串口/can通信切换, 集成ldc1612支持涡流扫床, 集成MAX31865芯片</p>
+          </div>
+        </a>
+      </div>
+      <div class="work-card">
+        <a href="articles/board-4layer/" class="work-link">
+          <div class="work-image">
+            <img src="https://image.lceda.cn/oshwhub/pullImage/cb36233f48ee4136bb89b8f9f4d6e071.jpg" alt="3D打印主板-STM32高性能迷你8轴小螃蟹主板-四层板" loading="lazy">
+          </div>
+          <div class="work-info">
+            <h3>3D打印主板-STM32高性能迷你8轴小螃蟹主板-四层板</h3>
+            <p>是"3D打印主板-stm32高性能迷你8轴主板"项目的升级版本, 更名为:"小螃蟹主板", 核心板和底板采用四层板, 核心板端子相比多了几个, 全IO保护主板, 目前唯一</p>
+          </div>
+        </a>
+      </div>
+      <div class="work-card">
+        <a href="articles/board-2layer/" class="work-link">
+          <div class="work-image">
+            <img src="https://image.lceda.cn/oshwhub/pullImage/4c2fe685baae481f9540de3984ec3d6d.png" alt="3D打印主板-stm32高性能迷你8轴主板-双层板" loading="lazy">
+          </div>
+          <div class="work-info">
+            <h3>3D打印主板-stm32高性能迷你8轴主板-双层板</h3>
+            <p>stm32f446/stm32h750高性能迷你8轴主板, 板子均为双层板设计, 板子具有过压保护功能, 能够直接抗住24V电压的输入而不烧, 采用串口通信工具头</p>
+          </div>
+        </a>
+      </div>
+    </section>
+  </div>
+</main>
+<footer class="footer">
+  <p>© 2026 仁泉之子. 保留所有权利.</p>
+</footer>
+</div>
 </body>
 </html>

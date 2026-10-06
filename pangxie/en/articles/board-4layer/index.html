@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>3D Printer Mainboard — STM32 High-Performance Mini 8-Axis Little Crab Mainboard (4-Layer) | Renquan Zhizi Open Source</title>
+<meta name="description" content="Little Crab mainboard (4-layer): upgraded STM32 high-performance mini 8-axis mainboard with 4-layer core/base boards and full IO protection. Pinouts, firmware, BOM and more included.">
+<link rel="icon" type="image/png" href="../../../assets/logo.png">
+<link rel="canonical" href="https://demo.chengxg.top/pangxie/en/articles/board-4layer/">
+<link rel="alternate" hreflang="zh" href="https://demo.chengxg.top/pangxie/articles/board-4layer/">
+<link rel="alternate" hreflang="en" href="https://demo.chengxg.top/pangxie/en/articles/board-4layer/">
+<link rel="alternate" hreflang="x-default" href="https://demo.chengxg.top/pangxie/articles/board-4layer/">
+<meta property="og:title" content="3D Printer Mainboard — STM32 High-Performance Mini 8-Axis Little Crab Mainboard (4-Layer) | Renquan Zhizi Open Source">
+<meta property="og:description" content="Little Crab mainboard (4-layer): upgraded STM32 high-performance mini 8-axis mainboard with 4-layer core/base boards and full IO protection. Pinouts, firmware, BOM and more included.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://demo.chengxg.top/pangxie/en/articles/board-4layer/">
+<meta property="og:image" content="https://image.lceda.cn/oshwhub/pullImage/cb36233f48ee4136bb89b8f9f4d6e071.jpg">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="zh_CN">
+<meta property="og:site_name" content="Renquan Zhizi Open Source">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="../../../assets/style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "3D Printer Mainboard — STM32 High-Performance Mini 8-Axis Little Crab Mainboard (4-Layer)",
+  "description": "Little Crab mainboard (4-layer): upgraded STM32 high-performance mini 8-axis mainboard with 4-layer core/base boards and full IO protection. Pinouts, firmware, BOM and more included.",
+  "author": {
+    "@type": "Person",
+    "name": "仁泉之子"
+  },
+  "datePublished": "2026-02-28",
+  "dateModified": "2026-02-28",
+  "image": "https://image.lceda.cn/oshwhub/pullImage/cb36233f48ee4136bb89b8f9f4d6e071.jpg",
+  "inLanguage": "en",
+  "mainEntityOfPage": "https://demo.chengxg.top/pangxie/en/articles/board-4layer/"
+}
+</script>
+</head>
+<body>
+<div class="page">
+<nav class="navbar">
+  <div class="nav-container">
+    <a href="../../" class="logo">
+      <img src="../../../assets/logo.png" alt="Logo" class="logo-image">
+      Renquan Zhizi Open Source
+    </a>
+    <div class="nav-links">
+      <a href="../../" class="nav-link">Home</a>
+      <a href="../../../articles/board-4layer/" class="nav-link lang-switch" title="切换到中文" hreflang="zh">中文</a>
+    </div>
+  </div>
+</nav>
+<main class="main-content">
+  <div class="article-detail">
+    <div class="article-content">
+      <div class="article-header">
+        <div class="article-meta">
+          <span class="category">3D Printing</span>
+          <span class="date">2026-02-28</span>
+        </div>
+        <h1>3D Printer Mainboard — STM32 High-Performance Mini 8-Axis Little Crab Mainboard (4-Layer)</h1>
+        <div class="article-author">
+          <span>Author: 仁泉之子</span>
+        </div>
+      </div>
+
+      <div class="article-body">
+<div class="detail_tinymce-content__PdW9_ tinymce-content">
+  <h1 title="3D Printer Mainboard — STM32 High-Performance Mini 8-Axis Mainboard"><span style="font-size:18pt">This is an upgraded version of the 2-layer
+      board&nbsp;<a title="3D Printer Mainboard — STM32 High-Performance Mini 8-Axis Mainboard"
+        href="https://oshwhub.com/cxg01/3d-da-yin-ji-mini-8-zhou-shuang-ceng-zhu-ban-kai-yuan" target="_blank" rel="noopener">3D Printer Mainboard — STM32
+        High-Performance Mini 8-Axis Mainboard</a></span></h1>
+  <p><strong><span style="font-size:18pt">Officially named: <span style="color:#843fa1">Little Crab Mainboard</span></span></strong></p>
+  <p><span style="font-size:14pt;color:#e03e2d"><strong>Both the core board and the base board are 4-layer boards</strong></span></p>
+  <p><span style="font-size:14pt"><strong>For the project origin and circuit changes, see the old project description</strong></span></p>
+  <p>&nbsp;</p>
+  <p><span style="font-size:14pt;color:#000000"><strong><span style="font-size:18pt">Core board:</span></strong></span></p>
+  <p><span style="font-size:12pt"><strong>GPIO protection on the core board is upgraded: apart from the CAN and USB terminals, all other pins now have GPIO
+        protection, and IO over-voltage triggers automatic shutdown on the base board</strong></span></p>
+  <p><span style="font-size:12pt"><strong>The core board still uses the STM32H750VBT6; the USB-to-serial chip is replaced with a CH343P, and the CAN transceiver
+        with a TJA1051T/3</strong></span></p>
+  <p><span style="font-size:12pt"><strong>The core board stacks two rows of through-hole terminals: solder the rear terminals first, trim their pins flush, then
+        solder the front ones</strong></span></p>
+  <p><span style="font-size:12pt"><strong>The core board's USB/CAN/serial ports <span style="font-size:12pt">can be mated without adjusting the pin
+          order</span>&nbsp; </strong></span><a title="3D Printer CAN Toolhead — STM32F446 Little Crab Full-Spec Toolhead"
+      href="https://oshwhub.com/cxg01/3d-da-yin-stm32f446-xiao-pang-xie-man-pei-gong-ju-tou"><strong><span style="font-size:14pt">3D Printer CAN Toolhead —
+          STM32F446 Little Crab Full-Spec Toolhead</span></strong></a></p>
+  <p><strong><span style="font-size:12pt;color:#e67e23">1. 2× 3-pin terminals, usable for endstops, with 5V power output</span></strong></p>
+  <p><strong><span style="font-size:12pt;color:#e67e23">2.&nbsp; 4× 2-pin thermistor terminals, also usable for endstops</span></strong></p>
+  <p><strong><span style="font-size:12pt;color:#e67e23">3.&nbsp; 4× 4-pin terminals, 1× CH343P UART interface, 1× USB interface, 1× CAN interface, 1× I2C
+        interface</span></strong></p>
+  <p><strong><span style="font-size:12pt;color:#e67e23">4. 1× USB Type-A receptacle</span></strong></p>
+  <p>&nbsp;</p>
+  <p><span style="color:#000000;font-size:18pt"><strong>Base board:</strong></span></p>
+  <p><span style="color:#000000"><strong><span style="font-size:12pt">Base board layout optimized: the driver jumper selectors are removed and replaced by
+          solder-jumpers on the back to select UART/SPI/standalone mode; step1 and step2 now have independent EN</span></strong></span></p>
+  <p><span style="color:#000000"><strong><span style="font-size:12pt">If you use an old-version core board, you need to run a fly-wire to enable step1's
+          EN</span></strong></span></p>
+  <p><span style="color:#000000"><strong><span style="font-size:12pt">The STC32G8K64 5V control pin arrangement on the base board changed, avoiding a brief
+          flicker of the 5V rail at power-on</span></strong></span></p>
+  <p><span style="color:#000000"><strong><span style="font-size:12pt">All 35V capacitors on the base board are replaced with through-hole capacitors — easier to
+          solder and higher capacitance</span></strong></span></p>
+  <p>&nbsp;</p>
+  <p><span style="color:#000000"><strong><span style="font-size:12pt">1.&nbsp; 6× endstop terminals, <span style="color:#e67e23">STOP1 and STOP2 have switchable
+            12V/24V power output with diode-isolated IO and accept high-voltage input,
+            <span style="color:#e03e2d">STOP3/STOP4 are 2-pin endstop terminals shared with the sensorless homing of the STEP1/STEP2 drivers, <span
+                style="color:#236fa1">STOP5/STOP6 are 3-pin endstop terminals with 5V power output</span></span></span></span></strong></span></p>
+  <p><span style="color:#000000"><strong><span style="font-size:12pt">2. 4× controlled fan terminals, <span style="color:#e03e2d">FAN1/FAN2 with switchable
+            5V/12V/24V supply, <span style="color:#236fa1">FAN3/FAN4 fixed 24V supply</span></span></span></strong></span></p>
+  <p><span style="color:#000000"><strong><span style="font-size:12pt"><span style="color:#e03e2d"><span style="color:#236fa1"><span style="color:#000000">3.
+                8× stepper motor drivers, <span style="color:#e03e2d">the first 6 support UART/SPI/standalone mode</span>,<span style="color:#236fa1">
+                  the last two support UART mode only</span></span></span></span></span></strong></span></p>
+  <p><span style="color:#000000"><strong><span style="font-size:12pt">4. 2× high-power heater cartridge outputs, requiring a separate power supply and soldered
+          lead-out wires</span></strong></span></p>
+  <p><strong>5. The power-monitor host UI page address is unchanged, online at:&nbsp;<a
+        href="https://demo.chengxg.top/mini8/">https://demo.chengxg.top/mini8/</a></strong></p>
+  <p>&nbsp;</p>
+  <p><span style="color:#000000"><strong><span style="font-size:12pt">MCU pin definitions</span></strong></span></p>
+  <div>
+    <blockquote>
+      <div><span style="font-size:12pt;color:#843fa1">[board_pins mcu_pins]</span></div>
+      <div><span style="font-size:12pt;color:#843fa1">mcu: mcu # STM32H750 V2 core board</span></div>
+      <div><span style="font-size:12pt;color:#843fa1">aliases:</span></div>
+      <div><span style="font-size:12pt;color:#843fa1">&nbsp; &nbsp; # step1-step6 support SPI, spi_bus: spi2</span></div>
+      <div><span style="font-size:12pt;color:#843fa1">&nbsp; &nbsp; DIR1=PD3, STEP1=PD4, UART1=PD2, EN1=PD6, &nbsp; # step1 &nbsp;</span></div>
+      <div><span style="font-size:12pt;color:#843fa1">&nbsp; &nbsp; DIR2=PC8, STEP2=PC12, UART2=PD0, , EN2=PD1,&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; #
+          step2</span>
+      </div>
+      <div><span style="font-size:12pt;color:#843fa1">&nbsp; &nbsp; DIR3=PC9, STEP3=PD8, UART3=PD14, EN3=PB1, &nbsp;# step3</span></div>
+      <div><span style="font-size:12pt;color:#843fa1">&nbsp; &nbsp; DIR4=PC6, STEP4=PD13, UART4=PD12, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# step4
+          EN shared with step3</span></div>
+      <div><span style="font-size:12pt;color:#843fa1">&nbsp; &nbsp; DIR5=PE14, STEP5=PD15, UART5=PD9, EN5=PB2, # step5</span></div>
+      <div><span style="font-size:12pt;color:#843fa1">&nbsp; &nbsp; DIR6=PC5, STEP6=PB12, UART6=PB0, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # step6
+          EN shared with step5</span></div>
+      <div><span style="font-size:12pt;color:#843fa1">&nbsp; &nbsp; DIR7=PA5, STEP7=PA6, UART7=PA7, EN7=PC4, &nbsp; # step7</span></div>
+      <div><span style="font-size:12pt;color:#843fa1">&nbsp; &nbsp; DIR8=PA2, STEP8=PA3, UART8=PA1, EN8=PA0, &nbsp; # step8</span></div>
+      <div><span style="font-size:12pt;color:#843fa1">&nbsp; &nbsp; FAN1=PA8, FAN2=PC7, FAN3=PA10, FAN4=PA9, &nbsp; # FAN1, FAN2 support 5V/12V/24V
+          switching</span></div>
+      <div><span style="font-size:12pt;color:#843fa1">&nbsp; &nbsp; STOP1=PA4, STOP2=PE12, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# endstop 3-pin STOP1/STOP2
+          accept high-voltage input with diode isolation, support 12V and 24V power output</span></div>
+      <div><span style="font-size:12pt;color:#843fa1">&nbsp; &nbsp; STOP3=PE13, STOP4=PE11, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # endstop 2-pin step1/step2
+          sensorless homing</span>
+      </div>
+      <div><span style="font-size:12pt;color:#843fa1">&nbsp; &nbsp; STOP5=PE10, STOP6=PE9, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# endstop 3-pin 5V power
+          output</span>
+      </div>
+      <div><span style="font-size:12pt;color:#843fa1">&nbsp; &nbsp; STOP7=PB7, STOP8=PB6, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # on the core board, endstop
+          5V power output</span>
+      </div>
+      <div><span style="font-size:12pt;color:#843fa1">&nbsp; &nbsp; T1=PC0, T2=PC3, T3=PC1, T4=PC2, &nbsp; # on the core board, thermistors</span></div>
+      <div><span style="font-size:12pt;color:#843fa1">&nbsp; &nbsp; H1=PD11, H2=PD10, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # heaters, H1
+          high-power</span>
+      </div>
+      <div><span style="font-size:12pt;color:#843fa1">&nbsp; &nbsp; LED=PB4, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+          &nbsp;# Klipper run indicator !PB4</span></div>
+      <div><span style="font-size:12pt;color:#843fa1">&nbsp; &nbsp; SDA=PB11, SCL=PB10, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # on the core board,
+          I2C interface
+          i2c_bus:i2c2</span></div>
+      <div><span style="font-size:12pt;color:#843fa1">&nbsp; &nbsp; SHUT=PD7 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+          &nbsp;# high level = automatic shutdown</span></div>
+    </blockquote>
+  </div>
+  <p>&nbsp;</p>
+  <p><span style="font-size:24pt"><strong>The project is open-sourced first, documentation to follow......</strong></span></p>
+  <p>&nbsp;</p>
+  <p><span style="color:#000000"><strong><span style="font-size:12pt"><span style="color:#e03e2d"><span style="color:#236fa1"><span style="color:#000000"><span
+                  style="color:#236fa1"><img src="https://image.lceda.cn/oshwhub/pullImage/ffd4b9b1e18c4ba084fc2a3c7c6b1b14.jpg" alt="" width="800"
+                    height="600"></span></span></span></span></span></strong></span></p>
+  <p>&nbsp;</p>
+  <p><span style="color:#000000"><strong><span style="font-size:12pt"><span style="color:#e03e2d"><span style="color:#236fa1"><span style="color:#000000"><span
+                  style="color:#236fa1"><img src="https://image.lceda.cn/oshwhub/pullImage/0122af86a49e4802bd39909487d35ef6.jpg" alt="" width="800"
+                    height="600"></span></span></span></span></span></strong></span></p>
+  <p>&nbsp;</p>
+  <p><span style="color:#000000"><strong><span style="font-size:12pt"><span style="color:#e03e2d"><span style="color:#236fa1"><span style="color:#000000"><span
+                  style="color:#236fa1"><img src="https://image.lceda.cn/oshwhub/pullImage/1926d893326342048be150385f6e9848.jpg" alt="" width="800"
+                    height="600"></span></span></span></span></span></strong></span></p>
+  <p>&nbsp;</p>
+  <p><span style="color:#000000"><strong><span style="font-size:12pt"><span style="color:#e03e2d"><span style="color:#236fa1"><span style="color:#000000"><span
+                  style="color:#236fa1"><img src="https://image.lceda.cn/oshwhub/pullImage/910b8c3572314ac4816f34c24fc8c3ee.jpg" alt="" width="800"
+                    height="600"></span></span></span></span></span></strong></span></p>
+  <p>&nbsp;</p>
+  <p><span style="color:#000000"><strong><span style="font-size:12pt"><span style="color:#e03e2d"><span style="color:#236fa1"><span style="color:#000000"><span
+                  style="color:#236fa1"><img src="https://image.lceda.cn/oshwhub/pullImage/7dd7907a676a40edab95d8c646c7f619.jpg" alt="" width="800"
+                    height="600"></span></span></span></span></span></strong></span></p>
+  <p>&nbsp;</p>
+  <p><span style="color:#000000"><strong><span style="font-size:12pt"><span style="color:#e03e2d"><span style="color:#236fa1"><span style="color:#000000"><span
+                  style="color:#236fa1"><img src="https://image.lceda.cn/oshwhub/pullImage/2a634a5ec5dd4cdbb74b1c527298f377.png" alt="" width="800"
+                    height="623"></span></span></span></span></span></strong></span></p>
+  <p>&nbsp;</p>
+  <p><img src="https://image.lceda.cn/oshwhub/pullImage/0d071904fc1044e39f65587ca50449dd.png"></p>
+</div>
+      </div>
+
+      <div class="article-attachments">
+        <h3>Attachments</h3>
+        <ul class="attachments-list">
+          <li>
+            <a href="https://image.lceda.cn/oshwhub/project/attachments/90c7705c679f4b1e95c23f83124bb10e.pdf" title="STM32高性能迷你8轴小螃蟹主板pin图.pdf" class="attachment-link">
+              <span class="attachment-icon">📎</span>
+              <span class="attachment-name">STM32高性能迷你8轴小螃蟹主板pin图.pdf</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://image.lceda.cn/oshwhub/project/attachments/98a2b70eb2f54bd2a5a2a60ba83ec6ac.png" title="STM32高性能迷你8轴小螃蟹主板pin图.png" class="attachment-link">
+              <span class="attachment-icon">📎</span>
+              <span class="attachment-name">STM32高性能迷你8轴小螃蟹主板pin图.png</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://image.lceda.cn/oshwhub/project/attachments/16f6e42bcb8a45a38823ee1959cbe4d0.c" title="stc32g8k64电源管理源码.c" class="attachment-link">
+              <span class="attachment-icon">📎</span>
+              <span class="attachment-name">stc32g8k64电源管理源码.c</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://image.lceda.cn/oshwhub/project/attachments/745bad72117a4f00bc24f908bea4797f.hex" title="stc32g8k64电源管理固件.hex" class="attachment-link">
+              <span class="attachment-icon">📎</span>
+              <span class="attachment-name">stc32g8k64电源管理固件.hex</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://image.lceda.cn/oshwhub/project/attachments/98d0ccea50c5451a86b6e4802ce43041.bin" title="klipper-stm32h750-25M-utoc.bin" class="attachment-link">
+              <span class="attachment-icon">📎</span>
+              <span class="attachment-name">klipper-stm32h750-25M-utoc.bin</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://image.lceda.cn/oshwhub/project/attachments/e4b75395d46240c9a5f87f1078ae491d.bin" title="klipper-stm32h750-25Mhz-usb.bin" class="attachment-link">
+              <span class="attachment-icon">📎</span>
+              <span class="attachment-name">klipper-stm32h750-25Mhz-usb.bin</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://image.lceda.cn/oshwhub/project/attachments/c946d2f7fc144ea29950325a33e6cde7.xlsx" title="stm32高性能迷你8轴主板bom .xlsx" class="attachment-link">
+              <span class="attachment-icon">📎</span>
+              <span class="attachment-name">stm32高性能迷你8轴主板bom .xlsx</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div class="article-footer">
+        <a href="../../" class="btn-back">Back to Home</a>
+      </div>
+    </div>
+  </div>
+</main>
+<footer class="footer">
+  <p>© 2026 Renquan Zhizi. All rights reserved.</p>
+</footer>
+</div>
+</body>
+</html>

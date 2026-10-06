@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>3D Printer Mainboard — STM32 High-Performance Mini 8-Axis Mainboard (2-Layer) | Renquan Zhizi Open Source</title>
+<meta name="description" content="STM32F446/H750 high-performance mini 8-axis 2-layer mainboard: over-voltage protection, survives 24V input, serial toolhead communication. Firmware, sources, BOM, pinouts included.">
+<link rel="icon" type="image/png" href="../../../assets/logo.png">
+<link rel="canonical" href="https://demo.chengxg.top/pangxie/en/articles/board-2layer/">
+<link rel="alternate" hreflang="zh" href="https://demo.chengxg.top/pangxie/articles/board-2layer/">
+<link rel="alternate" hreflang="en" href="https://demo.chengxg.top/pangxie/en/articles/board-2layer/">
+<link rel="alternate" hreflang="x-default" href="https://demo.chengxg.top/pangxie/articles/board-2layer/">
+<meta property="og:title" content="3D Printer Mainboard — STM32 High-Performance Mini 8-Axis Mainboard (2-Layer) | Renquan Zhizi Open Source">
+<meta property="og:description" content="STM32F446/H750 high-performance mini 8-axis 2-layer mainboard: over-voltage protection, survives 24V input, serial toolhead communication. Firmware, sources, BOM, pinouts included.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://demo.chengxg.top/pangxie/en/articles/board-2layer/">
+<meta property="og:image" content="https://image.lceda.cn/oshwhub/pullImage/4c2fe685baae481f9540de3984ec3d6d.png">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="zh_CN">
+<meta property="og:site_name" content="Renquan Zhizi Open Source">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="../../../assets/style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "3D Printer Mainboard — STM32 High-Performance Mini 8-Axis Mainboard (2-Layer)",
+  "description": "STM32F446/H750 high-performance mini 8-axis 2-layer mainboard: over-voltage protection, survives 24V input, serial toolhead communication. Firmware, sources, BOM, pinouts included.",
+  "author": {
+    "@type": "Person",
+    "name": "仁泉之子"
+  },
+  "datePublished": "2026-02-28",
+  "dateModified": "2026-02-28",
+  "image": "https://image.lceda.cn/oshwhub/pullImage/4c2fe685baae481f9540de3984ec3d6d.png",
+  "inLanguage": "en",
+  "mainEntityOfPage": "https://demo.chengxg.top/pangxie/en/articles/board-2layer/"
+}
+</script>
+</head>
+<body>
+<div class="page">
+<nav class="navbar">
+  <div class="nav-container">
+    <a href="../../" class="logo">
+      <img src="../../../assets/logo.png" alt="Logo" class="logo-image">
+      Renquan Zhizi Open Source
+    </a>
+    <div class="nav-links">
+      <a href="../../" class="nav-link">Home</a>
+      <a href="../../../articles/board-2layer/" class="nav-link lang-switch" title="切换到中文" hreflang="zh">中文</a>
+    </div>
+  </div>
+</nav>
+<main class="main-content">
+  <div class="article-detail">
+    <div class="article-content">
+      <div class="article-header">
+        <div class="article-meta">
+          <span class="category">3D Printing</span>
+          <span class="date">2026-02-28</span>
+        </div>
+        <h1>3D Printer Mainboard — STM32 High-Performance Mini 8-Axis Mainboard (2-Layer)</h1>
+        <div class="article-author">
+          <span>Author: 仁泉之子</span>
+        </div>
+      </div>
+
+      <div class="article-body">
+<div class="detail_tinymce-content__PdW9_ tinymce-content">
+    <ul>
+        <li style="line-height:1.5">1. This is a mini 8-axis mainboard, 100 mm × 75 mm — a single 8 cm silent fan is enough for cooling.</li>
+        <li style="line-height:1.5">2. This is a protected board: the GPIOs to the drivers have over-voltage protection and can survive a direct 24V hit —
+            meaning if one driver blows, the board doesn't burn out and the other drivers are fine. The mainboard supports automatic shutdown.</li>
+        <li style="line-height:1.5">3. 8 stepper drivers: the first 6 support standalone, UART, and SPI modes; the last two support UART mode.</li>
+        <li style="line-height:1.5">4. The core board consists of an STM32F446RCT6 plus an STM32F072C8T6 — the F446 is the main controller, and the F072
+            provides an independent CAN interface.</li>
+        <li style="line-height:1.5">5. The mainboard has 6 endstop inputs, three of them shared with sensorless homing, one accepting high-voltage input.</li>
+        <li style="line-height:1.5">6. 4 controlled fan channels, two of them supporting 24V and 12V.</li>
+        <li style="line-height:1.5">7. 2 thermistor channels; if that's not enough, driver slots can be repurposed to expand thermistor and fan channels.</li>
+        <li style="line-height:1.5">8. 2 hotend outputs — one high-power; both hotend outputs need soldered lead-out wires.</li>
+        <li style="line-height:1.5">9. The board integrates a CH334R USB hub chip: one port goes to a CH340N USB-to-serial output (can be used to connect a
+            toolhead directly), one to the main STM32F446RCT6, one to the STM32F072C8T6 for CAN output, and one is a spare USB port for other devices.</li>
+    </ul>
+    <p>&nbsp;</p>
+    <ul>
+        <li style="line-height:1.5"><strong>Special circuit-protection design with an extremely large number of TVS diodes: the 24V, 12V, and 5V rails all have
+                TVS protection, and GPIOs are protected by SRV05 quad ESD-protection TVS chips — each SRV05 protects 4 GPIOs (measured clamping voltage about
+                7V). The base board integrates an STC8G1K08A MCU (SOP-8) that monitors the GPIO pin voltages; when a GPIO voltage exceeds the threshold it
+                immediately cuts the 24V and 5V rails for protection, and also opens a bleed MOS to discharge the 24V capacitors to ground, further limiting
+                damage to the MCU.</strong></li>
+        <li style="line-height:1.5">With TMC2209 driver modules, the pin voltage reaches 4V when enabled. Boards whose drivers connect directly to the MCU are
+            relatively easy to damage: MCU pins are usually 3.3V while the driver module's communication voltage is higher than 3.3V — the current is small so
+            the impact is limited, but there is a real risk of burning the MCU. This design provides excellent protection against MCU pin over-voltage.</li>
+        <li style="line-height:1.5"><strong>The STC8G1K08A MCU on the base board is compiled with <span style="color:#3598db">TianwenBlock</span> and flashed
+                with <span style="color:#3598db">STC-ISP</span>; select a 24 MHz clock and the STC8G1K08A-SOP8 part.</strong></li>
+        <li style="line-height:1.5"><strong>The STM32F072C8T6 and STM32F446RCT6 on the core board are flashed with STM32CubeProgrammer in DFU mode.</strong>
+        </li>
+        <li style="line-height:1.5">STEP7 can be used to expand SPI communication.</li>
+        <li style="line-height:1.5">STEP8 can be used to expand fans and thermistors.</li>
+        <li style="line-height:1.5">Once the mainboard is soldered, you must flash a program into the <strong>STC8G1K08A</strong> before it will power on
+            normally.</li>
+        <li style="line-height:1.5">The driver expansion board includes a UART-to-RS232 module, a STEP7 SPI expansion module, and a STEP8 module with 2
+            thermistor and 2 fan channels.</li>
+        <li><span style="color:#3598db"><strong><span style="color:#000000">How to test the 24V-direct-to-IO protection:</span> use a dupont wire to connect the
+                    VCC 24V pin at the top-right of a driver slot, and plug the other end into any of the communication pins on the left side of the driver slot
+                    (STEP, DIR, EN, or SPI pins all work). The mainboard should immediately trigger shutdown. <span style="color:#e03e2d">(Test without the core
+                        board installed first; only after that passes, retest with the core board in — if it burns, that's on you.)</span></strong></span></li>
+        <li style="line-height:2"><span style="color:#e03e2d"><strong>The pin headers on the core board must be the 14 mm extended version, otherwise they won't
+                    be tall enough.</strong></span></li>
+        <li style="line-height:2"><span style="color:#e03e2d"><strong>The 100 µF 35V SMD capacitors can be replaced with regular through-hole capacitors
+                    (removing the stand-off style) — much easier to solder.</strong></span></li>
+        <li style="line-height:2"><span style="background-color:#ffffff;color:#e03e2d"><strong>The board set is split into a core board and a base board; both
+                    PCBs are 2-layer and sized under 10 cm to cut</strong></span><strong style="color:#e03e2d">prototyping cost.</strong></li>
+        <li style="line-height:2"><strong style="color:#e03e2d"><strong>The standard edition of LCEDA only allows one board per project, so I put multiple
+                    boards into a single project — copy out whichever one you want and modify it separately.</strong></strong></li>
+        <li style="line-height:2"><span style="color:#000000"><strong><strong>If the board gets stuck and won't power on, some module is unstable at power-up
+                        and high voltage leaks into the IOs. You can tweak the code to skip over-voltage monitoring during power-on.</strong></strong></span>
+        </li>
+        <li style="line-height:2"><span style="color:#000000"><strong><strong>All SMD parts on the base board are on the back and all through-hole parts on the
+                        front — very convenient for repairs.</strong></strong></span></li>
+    </ul>
+    <p>&nbsp;</p>
+    <p><span style="font-size:18pt;color:#2dc26b"><strong><strong>2024-11-17 update:</strong></strong></span></p>
+    <p><span style="font-size:18pt;color:#2dc26b"><strong><strong>An STM32H7 core board is added — just use the STM32H750VET6, it's even cheaper. It has two
+                    onboard UART serial ports and one bridged CAN interface; otherwise it's nearly identical to the STM32F446 core board and shares the same
+                    base board.</strong></strong></span></p>
+    <p>&nbsp;</p>
+    <p><span style="background-color:#ffffff;color:#b96ad9;font-size:18pt"><strong>2024-12-02 update<span style="font-size:18pt">:</span> serial-communication
+                toolhead added</strong></span></p>
+    <p><span style="color:#b96ad9">With CAN toolheads all the rage, let's just use serial. It's built on the STM32F072C8T6 (an STM32F103C8T6 works too),
+            flashing and Klipper communication over serial — say goodbye to hard-to-find CAN UUIDs and dropped connections.&nbsp;</span>
+    </p>
+    <p><span style="color:#b96ad9">4 fans, 3 endstops, 2 thermistors, 1 chamber temp, 1 TMC2226 driver, 1 heater cartridge, 1 ADXL345 accelerometer. Slightly
+            higher cost, but no difficulty soldering.</span><br><span style="color:#b96ad9">A perfect match for this mini 8-axis mainboard.</span></p>
+    <p>&nbsp;</p>
+    <p><span style="background-color:#ffffff;color:#e67e23;font-size:18pt"><strong>2025-01-22 update<span style="font-size:18pt">:</span>&nbsp;layout
+                optimization</strong></span></p>
+    <p><span style="color:#e67e23">1. Optimized base board layout and power management: the 24V and 5V rails now start independently — 5V first, then a
+            soft-start for 24V. The STC8G1K08A code was updated and is incompatible with earlier versions.</span></p>
+    <p><span style="color:#e67e23">2. Optimized the STM32H750 core board layout.</span></p>
+    <p><span style="color:#e67e23">3. Optimized the serial toolhead layout — different shape and different terminal blocks.</span></p>
+    <p>&nbsp;</p>
+    <p><span style="background-color:#ffffff;color:#169179;font-size:18pt"><strong>2025-03-15 update<span style="font-size:18pt">:</span> new version of the
+                8-axis base board, interfaces unchanged</strong></span></p>
+    <p><span style="color:#169179">1. The power-monitor MCU is upgraded from <strong>STC8G1K08A SOP-8 to STC32G8K64 TSSOP-20; set the download clock to 40
+                MHz.</strong></span></p>
+    <p><span style="color:#169179">2. STEP3/STEP4 support 48V high-voltage drivers. <span style="color:#e03e2d">Use high-voltage drivers with care — on GPIO
+                over-voltage the mainboard cannot actively cut the 48V rail.</span></span></p>
+    <p><span style="color:#169179">3. A terminal is reserved to feed 24V into the core board, in preparation for the next core board.</span></p>
+    <p><span style="color:#169179">4. The 8-axis base board supports power monitoring, with a soft-start for the 24V rail; LED-strip power also works.</span>
+    </p>
+    <p><span style="color:#169179">5. A new web-based power-monitor UI with a modern look lets you clearly see 24V/5V fluctuation, with waveform output up to 10
+            kHz. Just attach a high-speed USB-to-serial adapter (CH340, CH343, etc.). Online at: <a
+                href="https://demo.chengxg.top/mini8/">https://demo.chengxg.top/mini8/</a></span></p>
+    <p><span style="color:#169179">6. The board has been optimized to qualify for JLCPCB's free ENIG PCB prototyping.</span></p>
+    <p><span style="color:#169179"><img src="https://image.lceda.cn/oshwhub/pullImage/0d071904fc1044e39f65587ca50449dd.png" alt="" width="800"
+                height="393"></span></p>
+    <p><img src="https://image.lceda.cn/oshwhub/pullImage/a19b3a6de5564d4a83e4da5af9160ce2.png" alt="" width="800" height="559"></p>
+    <p><img src="https://image.lceda.cn/oshwhub/pullImage/42c1df99862f4e698a4a1db972fa227b.jpg" alt="" width="800" height="600"></p>
+    <p><img src="https://image.lceda.cn/oshwhub/pullImage/7935c6f49ba848dd8e9b6115d110969a.jpg" alt="" width="800" height="600"></p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p><span style="font-size:24pt"><strong>100% open source — schematic and PCB correspond one-to-one.</strong></span></p>
+    <p><span style="font-size:14pt">OSHWHub project: &nbsp;<a
+                href="https://oshwhub.com/cxg01/3d-da-yin-ji-mini-8-zhou-shuang-ceng-zhu-ban-kai-yuan"><u>https://oshwhub.com/cxg01/3d-da-yin-ji-mini-8-zhou-shuang-ceng-zhu-ban-kai-yuan</u></a></span>
+    </p>
+    <p><span style="font-size:14pt">Video introduction:&nbsp; <a
+                href="https://www.bilibili.com/video/BV1ujDdYMEgG/?share_source=copy_web&amp;vd_source=99f64753fb7bdbc889f06b65fd51952f">https://www.bilibili.com/video/BV1ujDdYMEgG/?share_source=copy_web&amp;vd_source=99f64753fb7bdbc889f06b65fd51952f</a></span>
+    </p>
+    <p>&nbsp;</p>
+    <p><span style="color:#e03e2d"><strong><span style="font-size:18pt">Updated irregularly — clone the project and save the files yourself so you don't lose
+                    access. Export whichever board you want to fabricate.</span></strong></span></p>
+    <p>&nbsp;</p>
+    <p><strong><span style="font-size:18pt">Board pin definitions:</span></strong></p>
+    <div>
+        <div>
+            <div>
+                <div><span style="color:#000000;background-color:#c2e0f4"><code>[board_pins mcu_pins]</code></span></div>
+                <div><span
+                        style="color:#000000;background-color:#c2e0f4"><code>mcu: mcu &nbsp; &nbsp; # STM32F446 core board, STM32F446RCT6 pin definitions</code></span>
+                </div>
+                <div><span style="color:#000000;background-color:#c2e0f4"><code>aliases:</code></span></div>
+                <div><span
+                        style="color:#000000;background-color:#c2e0f4"><code>&nbsp; &nbsp; DIR1=PB8, STEP1=PB9, UART1=PB7, EN1=PB6,&nbsp; &nbsp; &nbsp;# step1</code></span>
+                </div>
+                <div><span
+                        style="color:#000000;background-color:#c2e0f4"><code>&nbsp; &nbsp; DIR2=PD2, STEP2=PB4, UART2=PB5,&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# step2, EN shared with step1</code></span>
+                </div>
+                <div><span
+                        style="color:#000000;background-color:#c2e0f4"><code>&nbsp; &nbsp; DIR3=PB3, STEP3=PA13, UART3=PC10, EN3=PB1,&nbsp; &nbsp; # step3</code></span>
+                </div>
+                <div><span
+                        style="color:#000000;background-color:#c2e0f4"><code>&nbsp; &nbsp; DIR4=PA15, STEP4=PA14, UART4=PC7,&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # step4, EN shared with step3</code></span>
+                </div>
+                <div><span
+                        style="color:#000000;background-color:#c2e0f4"><code>&nbsp; &nbsp; DIR5=PB10, STEP5=PC8, UART5=PC6, EN5=PB2,&nbsp; &nbsp; &nbsp;# step5</code></span>
+                </div>
+                <div><span
+                        style="color:#000000;background-color:#c2e0f4"><code>&nbsp; &nbsp; DIR6=PC5, STEP6=PB12, UART6=PB0,&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # step6, EN shared with step5</code></span>
+                </div>
+                <div><span
+                        style="color:#000000;background-color:#c2e0f4"><code>&nbsp; &nbsp; DIR7=PA5, STEP7=PA6, UART7=PA7, EN7=PC4,&nbsp; &nbsp; &nbsp;# step7</code></span>
+                </div>
+                <div><span
+                        style="color:#000000;background-color:#c2e0f4"><code>&nbsp; &nbsp; DIR8=PC2, STEP8=PA3, UART8=PA1, EN8=PA0,&nbsp; &nbsp; &nbsp;# step8</code></span>
+                </div>
+                <div><span
+                        style="color:#000000;background-color:#c2e0f4"><code>&nbsp; &nbsp; FAN1=PA8, FAN2=PC9, FAN3=PA10, FAN4=PA9,&nbsp; &nbsp; &nbsp;# fans</code></span>
+                </div>
+                <div><span
+                        style="color:#000000;background-color:#c2e0f4"><code>&nbsp; &nbsp; STOP1=PA4, STOP2=PC14, STOP3=PC15, STOP4=PC13, STOP5=PC3, STOP6=PA2, # endstops</code></span>
+                </div>
+                <div><span
+                        style="color:#000000;background-color:#c2e0f4"><code>&nbsp; &nbsp; T1=PC0, T2=PC1,&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # thermistors</code></span>
+                </div>
+                <div><span
+                        style="color:#000000;background-color:#c2e0f4"><code>&nbsp; &nbsp; H1=PC12, H2=PC11,&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# heaters</code></span>
+                </div>
+                <div><span style="color:#000000;background-color:#c2e0f4"><code>&nbsp; &nbsp;</code></span></div>
+                <div><span style="color:#000000;background-color:#c2e0f4"><code>[board_pins mcu2_pins]</code></span></div>
+                <div><span
+                        style="color:#000000;background-color:#c2e0f4"><code>mcu: mcu2 &nbsp; &nbsp; &nbsp;# STM32F446 core board, STM32F072C8T6 pin definitions</code></span>
+                </div>
+                <div><span style="color:#000000;background-color:#c2e0f4"><code>aliases:</code></span></div>
+                <div><span
+                        style="color:#000000;background-color:#c2e0f4"><code>&nbsp; &nbsp; SHUT=PA14, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# high level = automatic shutdown</code></span>
+                </div>
+                <div><span
+                        style="color:#000000;background-color:#c2e0f4"><code>&nbsp; &nbsp; LED1=PA7, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # Klipper run indicator, low = LED on</code></span>
+                </div>
+                <div><span style="color:#000000;background-color:#c2e0f4"><code>&nbsp; &nbsp; CAN_RX=PB8, CAN_TX=PB9, # CAN communication pins</code></span>
+                </div>
+                <div><span
+                        style="color:#000000;background-color:#c2e0f4"><code>&nbsp; &nbsp; RX=PA10, TX=PA9, &nbsp; &nbsp; &nbsp; &nbsp;# serial pins</code></span>
+                </div>
+                <div><span style="color:#000000;background-color:#c2e0f4"><code>&nbsp; &nbsp; SDA=PB11, SCL=PB10, &nbsp; &nbsp; # I2C pins</code></span></div>
+            </div>
+        </div>
+    </div>
+    <p>&nbsp;</p>
+    <div>
+        <div><span style="color:#e03e2d;background-color:#fbeeb8">[board_pins mcu_pins]</span></div>
+        <div><span style="color:#e03e2d;background-color:#fbeeb8">mcu: mcu # STM32H750 core board</span></div>
+        <div><span style="color:#e03e2d;background-color:#fbeeb8">aliases:</span></div>
+        <div><span style="color:#e03e2d;background-color:#fbeeb8">&nbsp; &nbsp; DIR1=PD4, STEP1=PD5, UART1=PB7, EN1=PB6, &nbsp; # step1 &nbsp;step1-step6
+                support SPI,
+                spi_bus: spi2</span></div>
+        <div><span style="color:#e03e2d;background-color:#fbeeb8">&nbsp; &nbsp; DIR2=PD2, STEP2=PB4, UART2=PB5, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;#
+                step2, EN shared with
+                step1</span></div>
+        <div><span style="color:#e03e2d;background-color:#fbeeb8">&nbsp; &nbsp; DIR3=PB3, STEP3=PA13, UART3=PC10, EN3=PB1, # step3</span></div>
+        <div><span style="color:#e03e2d;background-color:#fbeeb8">&nbsp; &nbsp; DIR4=PA15, STEP4=PA14, UART4=PC7, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# step4, EN
+                shared with
+                step3</span></div>
+        <div><span style="color:#e03e2d;background-color:#fbeeb8">&nbsp; &nbsp; DIR5=PB10, STEP5=PC8, UART5=PC6, EN5=PB2, &nbsp;# step5</span></div>
+        <div><span style="color:#e03e2d;background-color:#fbeeb8">&nbsp; &nbsp; DIR6=PC5, STEP6=PB12, UART6=PB0, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # step6, EN
+                shared with
+                step5</span></div>
+        <div><span style="color:#e03e2d;background-color:#fbeeb8">&nbsp; &nbsp; DIR7=PA5, STEP7=PA6, UART7=PA7, EN7=PC4, &nbsp; # step7</span></div>
+        <div><span style="color:#e03e2d;background-color:#fbeeb8">&nbsp; &nbsp; DIR8=PC2, STEP8=PA3, UART8=PA1, EN8=PA0, &nbsp; # step8</span></div>
+        <div><span style="color:#e03e2d;background-color:#fbeeb8">&nbsp; &nbsp; FAN1=PA8, FAN2=PC9, FAN3=PA10, FAN4=PA9, &nbsp; # FAN1, FAN2 support 12V and
+                24V</span></div>
+        <div><span style="color:#e03e2d;background-color:#fbeeb8">&nbsp; &nbsp; STOP1=PA4, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# endstop
+                STOP1 accepts high-voltage input with diode isolation, supports 12V and 24V supply output</span></div>
+        <div><span style="color:#e03e2d;background-color:#fbeeb8">&nbsp; &nbsp; STOP2=PC14, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # endstop, 5V
+                supply output,
+                diode input isolation</span></div>
+        <div><span style="color:#e03e2d;background-color:#fbeeb8">&nbsp; &nbsp; STOP3=PC15, STOP4=PC13, &nbsp; # endstop 2-pin, step1/step2 sensorless
+                homing</span></div>
+        <div><span style="color:#e03e2d;background-color:#fbeeb8">&nbsp; &nbsp; STOP5=PC3, STOP6=PA2, &nbsp; &nbsp; # endstop, 5V supply output</span></div>
+        <div><span style="color:#e03e2d;background-color:#fbeeb8">&nbsp; &nbsp; T1=PC0, T2=PC1, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # thermistors</span></div>
+        <div><span style="color:#e03e2d;background-color:#fbeeb8">&nbsp; &nbsp; H1=PC12, H2=PC11, &nbsp; &nbsp; &nbsp; &nbsp; # heaters</span></div>
+        <div><span style="color:#e03e2d;background-color:#fbeeb8">&nbsp; &nbsp; SHUT=PD6, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # high level =
+                automatic shutdown</span>
+        </div>
+    </div>
+    <p>&nbsp;</p>
+    <div>
+        <div><span style="background-color:#f8cac6;color:#843fa1">[board_pins toolhead_pins_f072]</span></div>
+        <div><span style="background-color:#f8cac6;color:#843fa1">mcu: toolhead # STM32F072 serial-communication toolhead</span></div>
+        <div><span style="background-color:#f8cac6;color:#843fa1">aliases:</span></div>
+        <div><span style="background-color:#f8cac6;color:#843fa1">&nbsp; &nbsp; H1=PB14, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# heater</span></div>
+        <div><span style="background-color:#f8cac6;color:#843fa1">&nbsp; &nbsp; FAN1=PB8,FAN2=PC13,FAN3=PC14,FAN4=PB7, &nbsp;# fans</span></div>
+        <div><span style="background-color:#f8cac6;color:#843fa1">&nbsp; &nbsp; STOP1=PB6,STOP2=PC15,STOP3=PA3, &nbsp; &nbsp; &nbsp; &nbsp; # endstops</span>
+        </div>
+        <div><span style="background-color:#f8cac6;color:#843fa1">&nbsp; &nbsp; T1=PA1,T2=PA2,T3=PA4, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                &nbsp;
+                # thermistors, T3 = chamber temp</span></div>
+        <div><span style="background-color:#f8cac6;color:#843fa1">&nbsp; &nbsp; EN1=PB4,DIR1=PA14,STEP1=PA15,UART1=PB3, # TMC2226 stepper driver</span></div>
+        <div><span style="background-color:#f8cac6;color:#843fa1">&nbsp; &nbsp; LED=PB5, # Klipper run indicator</span></div>
+    </div>
+    <p>&nbsp;</p>
+    <p><strong style="color:#e03e2d"><img src="https://image.lceda.cn/oshwhub/b28789b90aa642f4aaf880dc82bc3cef.png" alt="" width="800" height="452"></strong></p>
+    <p><strong style="color:#e03e2d"><img src="https://image.lceda.cn/oshwhub/pullImage/d2607040443a40ad856eb102e680764d.png" alt="" width="800"
+                height="617"></strong></p>
+    <p><img src="https://image.lceda.cn/oshwhub/pullImage/0ff0f77618e9497396b847480b5a4aff.png" alt="" width="800" height="1103"></p>
+    <p><strong style="color:#e03e2d"><img src="https://image.lceda.cn/oshwhub/37c05a37fea14a989366ff8e2f2a1bd2.png" alt="" width="800" height="534"></strong></p>
+    <p><strong style="color:#e03e2d"><img src="https://image.lceda.cn/oshwhub/pullImage/c1a20b07c53943609eb5c995963a7c6e.png" alt="" width="800"
+                height="514"><br></strong></p>
+    <p><strong style="color:#e03e2d"><img src="https://image.lceda.cn/oshwhub/pullImage/a696f26c5d9548a8aa6e60a32423583f.png" alt="" width="800"
+                height="590"></strong></p>
+    <p><strong style="color:#e03e2d"><img src="https://image.lceda.cn/oshwhub/pullImage/389820ce516a4bf7bc2a753ef6c2bf04.png" alt="" width="800"
+                height="545"></strong></p>
+    <p><strong style="color:#e03e2d"><img src="https://image.lceda.cn/oshwhub/0a9689dfceba4a50b44998fc37f1d7b1.png" alt="" width="800" height="777"></strong></p>
+    <p><span style="background-color:#ffffff;color:#e03e2d"><strong><img src="https://image.lceda.cn/oshwhub/7495a29c0abc40ecbe55d6be05d0c654.jpg" alt="" width="800"
+                    height="600"></strong></span></p>
+    <p><img src="https://image.lceda.cn/oshwhub/593ecc1ba0834339a0828c7219170ac7.jpg" alt="" width="800" height="600"></p>
+    <p><img src="https://image.lceda.cn/oshwhub/pullImage/63695001eced418b9604b4f475962d0a.jpg" alt="" width="800" height="600"></p>
+    <p><span style="background-color:#ffffff;color:#e03e2d"><strong><img src="https://image.lceda.cn/oshwhub/pullImage/6c21362140b54c2b8dbac54debb96d53.jpg"
+                    alt="" width="800" height="1093"></strong></span></p>
+    <p><span style="background-color:#ffffff;color:#e03e2d"><strong><img src="https://image.lceda.cn/oshwhub/33ee37a7c2954e13b3eb8ac0309a8dab.png" alt="" width="800"
+                    height="426"></strong></span></p>
+    <p><span style="background-color:#ffffff;color:#e03e2d"><strong><img src="https://image.lceda.cn/oshwhub/c1e7cb078c214f0ebbd3f1237c0bff9c.png" alt="" width="800"
+                    height="563"></strong></span></p>
+    <p>&nbsp;</p>
+    <p><span style="background-color:#ffffff;color:#e03e2d"><strong><img src="https://image.lceda.cn/oshwhub/pullImage/fe09300b4c0a40b78344641c429cbfbc.png"
+                    alt="" width="800" height="406"></strong></span></p>
+    <p><span style="background-color:#ffffff;color:#e03e2d"><strong><img src="https://image.lceda.cn/oshwhub/pullImage/e6c3105b169c44e89cdaf0731fc80d49.png"
+                    alt="" width="800" height="427"></strong></span></p>
+    <p><span style="background-color:#ffffff;color:#e03e2d"><strong><img src="https://image.lceda.cn/oshwhub/pullImage/2d8f8f1e37ea402cb5f6d719a0c95870.png"
+                    alt="" width="800" height="448"></strong></span></p>
+    <p><span style="background-color:#ffffff;color:#e03e2d"><strong><img src="https://image.lceda.cn/oshwhub/pullImage/a8538dd71820422d9a9ba9cb12e92107.png"
+                    alt="" width="800" height="462"></strong></span></p>
+</div>
+      </div>
+
+      <div class="article-attachments">
+        <h3>Attachments</h3>
+        <ul class="attachments-list">
+          <li>
+            <a href="https://image.lceda.cn/oshwhub/project/attachments/cb150c1cc764494a97e00d553c4ac623.hex" title="stc8g1k08A.hex" class="attachment-link">
+              <span class="attachment-icon">📎</span>
+              <span class="attachment-name">stc8g1k08A.hex</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://image.lceda.cn/oshwhub/project/attachments/b45b176405af42a0a4d417c11646ecf9.c" title="stc8g1k08A源码.c" class="attachment-link">
+              <span class="attachment-icon">📎</span>
+              <span class="attachment-name">stc8g1k08A源码.c</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://image.lceda.cn/oshwhub/project/attachments/b7a5434eb86a4aaeb69ef4c2743032bb.hex" title="stc8g1k08A-v20250122.hex" class="attachment-link">
+              <span class="attachment-icon">📎</span>
+              <span class="attachment-name">stc8g1k08A-v20250122.hex</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://image.lceda.cn/oshwhub/project/attachments/03a36509d0c544888e6eedb5bad5e58d.c" title="stc8g1k08A源码-v20250122.c" class="attachment-link">
+              <span class="attachment-icon">📎</span>
+              <span class="attachment-name">stc8g1k08A源码-v20250122.c</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://image.lceda.cn/oshwhub/project/attachments/696e28da2f6e47f7a4afce061b624afd.zip" title="底板电源监控上位机.zip" class="attachment-link">
+              <span class="attachment-icon">📎</span>
+              <span class="attachment-name">底板电源监控上位机.zip</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://image.lceda.cn/oshwhub/project/attachments/210cc5eeb4f54f68afa925bc4ac5556b.hex" title="stc32g8k64-v20250315.hex" class="attachment-link">
+              <span class="attachment-icon">📎</span>
+              <span class="attachment-name">stc32g8k64-v20250315.hex</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://image.lceda.cn/oshwhub/project/attachments/805c3e9a23ef4035bd9c74f6360efe2b.c" title="stc32g8k64源码-v20250315.c" class="attachment-link">
+              <span class="attachment-icon">📎</span>
+              <span class="attachment-name">stc32g8k64源码-v20250315.c</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://image.lceda.cn/oshwhub/project/attachments/9c09a9a602f8438a844058c8e36e2fbf.xlsx" title="stm32高性能迷你8轴主板bom .xlsx" class="attachment-link">
+              <span class="attachment-icon">📎</span>
+              <span class="attachment-name">stm32高性能迷你8轴主板bom .xlsx</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://image.lceda.cn/oshwhub/project/attachments/e82fc38b75dd4a56a60a764383b0bbca.cfg" title="printer.cfg" class="attachment-link">
+              <span class="attachment-icon">📎</span>
+              <span class="attachment-name">printer.cfg</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://image.lceda.cn/oshwhub/project/attachments/4947db28a25340b98a8c27e10a1b7627.pdf" title="3D打印 STM32高性能迷你8轴主板pin图.pdf" class="attachment-link">
+              <span class="attachment-icon">📎</span>
+              <span class="attachment-name">3D打印 STM32高性能迷你8轴主板pin图.pdf</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://image.lceda.cn/oshwhub/project/attachments/4289497f24774791b3a4b270f0df13bb.docx" title="stm32高性能迷你8轴主板.docx" class="attachment-link">
+              <span class="attachment-icon">📎</span>
+              <span class="attachment-name">stm32高性能迷你8轴主板.docx</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div class="article-footer">
+        <a href="../../" class="btn-back">Back to Home</a>
+      </div>
+    </div>
+  </div>
+</main>
+<footer class="footer">
+  <p>© 2026 Renquan Zhizi. All rights reserved.</p>
+</footer>
+</div>
+</body>
+</html>
