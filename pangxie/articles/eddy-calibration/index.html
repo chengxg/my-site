@@ -19,8 +19,8 @@
 <meta property="og:locale:alternate" content="en_US">
 <meta property="og:site_name" content="仁泉之子开源">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="stylesheet" href="../../assets/style.css">
-<script defer src="../../assets/cm-loader.js"></script>
+<link rel="stylesheet" href="../../assets/style.css?v=00b8s3jt">
+<script defer src="../../assets/cm-loader.js?v=00b8s3jt"></script>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -105,38 +105,30 @@
 </div>
 <h2 id="commands"><span style="font-size: 18pt;">一. 涡流对刀插件G-code 命令详解</span></h2>
 <p><strong><span style="font-size: 14pt;">添加传感器配置块</span></strong></p>
-<blockquote>
-  <div>
-    <div>
-      <div><span style="font-size: 12pt; color: #236fa1;">[tool_eddy_calibration calibrator_xy]</span></div>
-      <div><span style="font-size: 12pt; color: #236fa1;">sensor_type: ldc1612</span></div>
-      <div><span style="font-size: 12pt; color: #236fa1;">frequency: 40000000</span></div>
-      <div><span style="font-size: 12pt; color: #236fa1;">reg_drive_current: 22 &nbsp; &nbsp; # 如果使用校准驱动电流命令这个注释</span></div>
-      <div><span style="font-size: 12pt; color: #236fa1;">max_sensor_hz: 3000000 &nbsp; &nbsp;# 线圈最大频率</span></div>
-      <div><span style="font-size: 12pt; color: #236fa1;"># LDC1612 I2C 配置</span></div>
-      <div><span style="font-size: 12pt; color: #236fa1;">i2c_speed: 400000</span></div>
-      <div><span style="font-size: 12pt; color: #236fa1;">i2c_address: 42 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # 地址跳线连接</span></div>
-      <div><span style="font-size: 12pt; color: #236fa1;">i2c_mcu: mcu &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# 改成自己的</span></div>
-      <div><span style="font-size: 12pt; color: #236fa1;">i2c_software_scl_pin: SCL # 改成自己的</span></div>
-      <div><span style="font-size: 12pt; color: #236fa1;">i2c_software_sda_pin: SDA # 改成自己的</span></div>
-      <div><span style="font-size: 12pt; color: #236fa1;"># PCB线圈位置 大概位置</span></div>
-      <div><span style="font-size: 12pt; color: #236fa1;">coil_x: 28.7 &nbsp;# 改成自己的</span></div>
-      <div><span style="font-size: 12pt; color: #236fa1;">coil_y: 12.6 &nbsp;# 改成自己的</span></div>
-      <div><span style="font-size: 12pt; color: #236fa1;">coil_z: 0.4 &nbsp; # 改成自己的 线圈平面的Z坐标位置</span></div>
-      <div><span style="font-size: 12pt; color: #236fa1;">coil_inner_diameter: 2.0 &nbsp; &nbsp;#线圈内径</span></div>
-      <div><span style="font-size: 12pt; color: #236fa1;"># 扫描参数</span></div>
-      <div><span style="font-size: 12pt; color: #236fa1;">scan_height: 0.4 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# 扫描高度, 距离pcb线圈中心点的高度, 以coil_z为基准再次提高的高度,
-          喷嘴扫描高度距离线圈高度为0.5mm左右</span></div>
-      <div><span style="font-size: 12pt; color: #236fa1;">scan_speed: 4.0 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # 扫描速度, 速度低了效果不一定好</span></div>
-      <div><span style="font-size: 12pt; color: #236fa1;">scan_length: 4.0 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# 扫描长度, 至少要覆盖线圈内径</span></div>
-      <div><span style="font-size: 12pt; color: #236fa1;">scan_safe_z: 2.0 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# 安全Z高度, 比scan_height高就行</span></div>
-      <div><span style="font-size: 12pt; color: #236fa1;">travel_speed_xy: 100.0 &nbsp; &nbsp; &nbsp;# XY旅行速度</span></div>
-      <div><span style="font-size: 12pt; color: #236fa1;">travel_speed_z: 10.0 &nbsp; &nbsp; &nbsp; &nbsp;# Z旅行速度</span></div>
-      <div><span style="font-size: 12pt; color: #236fa1;">save_data: True &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # 是否保存探测数据到csv文件</span></div>
-    </div>
-  </div>
-  <div>&nbsp;</div>
-</blockquote>
+<pre class="language-python highlighter-hljs"><code>[tool_eddy_calibration calibrator_xy]
+sensor_type: ldc1612
+frequency: 40000000
+reg_drive_current: 22 &nbsp; &nbsp; # 如果使用校准驱动电流命令这个注释
+max_sensor_hz: 3000000 &nbsp; &nbsp;# 线圈最大频率
+# LDC1612 I2C 配置
+i2c_speed: 400000
+i2c_address: 42 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # 地址跳线连接
+i2c_mcu: mcu &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# 改成自己的
+i2c_software_scl_pin: SCL # 改成自己的
+i2c_software_sda_pin: SDA # 改成自己的
+# PCB线圈位置 大概位置
+coil_x: 28.7 &nbsp;# 改成自己的
+coil_y: 12.6 &nbsp;# 改成自己的
+coil_z: 0.4 &nbsp; # 改成自己的 线圈平面的Z坐标位置
+coil_inner_diameter: 2.0 &nbsp; &nbsp;#线圈内径
+# 扫描参数
+scan_height: 0.4 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# 扫描高度, 距离pcb线圈中心点的高度, 以coil_z为基准再次提高的高度, 喷嘴扫描高度距离线圈高度为0.5mm左右
+scan_speed: 4.0 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # 扫描速度, 速度低了效果不一定好
+scan_length: 4.0 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# 扫描长度, 至少要覆盖线圈内径
+scan_safe_z: 2.0 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# 安全Z高度, 比scan_height高就行
+travel_speed_xy: 100.0 &nbsp; &nbsp; &nbsp;# XY旅行速度
+travel_speed_z: 10.0 &nbsp; &nbsp; &nbsp; &nbsp;# Z旅行速度
+save_data: True &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # 是否保存探测数据到csv文件</code></pre>
 <h3><strong><span style="font-size: 14pt; color: #ba372a;">1. TEST_LDC1612 &mdash; 传感器检测命令</span></strong></h3>
 <p><strong>快速检测 LDC1612 传感器是否正常工作，收集短时间内的频率数据并输出统计信息。<span style="color: #ba372a;">在焊接完成后, 检测是否能正常工作</span></strong></p>
 <p><span style="color: #000000;"><strong>目前传感器线圈谐振频率在2.2Mhz左右</strong></span></p>
@@ -276,140 +268,133 @@
 <p>&nbsp;</p>
 <h2><span style="font-size: 18pt;">二.&nbsp; 对刀插件在换热端项目中的实际</span><span style="font-size: 18pt;">使用</span><span style="font-size: 18pt;">配置</span></h2>
 <p><span style="color: #843fa1; font-size: 12pt;"><strong>calibration-eddy.cfg 完整配置文件</strong></span></p>
-<div>
-  <blockquote>
-    <div>
-      <div>
-        <div><span style="font-size: 12pt; color: #236fa1;">#换热端项目涡流对刀配置 https://github.com/cx330-TXY/Simple-Multi-Hotend</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;"># 寻找中心点: TOOL_EDDY_CALIBRATE TOOL=0 DIR=45,135 REPEATS=1</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;"># 查询校准结果: GET_TOOL_CENTER TOOL=0</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;"># 设置工具Z坐标: SET_TOOL_Z TOOL=0 Z=-0.1</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;"># 清除扫描中心点位置: &nbsp;CLEAR_TOOL_CENTER TOOL=0</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;"># 线圈驱动电流校准命令: LDC_CALIBRATE_DRIVE_CURRENT CHIP=calibrator_xy</span></div>
-        <br />
-        <div><span style="font-size: 12pt; color: #236fa1;">[tool_eddy_calibration calibrator_xy]</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">sensor_type: ldc1612</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">frequency: 40000000</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">reg_drive_current: 22 &nbsp; &nbsp; # 如果使用校准驱动电流命令这个注释</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">max_sensor_hz: 3000000 &nbsp; &nbsp;# 线圈最大频率</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;"># LDC1612 I2C 配置</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">i2c_speed: 400000</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">i2c_address: 42 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # 地址跳线连接</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">i2c_mcu: mcu &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# 改成自己的</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">i2c_software_scl_pin: SCL # 改成自己的</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">i2c_software_sda_pin: SDA # 改成自己的</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;"># PCB线圈位置 大概位置</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">coil_x: 28.7 &nbsp;# 改成自己的</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">coil_y: 12.6 &nbsp;# 改成自己的</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">coil_z: 0.4 &nbsp; # 改成自己的 线圈平面的Z坐标位置</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">coil_inner_diameter: 2.0 &nbsp; &nbsp;#线圈内径</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;"># 扫描参数</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">scan_height: 0.4 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# 扫描高度, 距离pcb线圈中心点的高度, 以coil_z为基准再次提高的高度,
-            喷嘴扫描高度距离线圈高度为0.5mm左右</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">scan_speed: 4.0 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # 扫描速度, 速度低了效果不一定好</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">scan_length: 4.0 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# 扫描长度, 至少要覆盖线圈内径</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">scan_safe_z: 2.0 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# 安全Z高度, 比scan_height高就行</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">travel_speed_xy: 100.0 &nbsp; &nbsp; &nbsp;# XY旅行速度</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">travel_speed_z: 10.0 &nbsp; &nbsp; &nbsp; &nbsp;# Z旅行速度</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">save_data: True &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # 是否保存探测数据到csv文件</span></div>
-        <br />
-        <div><span style="font-size: 12pt; color: #236fa1;">[gcode_macro _TOOL_CALIB_VARS]</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">variable_safe_x: 20.0 &nbsp; &nbsp; &nbsp; &nbsp;# 改成自己的 换刀/待机的安全区域X 喷嘴戳热床位置</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">variable_safe_y: 35.0 &nbsp; &nbsp; &nbsp; &nbsp;# 改成自己的 换刀/待机的安全区域Y 喷嘴戳热床位置</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">variable_safe_z: 5.0 &nbsp; &nbsp; &nbsp; &nbsp; # 改成自己的 换刀/待机的安全区域Z高度</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">variable_tool_count: 2 &nbsp; &nbsp; &nbsp; # 改成自己的 工具总数 (例如0, 1，共2个)</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">gcode:</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; # 此处无需指令，仅用于存储变量</span></div>
-        <br />
-        <div><span style="font-size: 12pt; color: #236fa1;"># ---------------------------------------------------------</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;"># 校准单个工具</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;"># 调用示例: CALIBRATE_TOOL TOOL=1</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;"># ---------------------------------------------------------</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">[gcode_macro CALIBRATE_TOOL]</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">gcode:</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; {% set tool = params.TOOL|default(0)|int %}</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; {% set vars = printer["gcode_macro _TOOL_CALIB_VARS"] %}</span></div>
-        <br />
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; G1 X{vars.safe_x} Y{vars.safe_y} Z{vars.safe_z} F9000</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; T{tool}</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; SET_GCODE_OFFSET X=0 Y=0 Z=0 MOVE=0</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; G1 X{vars.safe_x} Y{vars.safe_y} Z{vars.safe_z} F9000</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; M109 S150 T{tool} &nbsp; &nbsp; # 加热到150度</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; # CLEAN_NOZZLE # 看情况自己设置磨嘴, 要不然不准</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; # 使用能够喷嘴限位的probe得到Z偏移</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; PROBE METHOD=tap SAMPLES=3</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; G1 X{vars.safe_x} Y{vars.safe_y} Z{vars.safe_z} F9000</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; DO_CALIBRATE_TOOL TOOL={tool}</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; _DO_SAVE_CALIB_RESULT TOOL={tool}</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; M400 &nbsp; # 【关键】等待动作走完</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; G90</span></div>
-        <br />
-        <div><span style="font-size: 12pt; color: #236fa1;">[gcode_macro DO_CALIBRATE_TOOL]</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">gcode:</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; {% set tool = params.TOOL|default(0)|int %}</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; {% set probeZ = printer.probe.last_probe_position.z %}</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; # 清除上次的中心点位置</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; CLEAR_TOOL_CENTER TOOL={tool}</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; # 设置 使用喷嘴限位的probe探测到的Z位置</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; SET_TOOL_Z TOOL={tool} Z={probeZ}</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; {% set tool0ProbeZ = 0.0 %}</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; {% if '0' in printer["tool_eddy_calibration calibrator_xy"] %}</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; &nbsp;
-            {% set tool0ProbeZ = printer["tool_eddy_calibration calibrator_xy"]["0"].z %}</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; {% endif %}</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; # 进行XY偏移校准, 设置一个相对于tool0的z偏移, 避免喷嘴碰到线圈</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; TOOL_EDDY_CALIBRATE TOOL={tool} DIR=0,90 PAIR_CANCEL=0
-            SCAN_HEIGHT_OFFSET={probeZ-tool0ProbeZ}</span></div>
-        <br />
-        <div><span style="font-size: 12pt; color: #236fa1;">[gcode_macro _DO_SAVE_CALIB_RESULT]</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">gcode:</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; {% set tool = params.TOOL|int %}</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; {% set res0 = printer["tool_eddy_calibration calibrator_xy"]["0"] %}</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; {% set res = printer["tool_eddy_calibration calibrator_xy"][tool|string] %}</span>
-        </div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp;</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; {% if tool == 0 %}</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; &nbsp; &nbsp; # T0 永远存 0</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; &nbsp; &nbsp; SAVE_VARIABLE VARIABLE=t0_offset_x VALUE=0.0</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; &nbsp; &nbsp; SAVE_VARIABLE VARIABLE=t0_offset_y VALUE=0.0</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; &nbsp; &nbsp; SAVE_VARIABLE VARIABLE=t0_offset_z VALUE=0.0</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; &nbsp; &nbsp; {action_respond_info("✅ T0 基准点坐标已锁定")}</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; {% else %}</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; &nbsp; &nbsp; # 其他工具存探测结果</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; &nbsp; &nbsp; SAVE_VARIABLE VARIABLE=t{tool}_offset_x
-            VALUE={(res.x-res0.x)|round(4)}</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; &nbsp; &nbsp; SAVE_VARIABLE VARIABLE=t{tool}_offset_y
-            VALUE={(res.y-res0.y)|round(4)}</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; &nbsp; &nbsp; SAVE_VARIABLE VARIABLE=t{tool}_offset_z
-            VALUE={(res.z-res0.z)|round(4)}</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; &nbsp; &nbsp; {action_respond_info("✅ T" ~ tool ~ " 偏移量已自动保存")}</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; {% endif %}</span></div>
-        <br />
-        <div><span style="font-size: 12pt; color: #236fa1;"># ---------------------------------------------------------</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;"># 批量校准所有工具</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;"># ---------------------------------------------------------</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">[gcode_macro CALIBRATE_ALL_TOOLS]</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">gcode:</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; {% set vars = printer["gcode_macro _TOOL_CALIB_VARS"] %}</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; {action_respond_info("开始全自动工具校准流程...")}</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; # 全部预加热到150度, 注意电源功率</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; {% for t in range(0, vars.tool_count) %}</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; &nbsp; &nbsp; M104 S150 T{t}</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; {% endfor %}</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; # 遍历所有工具 (range(0, N) 生成 0 到 N-1)</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; {% for t in range(0, vars.tool_count) %}</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; &nbsp; &nbsp; CALIBRATE_TOOL TOOL={t}</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; {% endfor %}</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; # 关闭加热</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; {% for t in range(0, vars.tool_count) %}</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; &nbsp; &nbsp; M104 S0 T{t}</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; {% endfor %}</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; untool</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; {action_respond_info("所有工具校准完毕")}</span></div>
-      </div>
-    </div>
-  </blockquote>
-</div>
+<pre class="language-python highlighter-hljs"><code>#换热端项目涡流对刀配置 https://github.com/cx330-TXY/Simple-Multi-Hotend
+# 寻找中心点: TOOL_EDDY_CALIBRATE TOOL=0 DIR=45,135 REPEATS=1
+# 查询校准结果: GET_TOOL_CENTER TOOL=0
+# 设置工具Z坐标: SET_TOOL_Z TOOL=0 Z=-0.1
+# 清除扫描中心点位置: &nbsp;CLEAR_TOOL_CENTER TOOL=0
+# 线圈驱动电流校准命令: LDC_CALIBRATE_DRIVE_CURRENT CHIP=calibrator_xy
+
+
+[tool_eddy_calibration calibrator_xy]
+sensor_type: ldc1612
+frequency: 40000000
+reg_drive_current: 22 &nbsp; &nbsp; # 如果使用校准驱动电流命令这个注释
+max_sensor_hz: 3000000 &nbsp; &nbsp;# 线圈最大频率
+# LDC1612 I2C 配置
+i2c_speed: 400000
+i2c_address: 42 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # 地址跳线连接
+i2c_mcu: mcu &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# 改成自己的
+i2c_software_scl_pin: SCL # 改成自己的
+i2c_software_sda_pin: SDA # 改成自己的
+# PCB线圈位置 大概位置
+coil_x: 28.7 &nbsp;# 改成自己的
+coil_y: 12.6 &nbsp;# 改成自己的
+coil_z: 0.4 &nbsp; # 改成自己的 线圈平面的Z坐标位置
+coil_inner_diameter: 2.0 &nbsp; &nbsp;#线圈内径
+# 扫描参数
+scan_height: 0.4 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# 扫描高度, 距离pcb线圈中心点的高度, 以coil_z为基准再次提高的高度, 喷嘴扫描高度距离线圈高度为0.5mm左右
+scan_speed: 4.0 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # 扫描速度, 速度低了效果不一定好
+scan_length: 4.0 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# 扫描长度, 至少要覆盖线圈内径
+scan_safe_z: 2.0 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# 安全Z高度, 比scan_height高就行
+travel_speed_xy: 100.0 &nbsp; &nbsp; &nbsp;# XY旅行速度
+travel_speed_z: 10.0 &nbsp; &nbsp; &nbsp; &nbsp;# Z旅行速度
+save_data: True &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # 是否保存探测数据到csv文件
+
+
+[gcode_macro _TOOL_CALIB_VARS]
+variable_safe_x: 20.0 &nbsp; &nbsp; &nbsp; &nbsp;# 改成自己的 换刀/待机的安全区域X 喷嘴戳热床位置
+variable_safe_y: 35.0 &nbsp; &nbsp; &nbsp; &nbsp;# 改成自己的 换刀/待机的安全区域Y 喷嘴戳热床位置
+variable_safe_z: 5.0 &nbsp; &nbsp; &nbsp; &nbsp; # 改成自己的 换刀/待机的安全区域Z高度
+variable_tool_count: 2 &nbsp; &nbsp; &nbsp; # 改成自己的 工具总数 (例如0, 1，共2个)
+gcode:
+&nbsp; &nbsp; # 此处无需指令，仅用于存储变量
+
+
+# ---------------------------------------------------------
+# 校准单个工具
+# 调用示例: CALIBRATE_TOOL TOOL=1
+# ---------------------------------------------------------
+[gcode_macro CALIBRATE_TOOL]
+gcode:
+&nbsp; &nbsp; {% set tool = params.TOOL|default(0)|int %}
+&nbsp; &nbsp; {% set vars = printer["gcode_macro _TOOL_CALIB_VARS"] %}
+
+
+&nbsp; &nbsp; G1 X{vars.safe_x} Y{vars.safe_y} Z{vars.safe_z} F9000
+&nbsp; &nbsp; T{tool}
+&nbsp; &nbsp; SET_GCODE_OFFSET X=0 Y=0 Z=0 MOVE=0
+&nbsp; &nbsp; G1 X{vars.safe_x} Y{vars.safe_y} Z{vars.safe_z} F9000
+&nbsp; &nbsp; M109 S150 T{tool} &nbsp; &nbsp; # 加热到150度
+&nbsp; &nbsp; # CLEAN_NOZZLE # 看情况自己设置磨嘴, 要不然不准
+&nbsp; &nbsp; # 使用能够喷嘴限位的probe得到Z偏移
+&nbsp; &nbsp; PROBE METHOD=tap SAMPLES=3
+&nbsp; &nbsp; G1 X{vars.safe_x} Y{vars.safe_y} Z{vars.safe_z} F9000
+&nbsp; &nbsp; DO_CALIBRATE_TOOL TOOL={tool}
+&nbsp; &nbsp; _DO_SAVE_CALIB_RESULT TOOL={tool}
+&nbsp; &nbsp; M400 &nbsp; # 【关键】等待动作走完
+&nbsp; &nbsp; G90
+
+
+[gcode_macro DO_CALIBRATE_TOOL]
+gcode:
+&nbsp; &nbsp; {% set tool = params.TOOL|default(0)|int %}
+&nbsp; &nbsp; {% set probeZ = printer.probe.last_probe_position.z %}
+&nbsp; &nbsp; # 清除上次的中心点位置
+&nbsp; &nbsp; CLEAR_TOOL_CENTER TOOL={tool}
+&nbsp; &nbsp; # 设置 使用喷嘴限位的probe探测到的Z位置
+&nbsp; &nbsp; SET_TOOL_Z TOOL={tool} Z={probeZ}
+&nbsp; &nbsp; {% set tool0ProbeZ = 0.0 %}
+&nbsp; &nbsp; {% if '0' in printer["tool_eddy_calibration calibrator_xy"] %}
+&nbsp; &nbsp; &nbsp; {% set tool0ProbeZ = printer["tool_eddy_calibration calibrator_xy"]["0"].z %}
+&nbsp; &nbsp; {% endif %}
+&nbsp; &nbsp; # 进行XY偏移校准, 设置一个相对于tool0的z偏移, 避免喷嘴碰到线圈
+&nbsp; &nbsp; TOOL_EDDY_CALIBRATE TOOL={tool} DIR=0,90 PAIR_CANCEL=0 SCAN_HEIGHT_OFFSET={probeZ-tool0ProbeZ}
+
+
+[gcode_macro _DO_SAVE_CALIB_RESULT]
+gcode:
+&nbsp; &nbsp; {% set tool = params.TOOL|int %}
+&nbsp; &nbsp; {% set res0 = printer["tool_eddy_calibration calibrator_xy"]["0"] %}
+&nbsp; &nbsp; {% set res = printer["tool_eddy_calibration calibrator_xy"][tool|string] %}
+&nbsp; &nbsp;
+&nbsp; &nbsp; {% if tool == 0 %}
+&nbsp; &nbsp; &nbsp; &nbsp; # T0 永远存 0
+&nbsp; &nbsp; &nbsp; &nbsp; SAVE_VARIABLE VARIABLE=t0_offset_x VALUE=0.0
+&nbsp; &nbsp; &nbsp; &nbsp; SAVE_VARIABLE VARIABLE=t0_offset_y VALUE=0.0
+&nbsp; &nbsp; &nbsp; &nbsp; SAVE_VARIABLE VARIABLE=t0_offset_z VALUE=0.0
+&nbsp; &nbsp; &nbsp; &nbsp; {action_respond_info("✅ T0 基准点坐标已锁定")}
+&nbsp; &nbsp; {% else %}
+&nbsp; &nbsp; &nbsp; &nbsp; # 其他工具存探测结果
+&nbsp; &nbsp; &nbsp; &nbsp; SAVE_VARIABLE VARIABLE=t{tool}_offset_x VALUE={(res.x-res0.x)|round(4)}
+&nbsp; &nbsp; &nbsp; &nbsp; SAVE_VARIABLE VARIABLE=t{tool}_offset_y VALUE={(res.y-res0.y)|round(4)}
+&nbsp; &nbsp; &nbsp; &nbsp; SAVE_VARIABLE VARIABLE=t{tool}_offset_z VALUE={(res.z-res0.z)|round(4)}
+&nbsp; &nbsp; &nbsp; &nbsp; {action_respond_info("✅ T" ~ tool ~ " 偏移量已自动保存")}
+&nbsp; &nbsp; {% endif %}
+
+
+# ---------------------------------------------------------
+# 批量校准所有工具
+# ---------------------------------------------------------
+[gcode_macro CALIBRATE_ALL_TOOLS]
+gcode:
+&nbsp; &nbsp; {% set vars = printer["gcode_macro _TOOL_CALIB_VARS"] %}
+&nbsp; &nbsp; {action_respond_info("开始全自动工具校准流程...")}
+&nbsp; &nbsp; # 全部预加热到150度, 注意电源功率
+&nbsp; &nbsp; {% for t in range(0, vars.tool_count) %}
+&nbsp; &nbsp; &nbsp; &nbsp; M104 S150 T{t}
+&nbsp; &nbsp; {% endfor %}
+&nbsp; &nbsp; # 遍历所有工具 (range(0, N) 生成 0 到 N-1)
+&nbsp; &nbsp; {% for t in range(0, vars.tool_count) %}
+&nbsp; &nbsp; &nbsp; &nbsp; CALIBRATE_TOOL TOOL={t}
+&nbsp; &nbsp; {% endfor %}
+&nbsp; &nbsp; # 关闭加热
+&nbsp; &nbsp; {% for t in range(0, vars.tool_count) %}
+&nbsp; &nbsp; &nbsp; &nbsp; M104 S0 T{t}
+&nbsp; &nbsp; {% endfor %}
+&nbsp; &nbsp; untool
+&nbsp; &nbsp; {action_respond_info("所有工具校准完毕")}</code></pre>
+<h2>&nbsp;</h2>
 <h2 id="algorithm"><span style="font-size: 18pt;">三. 扫描算法介绍</span></h2>
 <h3><span style="font-size: 14pt;">1. 扫描过程</span></h3>
 <p><span style="font-size: 12pt;">每个方向的扫描以中心点为基准，沿角度 &theta; 方向做长度为 L 的直线移动：</span></p>

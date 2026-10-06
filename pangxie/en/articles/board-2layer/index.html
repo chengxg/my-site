@@ -19,7 +19,8 @@
 <meta property="og:locale:alternate" content="zh_CN">
 <meta property="og:site_name" content="Renquan Zhizi Open Source">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="stylesheet" href="../../../assets/style.css">
+<link rel="stylesheet" href="../../../assets/style.css?v=00b8s3jt">
+<script defer src="../../../assets/cm-loader.js?v=00b8s3jt"></script>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -173,124 +174,58 @@
                     access. Export whichever board you want to fabricate.</span></strong></span></p>
     <p>&nbsp;</p>
     <p><strong><span style="font-size:18pt">Board pin definitions:</span></strong></p>
-    <div>
-        <div>
-            <div>
-                <div><span style="color:#000000;background-color:#c2e0f4"><code>[board_pins mcu_pins]</code></span></div>
-                <div><span
-                        style="color:#000000;background-color:#c2e0f4"><code>mcu: mcu &nbsp; &nbsp; # STM32F446 core board, STM32F446RCT6 pin definitions</code></span>
-                </div>
-                <div><span style="color:#000000;background-color:#c2e0f4"><code>aliases:</code></span></div>
-                <div><span
-                        style="color:#000000;background-color:#c2e0f4"><code>&nbsp; &nbsp; DIR1=PB8, STEP1=PB9, UART1=PB7, EN1=PB6,&nbsp; &nbsp; &nbsp;# step1</code></span>
-                </div>
-                <div><span
-                        style="color:#000000;background-color:#c2e0f4"><code>&nbsp; &nbsp; DIR2=PD2, STEP2=PB4, UART2=PB5,&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# step2, EN shared with step1</code></span>
-                </div>
-                <div><span
-                        style="color:#000000;background-color:#c2e0f4"><code>&nbsp; &nbsp; DIR3=PB3, STEP3=PA13, UART3=PC10, EN3=PB1,&nbsp; &nbsp; # step3</code></span>
-                </div>
-                <div><span
-                        style="color:#000000;background-color:#c2e0f4"><code>&nbsp; &nbsp; DIR4=PA15, STEP4=PA14, UART4=PC7,&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # step4, EN shared with step3</code></span>
-                </div>
-                <div><span
-                        style="color:#000000;background-color:#c2e0f4"><code>&nbsp; &nbsp; DIR5=PB10, STEP5=PC8, UART5=PC6, EN5=PB2,&nbsp; &nbsp; &nbsp;# step5</code></span>
-                </div>
-                <div><span
-                        style="color:#000000;background-color:#c2e0f4"><code>&nbsp; &nbsp; DIR6=PC5, STEP6=PB12, UART6=PB0,&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # step6, EN shared with step5</code></span>
-                </div>
-                <div><span
-                        style="color:#000000;background-color:#c2e0f4"><code>&nbsp; &nbsp; DIR7=PA5, STEP7=PA6, UART7=PA7, EN7=PC4,&nbsp; &nbsp; &nbsp;# step7</code></span>
-                </div>
-                <div><span
-                        style="color:#000000;background-color:#c2e0f4"><code>&nbsp; &nbsp; DIR8=PC2, STEP8=PA3, UART8=PA1, EN8=PA0,&nbsp; &nbsp; &nbsp;# step8</code></span>
-                </div>
-                <div><span
-                        style="color:#000000;background-color:#c2e0f4"><code>&nbsp; &nbsp; FAN1=PA8, FAN2=PC9, FAN3=PA10, FAN4=PA9,&nbsp; &nbsp; &nbsp;# fans</code></span>
-                </div>
-                <div><span
-                        style="color:#000000;background-color:#c2e0f4"><code>&nbsp; &nbsp; STOP1=PA4, STOP2=PC14, STOP3=PC15, STOP4=PC13, STOP5=PC3, STOP6=PA2, # endstops</code></span>
-                </div>
-                <div><span
-                        style="color:#000000;background-color:#c2e0f4"><code>&nbsp; &nbsp; T1=PC0, T2=PC1,&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # thermistors</code></span>
-                </div>
-                <div><span
-                        style="color:#000000;background-color:#c2e0f4"><code>&nbsp; &nbsp; H1=PC12, H2=PC11,&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# heaters</code></span>
-                </div>
-                <div><span style="color:#000000;background-color:#c2e0f4"><code>&nbsp; &nbsp;</code></span></div>
-                <div><span style="color:#000000;background-color:#c2e0f4"><code>[board_pins mcu2_pins]</code></span></div>
-                <div><span
-                        style="color:#000000;background-color:#c2e0f4"><code>mcu: mcu2 &nbsp; &nbsp; &nbsp;# STM32F446 core board, STM32F072C8T6 pin definitions</code></span>
-                </div>
-                <div><span style="color:#000000;background-color:#c2e0f4"><code>aliases:</code></span></div>
-                <div><span
-                        style="color:#000000;background-color:#c2e0f4"><code>&nbsp; &nbsp; SHUT=PA14, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# high level = automatic shutdown</code></span>
-                </div>
-                <div><span
-                        style="color:#000000;background-color:#c2e0f4"><code>&nbsp; &nbsp; LED1=PA7, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # Klipper run indicator, low = LED on</code></span>
-                </div>
-                <div><span style="color:#000000;background-color:#c2e0f4"><code>&nbsp; &nbsp; CAN_RX=PB8, CAN_TX=PB9, # CAN communication pins</code></span>
-                </div>
-                <div><span
-                        style="color:#000000;background-color:#c2e0f4"><code>&nbsp; &nbsp; RX=PA10, TX=PA9, &nbsp; &nbsp; &nbsp; &nbsp;# serial pins</code></span>
-                </div>
-                <div><span style="color:#000000;background-color:#c2e0f4"><code>&nbsp; &nbsp; SDA=PB11, SCL=PB10, &nbsp; &nbsp; # I2C pins</code></span></div>
-            </div>
-        </div>
-    </div>
-    <p>&nbsp;</p>
-    <div>
-        <div><span style="color:#e03e2d;background-color:#fbeeb8">[board_pins mcu_pins]</span></div>
-        <div><span style="color:#e03e2d;background-color:#fbeeb8">mcu: mcu # STM32H750 core board</span></div>
-        <div><span style="color:#e03e2d;background-color:#fbeeb8">aliases:</span></div>
-        <div><span style="color:#e03e2d;background-color:#fbeeb8">&nbsp; &nbsp; DIR1=PD4, STEP1=PD5, UART1=PB7, EN1=PB6, &nbsp; # step1 &nbsp;step1-step6
-                support SPI,
-                spi_bus: spi2</span></div>
-        <div><span style="color:#e03e2d;background-color:#fbeeb8">&nbsp; &nbsp; DIR2=PD2, STEP2=PB4, UART2=PB5, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;#
-                step2, EN shared with
-                step1</span></div>
-        <div><span style="color:#e03e2d;background-color:#fbeeb8">&nbsp; &nbsp; DIR3=PB3, STEP3=PA13, UART3=PC10, EN3=PB1, # step3</span></div>
-        <div><span style="color:#e03e2d;background-color:#fbeeb8">&nbsp; &nbsp; DIR4=PA15, STEP4=PA14, UART4=PC7, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# step4, EN
-                shared with
-                step3</span></div>
-        <div><span style="color:#e03e2d;background-color:#fbeeb8">&nbsp; &nbsp; DIR5=PB10, STEP5=PC8, UART5=PC6, EN5=PB2, &nbsp;# step5</span></div>
-        <div><span style="color:#e03e2d;background-color:#fbeeb8">&nbsp; &nbsp; DIR6=PC5, STEP6=PB12, UART6=PB0, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # step6, EN
-                shared with
-                step5</span></div>
-        <div><span style="color:#e03e2d;background-color:#fbeeb8">&nbsp; &nbsp; DIR7=PA5, STEP7=PA6, UART7=PA7, EN7=PC4, &nbsp; # step7</span></div>
-        <div><span style="color:#e03e2d;background-color:#fbeeb8">&nbsp; &nbsp; DIR8=PC2, STEP8=PA3, UART8=PA1, EN8=PA0, &nbsp; # step8</span></div>
-        <div><span style="color:#e03e2d;background-color:#fbeeb8">&nbsp; &nbsp; FAN1=PA8, FAN2=PC9, FAN3=PA10, FAN4=PA9, &nbsp; # FAN1, FAN2 support 12V and
-                24V</span></div>
-        <div><span style="color:#e03e2d;background-color:#fbeeb8">&nbsp; &nbsp; STOP1=PA4, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# endstop
-                STOP1 accepts high-voltage input with diode isolation, supports 12V and 24V supply output</span></div>
-        <div><span style="color:#e03e2d;background-color:#fbeeb8">&nbsp; &nbsp; STOP2=PC14, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # endstop, 5V
-                supply output,
-                diode input isolation</span></div>
-        <div><span style="color:#e03e2d;background-color:#fbeeb8">&nbsp; &nbsp; STOP3=PC15, STOP4=PC13, &nbsp; # endstop 2-pin, step1/step2 sensorless
-                homing</span></div>
-        <div><span style="color:#e03e2d;background-color:#fbeeb8">&nbsp; &nbsp; STOP5=PC3, STOP6=PA2, &nbsp; &nbsp; # endstop, 5V supply output</span></div>
-        <div><span style="color:#e03e2d;background-color:#fbeeb8">&nbsp; &nbsp; T1=PC0, T2=PC1, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # thermistors</span></div>
-        <div><span style="color:#e03e2d;background-color:#fbeeb8">&nbsp; &nbsp; H1=PC12, H2=PC11, &nbsp; &nbsp; &nbsp; &nbsp; # heaters</span></div>
-        <div><span style="color:#e03e2d;background-color:#fbeeb8">&nbsp; &nbsp; SHUT=PD6, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # high level =
-                automatic shutdown</span>
-        </div>
-    </div>
-    <p>&nbsp;</p>
-    <div>
-        <div><span style="background-color:#f8cac6;color:#843fa1">[board_pins toolhead_pins_f072]</span></div>
-        <div><span style="background-color:#f8cac6;color:#843fa1">mcu: toolhead # STM32F072 serial-communication toolhead</span></div>
-        <div><span style="background-color:#f8cac6;color:#843fa1">aliases:</span></div>
-        <div><span style="background-color:#f8cac6;color:#843fa1">&nbsp; &nbsp; H1=PB14, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# heater</span></div>
-        <div><span style="background-color:#f8cac6;color:#843fa1">&nbsp; &nbsp; FAN1=PB8,FAN2=PC13,FAN3=PC14,FAN4=PB7, &nbsp;# fans</span></div>
-        <div><span style="background-color:#f8cac6;color:#843fa1">&nbsp; &nbsp; STOP1=PB6,STOP2=PC15,STOP3=PA3, &nbsp; &nbsp; &nbsp; &nbsp; # endstops</span>
-        </div>
-        <div><span style="background-color:#f8cac6;color:#843fa1">&nbsp; &nbsp; T1=PA1,T2=PA2,T3=PA4, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                &nbsp;
-                # thermistors, T3 = chamber temp</span></div>
-        <div><span style="background-color:#f8cac6;color:#843fa1">&nbsp; &nbsp; EN1=PB4,DIR1=PA14,STEP1=PA15,UART1=PB3, # TMC2226 stepper driver</span></div>
-        <div><span style="background-color:#f8cac6;color:#843fa1">&nbsp; &nbsp; LED=PB5, # Klipper run indicator</span></div>
-    </div>
+    <pre class="language-python highlighter-hljs"><code>[board_pins mcu_pins]
+mcu: mcu &nbsp; &nbsp; # STM32F446 core board, STM32F446RCT6 pin definitions
+aliases:
+&nbsp; &nbsp; DIR1=PB8, STEP1=PB9, UART1=PB7, EN1=PB6,&nbsp; &nbsp; &nbsp;# step1
+&nbsp; &nbsp; DIR2=PD2, STEP2=PB4, UART2=PB5,&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# step2 EN shared with step1
+&nbsp; &nbsp; DIR3=PB3, STEP3=PA13, UART3=PC10, EN3=PB1,&nbsp; &nbsp; # step3
+&nbsp; &nbsp; DIR4=PA15, STEP4=PA14, UART4=PC7,&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # step4 EN shared with step3
+&nbsp; &nbsp; DIR5=PB10, STEP5=PC8, UART5=PC6, EN5=PB2,&nbsp; &nbsp; &nbsp;# step5
+&nbsp; &nbsp; DIR6=PC5, STEP6=PB12, UART6=PB0,&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # step6 EN shared with step5
+&nbsp; &nbsp; DIR7=PA5, STEP7=PA6, UART7=PA7, EN7=PC4,&nbsp; &nbsp; &nbsp;# step7
+&nbsp; &nbsp; DIR8=PC2, STEP8=PA3, UART8=PA1, EN8=PA0,&nbsp; &nbsp; &nbsp;# step8
+&nbsp; &nbsp; FAN1=PA8, FAN2=PC9, FAN3=PA10, FAN4=PA9,&nbsp; &nbsp; &nbsp;# fans
+&nbsp; &nbsp; STOP1=PA4, STOP2=PC14, STOP3=PC15, STOP4=PC13, STOP5=PC3, STOP6=PA2, # endstops
+&nbsp; &nbsp; T1=PC0, T2=PC1,&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # thermistors
+&nbsp; &nbsp; H1=PC12, H2=PC11,&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# heaters
+&nbsp; &nbsp;
+[board_pins mcu2_pins]
+mcu: mcu2 &nbsp; &nbsp; &nbsp;# STM32F446 core board, STM32F072C8T6 pin definitions
+aliases:
+&nbsp; &nbsp; SHUT=PA14, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# set high level = automatic shutdown
+&nbsp; &nbsp; LED1=PA7, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # Klipper run indicator, low = LED on
+&nbsp; &nbsp; CAN_RX=PB8, CAN_TX=PB9, # CAN communication pins
+&nbsp; &nbsp; RX=PA10, TX=PA9, &nbsp; &nbsp; &nbsp; &nbsp;# serial pins
+&nbsp; &nbsp; SDA=PB11, SCL=PB10, &nbsp; &nbsp; # I2C pins</code></pre>
+    <pre class="language-python highlighter-hljs"><code>[board_pins mcu_pins]
+mcu: mcu # STM32H750 core board
+aliases:
+&nbsp; &nbsp; DIR1=PD4, STEP1=PD5, UART1=PB7, EN1=PB6, &nbsp; # step1 &nbsp;step1-step6 support SPI, spi_bus: spi2
+&nbsp; &nbsp; DIR2=PD2, STEP2=PB4, UART2=PB5, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# step2 EN shared with step1
+&nbsp; &nbsp; DIR3=PB3, STEP3=PA13, UART3=PC10, EN3=PB1, # step3
+&nbsp; &nbsp; DIR4=PA15, STEP4=PA14, UART4=PC7, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# step4 EN shared with step3
+&nbsp; &nbsp; DIR5=PB10, STEP5=PC8, UART5=PC6, EN5=PB2, &nbsp;# step5
+&nbsp; &nbsp; DIR6=PC5, STEP6=PB12, UART6=PB0, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # step6 EN shared with step5
+&nbsp; &nbsp; DIR7=PA5, STEP7=PA6, UART7=PA7, EN7=PC4, &nbsp; # step7
+&nbsp; &nbsp; DIR8=PC2, STEP8=PA3, UART8=PA1, EN8=PA0, &nbsp; # step8
+&nbsp; &nbsp; FAN1=PA8, FAN2=PC9, FAN3=PA10, FAN4=PA9, &nbsp; # FAN1, FAN2 support 12V and 24V
+&nbsp; &nbsp; STOP1=PA4, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# endstop STOP1 accepts high-voltage input with diode isolation, supports 12V and 24V supply output
+&nbsp; &nbsp; STOP2=PC14, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # endstop 5V supply output, diode input isolation
+&nbsp; &nbsp; STOP3=PC15, STOP4=PC13, &nbsp; # endstop 2-pin, step1/step2 sensorless homing
+&nbsp; &nbsp; STOP5=PC3, STOP6=PA2, &nbsp; &nbsp; # endstop 5V supply output
+&nbsp; &nbsp; T1=PC0, T2=PC1, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # thermistors
+&nbsp; &nbsp; H1=PC12, H2=PC11, &nbsp; &nbsp; &nbsp; &nbsp; # heaters
+&nbsp; &nbsp; SHUT=PD6, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # high level = automatic shutdown</code></pre>
+    <pre class="language-python highlighter-hljs"><code>[board_pins toolhead_pins_f072]
+mcu: toolhead # STM32F072 serial-communication toolhead
+aliases:
+&nbsp; &nbsp; H1=PB14, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# heater
+&nbsp; &nbsp; FAN1=PB8,FAN2=PC13,FAN3=PC14,FAN4=PB7, &nbsp;# fans
+&nbsp; &nbsp; STOP1=PB6,STOP2=PC15,STOP3=PA3, &nbsp; &nbsp; &nbsp; &nbsp; # endstops
+&nbsp; &nbsp; T1=PA1,T2=PA2,T3=PA4, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # thermistors, T3 = chamber temp
+&nbsp; &nbsp; EN1=PB4,DIR1=PA14,STEP1=PA15,UART1=PB3, # TMC2226 stepper driver
+&nbsp; &nbsp; LED=PB5, # Klipper run indicator</code></pre>
     <p>&nbsp;</p>
     <p><strong style="color:#e03e2d"><img src="https://image.lceda.cn/oshwhub/b28789b90aa642f4aaf880dc82bc3cef.png" alt="" width="800" height="452"></strong></p>
     <p><strong style="color:#e03e2d"><img src="https://image.lceda.cn/oshwhub/pullImage/d2607040443a40ad856eb102e680764d.png" alt="" width="800"

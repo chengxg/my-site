@@ -19,8 +19,8 @@
 <meta property="og:locale:alternate" content="en_US">
 <meta property="og:site_name" content="仁泉之子开源">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="stylesheet" href="../../assets/style.css">
-<script defer src="../../assets/cm-loader.js"></script>
+<link rel="stylesheet" href="../../assets/style.css?v=00b8s3jt">
+<script defer src="../../assets/cm-loader.js?v=00b8s3jt"></script>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -95,20 +95,15 @@
       href="https://oshwhub.com/cxg01/3d-da-yin-wo-liu-diao-ping">https://oshwhub.com/cxg01/3d-da-yin-wo-liu-diao-ping</a></span></p>
 <p>&nbsp;</p>
 <p><span style="font-size: 14pt;"><strong>工具头mcu配置</strong></span></p>
-<p>&nbsp;</p>
-<blockquote>
-  <div><span style="color: #b96ad9; font-size: 14pt;">[mcu toolhead]</span></div>
-  <div><span style="color: #b96ad9; font-size: 14pt;">#usb/串口通信</span></div>
-  <div><span style="color: #b96ad9; font-size: 14pt;"># serial: /dev/serial/by-path/platform-xhci-hcd.0.auto-usb-0:1.1:1.0-port0</span></div>
-  <div><span style="color: #b96ad9; font-size: 14pt;"># baud: 500000&nbsp; &nbsp;# 串口通信波特率</span></div>
-  <div><span style="color: #b96ad9; font-size: 14pt;"># restart_method: command</span></div>
-  <div><span style="color: #b96ad9; font-size: 14pt;">#can通信</span></div>
-  <div><span style="color: #b96ad9; font-size: 14pt;">canbus_uuid: 6cb6cbf28f16</span></div>
-</blockquote>
-<p>&nbsp;</p>
+<pre class="language-python highlighter-hljs"><code>[mcu toolhead]
+#usb/串口通信
+# serial: /dev/serial/by-path/platform-xhci-hcd.0.auto-usb-0:1.1:1.0-port0
+# baud: 500000&nbsp; &nbsp;# 串口通信波特率
+# restart_method: command
+#can通信
+canbus_uuid: 6cb6cbf28f16</code></pre>
 <p><span style="font-size: 14pt;"><strong>mcu引脚定义</strong></span></p>
-<blockquote>
-  <pre class="highlighter-hljs"><code>[board_pins toolhead_pins_f446]
+<pre class="language-python highlighter-hljs"><code>[board_pins toolhead_pins_f446]
 mcu: toolhead # stm32f446工具头
 aliases:
 &nbsp; &nbsp; H1=PB2, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # 加热
@@ -122,90 +117,71 @@ aliases:
 &nbsp; &nbsp; LDC_SDA=PC0,LDC_SCL=PC1,LDC_INTB=PC13, &nbsp; &nbsp; # LDC1612, 晶振频率40M
 &nbsp; &nbsp; WS2812=PA8, &nbsp;# WS2812
   &nbsp; LED=PB1, &nbsp; &nbsp; # klipper运行指示灯 高电平亮灯</code></pre>
-</blockquote>
-<p>&nbsp;</p>
 <p><span style="font-size: 14pt;"><strong>pt100配置</strong></span></p>
-<blockquote>
-  <div>
-    <div><span style="color: #b96ad9; font-size: 14pt;">[temperature_sensor PT100]</span></div>
-    <div><span style="color: #b96ad9; font-size: 14pt;">sensor_type: MAX31865</span></div>
-    <div><span style="color: #b96ad9; font-size: 14pt;">sensor_pin: toolhead:MAX_CS</span></div>
-    <div><span style="color: #b96ad9; font-size: 14pt;">min_temp: -200</span></div>
-    <div><span style="color: #b96ad9; font-size: 14pt;">max_temp: 300</span></div>
-    <div><span style="color: #b96ad9; font-size: 14pt;">spi_bus: spi1</span></div>
-    <div><span style="color: #b96ad9; font-size: 14pt;"># spi_software_sclk_pin: toolhead:PA5</span></div>
-    <div><span style="color: #b96ad9; font-size: 14pt;"># spi_software_mosi_pin: toolhead:PA6</span></div>
-    <div><span style="color: #b96ad9; font-size: 14pt;"># spi_software_miso_pin: toolhead:PA7</span></div>
-    <div><span style="color: #b96ad9; font-size: 14pt;">rtd_nominal_r: 100</span></div>
-    <div><span style="color: #b96ad9; font-size: 14pt;">rtd_reference_r: 427.27&nbsp; #&nbsp; ref电阻</span></div>
-    <div><span style="color: #b96ad9; font-size: 14pt;">rtd_num_of_wires: 3</span></div>
-  </div>
-</blockquote>
-<p>&nbsp;</p>
+<pre class="language-python highlighter-hljs"><code>[temperature_sensor PT100]
+sensor_type: MAX31865
+sensor_pin: toolhead:MAX_CS
+min_temp: -200
+max_temp: 300
+spi_bus: spi1
+# spi_software_sclk_pin: toolhead:PA5
+# spi_software_mosi_pin: toolhead:PA6
+# spi_software_miso_pin: toolhead:PA7
+rtd_nominal_r: 100
+rtd_reference_r: 427.27&nbsp; #&nbsp; ref电阻
+rtd_num_of_wires: 3</code></pre>
 <p><span style="font-size: 14pt;"><strong>ADXL345配置</strong></span></p>
-<blockquote>
-  <div><span style="color: #b96ad9; font-size: 14pt;"># ADXL345加速度计</span></div>
-  <div><span style="color: #b96ad9; font-size: 14pt;">[adxl345]</span></div>
-  <div><span style="color: #b96ad9; font-size: 14pt;">cs_pin: toolhead:ADXL_CS</span></div>
-  <div><span style="color: #b96ad9; font-size: 14pt;">spi_software_sclk_pin: toolhead:ADXL_SCK</span></div>
-  <div><span style="color: #b96ad9; font-size: 14pt;">spi_software_mosi_pin: toolhead:ADXL_MOSI</span></div>
-  <div><span style="color: #b96ad9; font-size: 14pt;">spi_software_miso_pin: toolhead:ADXL_MISO</span></div>
-  <div>&nbsp;</div>
-  <div>
-    <div>
-      <div><span style="color: #b96ad9; font-size: 14pt;">[resonance_tester]</span></div>
-      <div><span style="color: #b96ad9; font-size: 14pt;">accel_chip: adxl345</span></div>
-      <div><span style="color: #b96ad9; font-size: 14pt;">accel_per_hz: 50</span></div>
-      <div><span style="color: #b96ad9; font-size: 14pt;">probe_points: 100, 100, 20</span></div>
-    </div>
-  </div>
-</blockquote>
-<p>&nbsp;</p>
+<pre class="language-python highlighter-hljs"><code># ADXL345加速度计
+[adxl345]
+cs_pin: toolhead:ADXL_CS
+spi_software_sclk_pin: toolhead:ADXL_SCK
+spi_software_mosi_pin: toolhead:ADXL_MOSI
+spi_software_miso_pin: toolhead:ADXL_MISO
+
+
+[resonance_tester]
+accel_chip: adxl345
+accel_per_hz: 50
+probe_points: 100, 100, 20</code></pre>
 <div>
   <div><span style="font-size: 14pt;"><strong>WS2812配置</strong></span></div>
-  <blockquote>
-    <div><span style="font-size: 14pt; color: #b96ad9;">[neopixel my_neopixel]</span></div>
-    <div><span style="font-size: 14pt; color: #b96ad9;">pin: toolhead:WS2812</span></div>
-    <div><span style="font-size: 14pt; color: #b96ad9;"># &nbsp; 连接到neopixel的引脚。</span></div>
-    <div><span style="font-size: 14pt; color: #b96ad9;"># &nbsp; 必须提供此参数。</span></div>
-    <div><span style="font-size: 14pt; color: #b96ad9;">chain_count: 1</span></div>
-    <div><span style="font-size: 14pt; color: #b96ad9;"># &nbsp; 菊链中 neopixel 芯片的数量。</span></div>
-    <div><span style="font-size: 14pt; color: #b96ad9;"># &nbsp; 默认为1（代表有一个neopixel芯片连接到了这个引脚）。</span></div>
-    <div><span style="font-size: 14pt; color: #b96ad9;">color_order: GRB</span></div>
-  </blockquote>
-</div>
-<p>&nbsp;</p>
-<p><span style="font-size: 14pt;"><strong>klipper自带eddy涡流配置</strong></span></p>
-<blockquote>
-  <div><span style="color: #236fa1; font-size: 14pt;">[probe_eddy_current eddy_probe]</span></div>
-  <div><span style="color: #236fa1; font-size: 14pt;">sensor_type: ldc1612</span></div>
-  <div><span style="color: #236fa1; font-size: 14pt;">i2c_address: 42</span></div>
-  <div><span style="color: #236fa1; font-size: 14pt;">i2c_mcu: toolhead</span></div>
-  <div><span style="color: #236fa1; font-size: 14pt;">frequency: 40000000</span></div>
-  <div><span style="color: #236fa1; font-size: 14pt;">i2c_speed: 400000</span></div>
-  <div><span style="color: #236fa1; font-size: 14pt;">intb_pin: toolhead:LDC_INTB</span></div>
-  <div><span style="color: #236fa1; font-size: 14pt;">i2c_software_scl_pin: toolhead:LDC_SCL</span></div>
-  <div><span style="color: #236fa1; font-size: 14pt;">i2c_software_sda_pin: toolhead:LDC_SDA</span></div>
   <div>
-    <div>
-      <div><span style="font-size: 14pt; color: #236fa1;">x_offset: 0 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;#记得设置x偏移</span></div>
-      <div><span style="font-size: 14pt; color: #236fa1;">y_offset: -15 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;#记得设置y偏移</span></div>
-      <div><span style="font-size: 14pt; color: #236fa1;">z_offset: 3 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;#记得设置z偏移, 不可过低</span></div>
-      <div><span style="font-size: 14pt; color: #236fa1;">speed: 5 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; #探测速度</span></div>
-      <div><span style="font-size: 14pt; color: #236fa1;">samples: 3 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; #采样次数</span></div>
-      <div><span style="font-size: 14pt; color: #236fa1;">sample_retract_dist: 5.0 &nbsp; &nbsp; #采样时喷嘴抬升距离</span></div>
-      <div><span style="font-size: 14pt; color: #236fa1;">samples_tolerance: 0.05</span></div>
-      <div><span style="font-size: 14pt; color: #236fa1;">samples_tolerance_retries: 2</span></div>
-    </div>
+    <pre class="language-python highlighter-hljs"><code>[neopixel my_neopixel]
+pin: toolhead:WS2812
+# &nbsp; 连接到neopixel的引脚。
+# &nbsp; 必须提供此参数。
+chain_count: 1
+# &nbsp; 菊链中 neopixel 芯片的数量。
+# &nbsp; 默认为1（代表有一个neopixel芯片连接到了这个引脚）。
+color_order: GRB</code></pre>
   </div>
-  <br />
-  <div><span style="color: #236fa1; font-size: 14pt;">[temperature_probe eddy_probe]</span></div>
-  <div><span style="color: #236fa1; font-size: 14pt;">sensor_type: Generic 3950</span></div>
-  <div><span style="color: #236fa1; font-size: 14pt;">sensor_pin: toolhead:T2</span></div>
-  <div><span style="color: #236fa1; font-size: 14pt;">horizontal_move_z: 3</span></div>
-  <div><span style="font-size: 14pt;">&nbsp;</span></div>
-  <div><strong><span style="font-size: 14pt;"># 其他配置具体看我另外一个项目涡流线圈方面的配置</span></strong></div>
-</blockquote>
+</div>
+<p><span style="font-size: 14pt;"><strong>klipper自带eddy涡流配置</strong></span></p>
+<pre class="language-python highlighter-hljs"><code>[probe_eddy_current eddy_probe]
+sensor_type: ldc1612
+i2c_address: 42
+i2c_mcu: toolhead
+frequency: 40000000
+i2c_speed: 400000
+intb_pin: toolhead:LDC_INTB
+i2c_software_scl_pin: toolhead:LDC_SCL
+i2c_software_sda_pin: toolhead:LDC_SDA
+x_offset: 0 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;#记得设置x偏移
+y_offset: -15 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;#记得设置y偏移
+z_offset: 3 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;#记得设置z偏移, 不可过低
+speed: 5 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; #探测速度
+samples: 3 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; #采样次数
+sample_retract_dist: 5.0 &nbsp; &nbsp; #采样时喷嘴抬升距离
+samples_tolerance: 0.05
+samples_tolerance_retries: 2
+
+
+[temperature_probe eddy_probe]
+sensor_type: Generic 3950
+sensor_pin: toolhead:T2
+horizontal_move_z: 3
+&nbsp;
+# 其他配置具体看我另外一个项目涡流线圈方面的配置</code></pre>
 <p>&nbsp;</p>
 <p><strong><span style="font-size: 18pt;">焊接完成验证:</span></strong></p>
 <p>&nbsp;</p>

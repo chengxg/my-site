@@ -19,8 +19,8 @@
 <meta property="og:locale:alternate" content="zh_CN">
 <meta property="og:site_name" content="Renquan Zhizi Open Source">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="stylesheet" href="../../../assets/style.css">
-<script defer src="../../../assets/cm-loader.js"></script>
+<link rel="stylesheet" href="../../../assets/style.css?v=00b8s3jt">
+<script defer src="../../../assets/cm-loader.js?v=00b8s3jt"></script>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -108,20 +108,15 @@
       href="https://oshwhub.com/cxg01/3d-da-yin-wo-liu-diao-ping">https://oshwhub.com/cxg01/3d-da-yin-wo-liu-diao-ping</a></span></p>
 <p>&nbsp;</p>
 <p><span style="font-size: 14pt;"><strong>Toolhead MCU configuration</strong></span></p>
-<p>&nbsp;</p>
-<blockquote>
-  <div><span style="color: #b96ad9; font-size: 14pt;">[mcu toolhead]</span></div>
-  <div><span style="color: #b96ad9; font-size: 14pt;"># USB / serial communication</span></div>
-  <div><span style="color: #b96ad9; font-size: 14pt;"># serial: /dev/serial/by-path/platform-xhci-hcd.0.auto-usb-0:1.1:1.0-port0</span></div>
-  <div><span style="color: #b96ad9; font-size: 14pt;"># baud: 500000&nbsp; &nbsp;# serial baud rate</span></div>
-  <div><span style="color: #b96ad9; font-size: 14pt;"># restart_method: command</span></div>
-  <div><span style="color: #b96ad9; font-size: 14pt;"># CAN communication</span></div>
-  <div><span style="color: #b96ad9; font-size: 14pt;">canbus_uuid: 6cb6cbf28f16</span></div>
-</blockquote>
-<p>&nbsp;</p>
+<pre class="language-python highlighter-hljs"><code>[mcu toolhead]
+# USB / serial communication
+# serial: /dev/serial/by-path/platform-xhci-hcd.0.auto-usb-0:1.1:1.0-port0
+# baud: 500000&nbsp; &nbsp;# serial baud rate
+# restart_method: command
+# CAN communication
+canbus_uuid: 6cb6cbf28f16</code></pre>
 <p><span style="font-size: 14pt;"><strong>MCU pin definitions</strong></span></p>
-<blockquote>
-  <pre class="highlighter-hljs"><code>[board_pins toolhead_pins_f446]
+<pre class="language-python highlighter-hljs"><code>[board_pins toolhead_pins_f446]
 mcu: toolhead # stm32f446 toolhead
 aliases:
 &nbsp; &nbsp; H1=PB2, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # heater
@@ -135,95 +130,71 @@ aliases:
 &nbsp; &nbsp; LDC_SDA=PC0,LDC_SCL=PC1,LDC_INTB=PC13, &nbsp; &nbsp; # LDC1612, crystal frequency 40 MHz
 &nbsp; &nbsp; WS2812=PA8, &nbsp;# WS2812
   &nbsp; LED=PB1, &nbsp; &nbsp; # Klipper run indicator, high = LED on</code></pre>
-</blockquote>
-<p>&nbsp;</p>
 <p><span style="font-size: 14pt;"><strong>PT100 configuration</strong></span></p>
-<blockquote>
-  <div>
-    <div><span style="color: #b96ad9; font-size: 14pt;">[temperature_sensor PT100]</span></div>
-    <div><span style="color: #b96ad9; font-size: 14pt;">sensor_type: MAX31865</span></div>
-    <div><span style="color: #b96ad9; font-size: 14pt;">sensor_pin: toolhead:MAX_CS</span></div>
-    <div><span style="color: #b96ad9; font-size: 14pt;">min_temp: -200</span></div>
-    <div><span style="color: #b96ad9; font-size: 14pt;">max_temp: 300</span></div>
-    <div><span style="color: #b96ad9; font-size: 14pt;">spi_bus: spi1</span></div>
-    <div><span style="color: #b96ad9; font-size: 14pt;"># spi_software_sclk_pin: toolhead:PA5</span></div>
-    <div><span style="color: #b96ad9; font-size: 14pt;"># spi_software_mosi_pin: toolhead:PA6</span></div>
-    <div><span style="color: #b96ad9; font-size: 14pt;"># spi_software_miso_pin: toolhead:PA7</span></div>
-    <div><span style="color: #b96ad9; font-size: 14pt;">rtd_nominal_r: 100</span></div>
-    <div><span style="color: #b96ad9; font-size: 14pt;">rtd_reference_r: 427.27&nbsp; #&nbsp; reference resistor</span></div>
-    <div><span style="color: #b96ad9; font-size: 14pt;">rtd_num_of_wires: 3</span></div>
-  </div>
-</blockquote>
-<p>&nbsp;</p>
+<pre class="language-python highlighter-hljs"><code>[temperature_sensor PT100]
+sensor_type: MAX31865
+sensor_pin: toolhead:MAX_CS
+min_temp: -200
+max_temp: 300
+spi_bus: spi1
+# spi_software_sclk_pin: toolhead:PA5
+# spi_software_mosi_pin: toolhead:PA6
+# spi_software_miso_pin: toolhead:PA7
+rtd_nominal_r: 100
+rtd_reference_r: 427.27&nbsp; #&nbsp; reference resistor
+rtd_num_of_wires: 3</code></pre>
 <p><span style="font-size: 14pt;"><strong>ADXL345 configuration</strong></span></p>
-<blockquote>
-  <div><span style="color: #b96ad9; font-size: 14pt;"># ADXL345 accelerometer</span></div>
-  <div><span style="color: #b96ad9; font-size: 14pt;">[adxl345]</span></div>
-  <div><span style="color: #b96ad9; font-size: 14pt;">cs_pin: toolhead:ADXL_CS</span></div>
-  <div><span style="color: #b96ad9; font-size: 14pt;">spi_software_sclk_pin: toolhead:ADXL_SCK</span></div>
-  <div><span style="color: #b96ad9; font-size: 14pt;">spi_software_mosi_pin: toolhead:ADXL_MOSI</span></div>
-  <div><span style="color: #b96ad9; font-size: 14pt;">spi_software_miso_pin: toolhead:ADXL_MISO</span></div>
-  <div>&nbsp;</div>
-  <div>
-    <div>
-      <div><span style="color: #b96ad9; font-size: 14pt;">[resonance_tester]</span></div>
-      <div><span style="color: #b96ad9; font-size: 14pt;">accel_chip: adxl345</span></div>
-      <div><span style="color: #b96ad9; font-size: 14pt;">accel_per_hz: 50</span></div>
-      <div><span style="color: #b96ad9; font-size: 14pt;">probe_points: 100, 100, 20</span></div>
-    </div>
-  </div>
-</blockquote>
-<p>&nbsp;</p>
+<pre class="language-python highlighter-hljs"><code># ADXL345 accelerometer
+[adxl345]
+cs_pin: toolhead:ADXL_CS
+spi_software_sclk_pin: toolhead:ADXL_SCK
+spi_software_mosi_pin: toolhead:ADXL_MOSI
+spi_software_miso_pin: toolhead:ADXL_MISO
+
+
+[resonance_tester]
+accel_chip: adxl345
+accel_per_hz: 50
+probe_points: 100, 100, 20</code></pre>
 <div>
   <div><span style="font-size: 14pt;"><strong>WS2812 configuration</strong></span></div>
-  <blockquote>
-    <div><span style="font-size: 14pt; color: #b96ad9;">[neopixel my_neopixel]</span></div>
-    <div><span style="font-size: 14pt; color: #b96ad9;">pin: toolhead:WS2812</span></div>
-    <div><span style="font-size: 14pt; color: #b96ad9;"># &nbsp; The pin connected to the neopixel.</span></div>
-    <div><span style="font-size: 14pt; color: #b96ad9;"># &nbsp; This parameter must be provided.</span></div>
-    <div><span style="font-size: 14pt; color: #b96ad9;">chain_count: 1</span></div>
-    <div><span style="font-size: 14pt; color: #b96ad9;"># &nbsp; The number of neopixel chips in the daisy chain.</span></div>
-    <div><span style="font-size: 14pt; color: #b96ad9;"># &nbsp; Defaults to 1 (one neopixel chip connected to this pin).</span></div>
-    <div><span style="font-size: 14pt; color: #b96ad9;">color_order: GRB</span></div>
-  </blockquote>
-</div>
-<p>&nbsp;</p>
-<p><span style="font-size: 14pt;"><strong>Klipper's built-in eddy-current configuration</strong></span></p>
-<blockquote>
-  <div><span style="color: #236fa1; font-size: 14pt;">[probe_eddy_current eddy_probe]</span></div>
-  <div><span style="color: #236fa1; font-size: 14pt;">sensor_type: ldc1612</span></div>
-  <div><span style="color: #236fa1; font-size: 14pt;">i2c_address: 42</span></div>
-  <div><span style="color: #236fa1; font-size: 14pt;">i2c_mcu: toolhead</span></div>
-  <div><span style="color: #236fa1; font-size: 14pt;">frequency: 40000000</span></div>
-  <div><span style="color: #236fa1; font-size: 14pt;">i2c_speed: 400000</span></div>
-  <div><span style="color: #236fa1; font-size: 14pt;">intb_pin: toolhead:LDC_INTB</span></div>
-  <div><span style="color: #236fa1; font-size: 14pt;">i2c_software_scl_pin: toolhead:LDC_SCL</span></div>
-  <div><span style="color: #236fa1; font-size: 14pt;">i2c_software_sda_pin: toolhead:LDC_SDA</span></div>
   <div>
-    <div>
-      <div><span style="font-size: 14pt; color: #236fa1;">x_offset: 0 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# remember to set the X
-          offset</span></div>
-      <div><span style="font-size: 14pt; color: #236fa1;">y_offset: -15 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# remember to set the Y
-          offset</span></div>
-      <div><span style="font-size: 14pt; color: #236fa1;">z_offset: 3 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# remember to set the Z
-          offset; must not be too low</span></div>
-      <div><span style="font-size: 14pt; color: #236fa1;">speed: 5 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # probing speed</span>
-      </div>
-      <div><span style="font-size: 14pt; color: #236fa1;">samples: 3 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # number of samples</span>
-      </div>
-      <div><span style="font-size: 14pt; color: #236fa1;">sample_retract_dist: 5.0 &nbsp; &nbsp; # nozzle lift distance while sampling</span></div>
-      <div><span style="font-size: 14pt; color: #236fa1;">samples_tolerance: 0.05</span></div>
-      <div><span style="font-size: 14pt; color: #236fa1;">samples_tolerance_retries: 2</span></div>
-    </div>
+    <pre class="language-python highlighter-hljs"><code>[neopixel my_neopixel]
+pin: toolhead:WS2812
+# &nbsp; The pin connected to the neopixel.
+# &nbsp; This parameter must be provided.
+chain_count: 1
+# &nbsp; The number of neopixel chips in the daisy chain.
+# &nbsp; Defaults to 1 (one neopixel chip connected to this pin).
+color_order: GRB</code></pre>
   </div>
-  <br />
-  <div><span style="color: #236fa1; font-size: 14pt;">[temperature_probe eddy_probe]</span></div>
-  <div><span style="color: #236fa1; font-size: 14pt;">sensor_type: Generic 3950</span></div>
-  <div><span style="color: #236fa1; font-size: 14pt;">sensor_pin: toolhead:T2</span></div>
-  <div><span style="color: #236fa1; font-size: 14pt;">horizontal_move_z: 3</span></div>
-  <div><span style="font-size: 14pt;">&nbsp;</span></div>
-  <div><strong><span style="font-size: 14pt;"># For other settings, see the eddy-current coil configuration in my other project</span></strong></div>
-</blockquote>
+</div>
+<p><span style="font-size: 14pt;"><strong>Klipper's built-in eddy-current configuration</strong></span></p>
+<pre class="language-python highlighter-hljs"><code>[probe_eddy_current eddy_probe]
+sensor_type: ldc1612
+i2c_address: 42
+i2c_mcu: toolhead
+frequency: 40000000
+i2c_speed: 400000
+intb_pin: toolhead:LDC_INTB
+i2c_software_scl_pin: toolhead:LDC_SCL
+i2c_software_sda_pin: toolhead:LDC_SDA
+x_offset: 0 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# remember to set the X offset
+y_offset: -15 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# remember to set the Y offset
+z_offset: 3 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# remember to set the Z offset; must not be too low
+speed: 5 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # probing speed
+samples: 3 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # number of samples
+sample_retract_dist: 5.0 &nbsp; &nbsp; # nozzle lift distance while sampling
+samples_tolerance: 0.05
+samples_tolerance_retries: 2
+
+
+[temperature_probe eddy_probe]
+sensor_type: Generic 3950
+sensor_pin: toolhead:T2
+horizontal_move_z: 3
+&nbsp;
+# For other settings, see the eddy-current coil configuration in my other project</code></pre>
 <p>&nbsp;</p>
 <p><strong><span style="font-size: 18pt;">Post-soldering verification:</span></strong></p>
 <p>&nbsp;</p>

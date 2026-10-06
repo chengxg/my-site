@@ -19,7 +19,8 @@
 <meta property="og:locale:alternate" content="zh_CN">
 <meta property="og:site_name" content="Renquan Zhizi Open Source">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="stylesheet" href="../../../assets/style.css">
+<link rel="stylesheet" href="../../../assets/style.css?v=00b8s3jt">
+<script defer src="../../../assets/cm-loader.js?v=00b8s3jt"></script>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -118,50 +119,28 @@
         href="https://demo.chengxg.top/mini8/">https://demo.chengxg.top/mini8/</a></strong></p>
   <p>&nbsp;</p>
   <p><span style="color:#000000"><strong><span style="font-size:12pt">MCU pin definitions</span></strong></span></p>
-  <div>
-    <blockquote>
-      <div><span style="font-size:12pt;color:#843fa1">[board_pins mcu_pins]</span></div>
-      <div><span style="font-size:12pt;color:#843fa1">mcu: mcu # STM32H750 V2 core board</span></div>
-      <div><span style="font-size:12pt;color:#843fa1">aliases:</span></div>
-      <div><span style="font-size:12pt;color:#843fa1">&nbsp; &nbsp; # step1-step6 support SPI, spi_bus: spi2</span></div>
-      <div><span style="font-size:12pt;color:#843fa1">&nbsp; &nbsp; DIR1=PD3, STEP1=PD4, UART1=PD2, EN1=PD6, &nbsp; # step1 &nbsp;</span></div>
-      <div><span style="font-size:12pt;color:#843fa1">&nbsp; &nbsp; DIR2=PC8, STEP2=PC12, UART2=PD0, , EN2=PD1,&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; #
-          step2</span>
-      </div>
-      <div><span style="font-size:12pt;color:#843fa1">&nbsp; &nbsp; DIR3=PC9, STEP3=PD8, UART3=PD14, EN3=PB1, &nbsp;# step3</span></div>
-      <div><span style="font-size:12pt;color:#843fa1">&nbsp; &nbsp; DIR4=PC6, STEP4=PD13, UART4=PD12, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# step4
-          EN shared with step3</span></div>
-      <div><span style="font-size:12pt;color:#843fa1">&nbsp; &nbsp; DIR5=PE14, STEP5=PD15, UART5=PD9, EN5=PB2, # step5</span></div>
-      <div><span style="font-size:12pt;color:#843fa1">&nbsp; &nbsp; DIR6=PC5, STEP6=PB12, UART6=PB0, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # step6
-          EN shared with step5</span></div>
-      <div><span style="font-size:12pt;color:#843fa1">&nbsp; &nbsp; DIR7=PA5, STEP7=PA6, UART7=PA7, EN7=PC4, &nbsp; # step7</span></div>
-      <div><span style="font-size:12pt;color:#843fa1">&nbsp; &nbsp; DIR8=PA2, STEP8=PA3, UART8=PA1, EN8=PA0, &nbsp; # step8</span></div>
-      <div><span style="font-size:12pt;color:#843fa1">&nbsp; &nbsp; FAN1=PA8, FAN2=PC7, FAN3=PA10, FAN4=PA9, &nbsp; # FAN1, FAN2 support 5V/12V/24V
-          switching</span></div>
-      <div><span style="font-size:12pt;color:#843fa1">&nbsp; &nbsp; STOP1=PA4, STOP2=PE12, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# endstop 3-pin STOP1/STOP2
-          accept high-voltage input with diode isolation, support 12V and 24V power output</span></div>
-      <div><span style="font-size:12pt;color:#843fa1">&nbsp; &nbsp; STOP3=PE13, STOP4=PE11, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # endstop 2-pin step1/step2
-          sensorless homing</span>
-      </div>
-      <div><span style="font-size:12pt;color:#843fa1">&nbsp; &nbsp; STOP5=PE10, STOP6=PE9, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# endstop 3-pin 5V power
-          output</span>
-      </div>
-      <div><span style="font-size:12pt;color:#843fa1">&nbsp; &nbsp; STOP7=PB7, STOP8=PB6, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # on the core board, endstop
-          5V power output</span>
-      </div>
-      <div><span style="font-size:12pt;color:#843fa1">&nbsp; &nbsp; T1=PC0, T2=PC3, T3=PC1, T4=PC2, &nbsp; # on the core board, thermistors</span></div>
-      <div><span style="font-size:12pt;color:#843fa1">&nbsp; &nbsp; H1=PD11, H2=PD10, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # heaters, H1
-          high-power</span>
-      </div>
-      <div><span style="font-size:12pt;color:#843fa1">&nbsp; &nbsp; LED=PB4, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-          &nbsp;# Klipper run indicator !PB4</span></div>
-      <div><span style="font-size:12pt;color:#843fa1">&nbsp; &nbsp; SDA=PB11, SCL=PB10, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # on the core board,
-          I2C interface
-          i2c_bus:i2c2</span></div>
-      <div><span style="font-size:12pt;color:#843fa1">&nbsp; &nbsp; SHUT=PD7 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-          &nbsp;# high level = automatic shutdown</span></div>
-    </blockquote>
-  </div>
+  <pre class="language-python highlighter-hljs"><code>[board_pins mcu_pins]
+mcu: mcu # STM32H750 V2 core board
+aliases:
+&nbsp; &nbsp; # step1-step6 support SPI, spi_bus: spi2
+&nbsp; &nbsp; DIR1=PD3, STEP1=PD4, UART1=PD2, EN1=PD6, &nbsp; # step1 &nbsp;
+&nbsp; &nbsp; DIR2=PC8, STEP2=PC12, UART2=PD0, , EN2=PD1,&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # step2
+&nbsp; &nbsp; DIR3=PC9, STEP3=PD8, UART3=PD14, EN3=PB1, &nbsp;# step3
+&nbsp; &nbsp; DIR4=PC6, STEP4=PD13, UART4=PD12, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# step4 EN shared with step3
+&nbsp; &nbsp; DIR5=PE14, STEP5=PD15, UART5=PD9, EN5=PB2, # step5
+&nbsp; &nbsp; DIR6=PC5, STEP6=PB12, UART6=PB0, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # step6 EN shared with step5
+&nbsp; &nbsp; DIR7=PA5, STEP7=PA6, UART7=PA7, EN7=PC4, &nbsp; # step7
+&nbsp; &nbsp; DIR8=PA2, STEP8=PA3, UART8=PA1, EN8=PA0, &nbsp; # step8
+&nbsp; &nbsp; FAN1=PA8, FAN2=PC7, FAN3=PA10, FAN4=PA9, &nbsp; # FAN1, FAN2 support 5V/12V/24V switching
+&nbsp; &nbsp; STOP1=PA4, STOP2=PE12, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# endstop 3-pin STOP1/STOP2 accept high-voltage input with diode isolation, support 12V and 24V power output
+&nbsp; &nbsp; STOP3=PE13, STOP4=PE11, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # endstop 2-pin step1/step2 sensorless homing
+&nbsp; &nbsp; STOP5=PE10, STOP6=PE9, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# endstop 3-pin 5V power output
+&nbsp; &nbsp; STOP7=PB7, STOP8=PB6, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # on the core board, endstop 5V power output
+&nbsp; &nbsp; T1=PC0, T2=PC3, T3=PC1, T4=PC2, &nbsp; # on the core board, thermistors
+&nbsp; &nbsp; H1=PD11, H2=PD10, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # heaters, H1 high-power
+&nbsp; &nbsp; LED=PB4, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# Klipper run indicator !PB4
+&nbsp; &nbsp; SDA=PB11, SCL=PB10, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # on the core board, I2C interface i2c_bus:i2c2
+&nbsp; &nbsp; SHUT=PD7 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# high level = automatic shutdown</code></pre>
   <p>&nbsp;</p>
   <p><span style="font-size:24pt"><strong>The project is open-sourced first, documentation to follow......</strong></span></p>
   <p>&nbsp;</p>

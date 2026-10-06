@@ -19,8 +19,8 @@
 <meta property="og:locale:alternate" content="zh_CN">
 <meta property="og:site_name" content="Renquan Zhizi Open Source">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="stylesheet" href="../../../assets/style.css">
-<script defer src="../../../assets/cm-loader.js"></script>
+<link rel="stylesheet" href="../../../assets/style.css?v=00b8s3jt">
+<script defer src="../../../assets/cm-loader.js?v=00b8s3jt"></script>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -117,43 +117,30 @@
 </div>
 <h2 id="commands"><span style="font-size: 18pt;">I. Tool-Calibration Plugin G-code Command Reference</span></h2>
 <p><strong><span style="font-size: 14pt;">Add the sensor configuration block</span></strong></p>
-<blockquote>
-  <div>
-    <div>
-      <div><span style="font-size: 12pt; color: #236fa1;">[tool_eddy_calibration calibrator_xy]</span></div>
-      <div><span style="font-size: 12pt; color: #236fa1;">sensor_type: ldc1612</span></div>
-      <div><span style="font-size: 12pt; color: #236fa1;">frequency: 40000000</span></div>
-      <div><span style="font-size: 12pt; color: #236fa1;">reg_drive_current: 22 &nbsp; &nbsp; # comment this out if you use the drive-current calibration
-          command</span></div>
-      <div><span style="font-size: 12pt; color: #236fa1;">max_sensor_hz: 3000000 &nbsp; &nbsp;# coil maximum frequency</span></div>
-      <div><span style="font-size: 12pt; color: #236fa1;"># LDC1612 I2C configuration</span></div>
-      <div><span style="font-size: 12pt; color: #236fa1;">i2c_speed: 400000</span></div>
-      <div><span style="font-size: 12pt; color: #236fa1;">i2c_address: 42 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # address jumper connection</span></div>
-      <div><span style="font-size: 12pt; color: #236fa1;">i2c_mcu: mcu &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# change to your own</span></div>
-      <div><span style="font-size: 12pt; color: #236fa1;">i2c_software_scl_pin: SCL # change to your own</span></div>
-      <div><span style="font-size: 12pt; color: #236fa1;">i2c_software_sda_pin: SDA # change to your own</span></div>
-      <div><span style="font-size: 12pt; color: #236fa1;"># PCB coil position, approximate</span></div>
-      <div><span style="font-size: 12pt; color: #236fa1;">coil_x: 28.7 &nbsp;# change to your own</span></div>
-      <div><span style="font-size: 12pt; color: #236fa1;">coil_y: 12.6 &nbsp;# change to your own</span></div>
-      <div><span style="font-size: 12pt; color: #236fa1;">coil_z: 0.4 &nbsp; # change to your own, Z coordinate of the coil plane</span></div>
-      <div><span style="font-size: 12pt; color: #236fa1;">coil_inner_diameter: 2.0 &nbsp; &nbsp;# coil inner diameter</span></div>
-      <div><span style="font-size: 12pt; color: #236fa1;"># Scanning parameters</span></div>
-      <div><span style="font-size: 12pt; color: #236fa1;">scan_height: 0.4 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# scanning height above the PCB coil center,
-          added on top of coil_z; the nozzle should scan about 0.5 mm above the coil</span></div>
-      <div><span style="font-size: 12pt; color: #236fa1;">scan_speed: 4.0 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # scanning speed; slower is not necessarily
-          better</span></div>
-      <div><span style="font-size: 12pt; color: #236fa1;">scan_length: 4.0 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# scan length, must at least cover the coil
-          inner diameter</span></div>
-      <div><span style="font-size: 12pt; color: #236fa1;">scan_safe_z: 2.0 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# safe Z height, just needs to be higher
-          than scan_height</span></div>
-      <div><span style="font-size: 12pt; color: #236fa1;">travel_speed_xy: 100.0 &nbsp; &nbsp; &nbsp;# XY travel speed</span></div>
-      <div><span style="font-size: 12pt; color: #236fa1;">travel_speed_z: 10.0 &nbsp; &nbsp; &nbsp; &nbsp;# Z travel speed</span></div>
-      <div><span style="font-size: 12pt; color: #236fa1;">save_data: True &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # whether to save probe data to a CSV
-          file</span></div>
-    </div>
-  </div>
-  <div>&nbsp;</div>
-</blockquote>
+<pre class="language-python highlighter-hljs"><code>[tool_eddy_calibration calibrator_xy]
+sensor_type: ldc1612
+frequency: 40000000
+reg_drive_current: 22 &nbsp; &nbsp; # comment this out if you use the drive-current calibration command
+max_sensor_hz: 3000000 &nbsp; &nbsp;# coil maximum frequency
+# LDC1612 I2C configuration
+i2c_speed: 400000
+i2c_address: 42 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # address jumper connection
+i2c_mcu: mcu &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# change to your own
+i2c_software_scl_pin: SCL # change to your own
+i2c_software_sda_pin: SDA # change to your own
+# PCB coil position, approximate
+coil_x: 28.7 &nbsp;# change to your own
+coil_y: 12.6 &nbsp;# change to your own
+coil_z: 0.4 &nbsp; # change to your own, Z coordinate of the coil plane
+coil_inner_diameter: 2.0 &nbsp; &nbsp;# coil inner diameter
+# Scanning parameters
+scan_height: 0.4 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# scanning height above the PCB coil center, added on top of coil_z; the nozzle should scan about 0.5 mm above the coil
+scan_speed: 4.0 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # scanning speed; slower is not necessarily better
+scan_length: 4.0 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# scan length, must at least cover the coil inner diameter
+scan_safe_z: 2.0 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# safe Z height, just needs to be higher than scan_height
+travel_speed_xy: 100.0 &nbsp; &nbsp; &nbsp;# XY travel speed
+travel_speed_z: 10.0 &nbsp; &nbsp; &nbsp; &nbsp;# Z travel speed
+save_data: True &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # whether to save probe data to a CSV file</code></pre>
 <h3><strong><span style="font-size: 14pt; color: #ba372a;">1. TEST_LDC1612 &mdash; sensor test command</span></strong></h3>
 <p><strong>Quickly checks whether the LDC1612 sensor is working, collecting frequency data over a short period and printing statistics. <span
       style="color: #ba372a;">Use this after soldering to verify it works.</span></strong></p>
@@ -308,155 +295,133 @@
 <p>&nbsp;</p>
 <h2><span style="font-size: 18pt;">II. Practical configuration of the tool-calibration plugin in the hotend-swapping project</span></h2>
 <p><span style="color: #843fa1; font-size: 12pt;"><strong>calibration-eddy.cfg — complete configuration file</strong></span></p>
-<div>
-  <blockquote>
-    <div>
-      <div>
-        <div><span style="font-size: 12pt; color: #236fa1;"># Hotend-swapping project eddy tool calibration
-            https://github.com/cx330-TXY/Simple-Multi-Hotend</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;"># Find the center point: TOOL_EDDY_CALIBRATE TOOL=0 DIR=45,135 REPEATS=1</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;"># Query calibration result: GET_TOOL_CENTER TOOL=0</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;"># Set tool Z coordinate: SET_TOOL_Z TOOL=0 Z=-0.1</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;"># Clear the scan center point: &nbsp;CLEAR_TOOL_CENTER TOOL=0</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;"># Coil drive-current calibration command: LDC_CALIBRATE_DRIVE_CURRENT CHIP=calibrator_xy</span>
-        </div>
-        <br />
-        <div><span style="font-size: 12pt; color: #236fa1;">[tool_eddy_calibration calibrator_xy]</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">sensor_type: ldc1612</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">frequency: 40000000</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">reg_drive_current: 22 &nbsp; &nbsp; # comment this out if you use the drive-current calibration
-            command</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">max_sensor_hz: 3000000 &nbsp; &nbsp;# coil maximum frequency</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;"># LDC1612 I2C configuration</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">i2c_speed: 400000</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">i2c_address: 42 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # address jumper connection</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">i2c_mcu: mcu &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# change to your own</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">i2c_software_scl_pin: SCL # change to your own</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">i2c_software_sda_pin: SDA # change to your own</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;"># PCB coil position, approximate</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">coil_x: 28.7 &nbsp;# change to your own</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">coil_y: 12.6 &nbsp;# change to your own</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">coil_z: 0.4 &nbsp; # change to your own, Z coordinate of the coil plane</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">coil_inner_diameter: 2.0 &nbsp; &nbsp;# coil inner diameter</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;"># Scanning parameters</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">scan_height: 0.4 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# scanning height above the PCB coil
-            center, added on top of coil_z; the nozzle should scan about 0.5 mm above the coil</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">scan_speed: 4.0 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # scanning speed; slower is not
-            necessarily better</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">scan_length: 4.0 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# scan length, must at least cover the
-            coil inner diameter</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">scan_safe_z: 2.0 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# safe Z height, just needs to be higher
-            than scan_height</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">travel_speed_xy: 100.0 &nbsp; &nbsp; &nbsp;# XY travel speed</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">travel_speed_z: 10.0 &nbsp; &nbsp; &nbsp; &nbsp;# Z travel speed</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">save_data: True &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # whether to save probe data to a CSV
-            file</span></div>
-        <br />
-        <div><span style="font-size: 12pt; color: #236fa1;">[gcode_macro _TOOL_CALIB_VARS]</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">variable_safe_x: 20.0 &nbsp; &nbsp; &nbsp; &nbsp;# change to your own, tool-change/parking safe-area
-            X, where the nozzle pokes the bed</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">variable_safe_y: 35.0 &nbsp; &nbsp; &nbsp; &nbsp;# change to your own, tool-change/parking safe-area
-            Y, where the nozzle pokes the bed</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">variable_safe_z: 5.0 &nbsp; &nbsp; &nbsp; &nbsp; # change to your own, tool-change/parking safe-area
-            Z height</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">variable_tool_count: 2 &nbsp; &nbsp; &nbsp; # change to your own, total number of tools (e.g. 0, 1 —
-            2 in total)</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">gcode:</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; # No commands here; this macro only stores variables</span></div>
-        <br />
-        <div><span style="font-size: 12pt; color: #236fa1;"># ---------------------------------------------------------</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;"># Calibrate a single tool</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;"># Usage example: CALIBRATE_TOOL TOOL=1</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;"># ---------------------------------------------------------</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">[gcode_macro CALIBRATE_TOOL]</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">gcode:</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; {% set tool = params.TOOL|default(0)|int %}</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; {% set vars = printer["gcode_macro _TOOL_CALIB_VARS"] %}</span></div>
-        <br />
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; G1 X{vars.safe_x} Y{vars.safe_y} Z{vars.safe_z} F9000</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; T{tool}</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; SET_GCODE_OFFSET X=0 Y=0 Z=0 MOVE=0</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; G1 X{vars.safe_x} Y{vars.safe_y} Z{vars.safe_z} F9000</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; M109 S150 T{tool} &nbsp; &nbsp; # heat to 150C</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; # CLEAN_NOZZLE # set up nozzle wiping yourself as needed, otherwise results are
-            inaccurate</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; # Get the Z offset using a nozzle-limiting probe</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; PROBE METHOD=tap SAMPLES=3</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; G1 X{vars.safe_x} Y{vars.safe_y} Z{vars.safe_z} F9000</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; DO_CALIBRATE_TOOL TOOL={tool}</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; _DO_SAVE_CALIB_RESULT TOOL={tool}</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; M400 &nbsp; # [KEY] wait for all moves to finish</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; G90</span></div>
-        <br />
-        <div><span style="font-size: 12pt; color: #236fa1;">[gcode_macro DO_CALIBRATE_TOOL]</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">gcode:</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; {% set tool = params.TOOL|default(0)|int %}</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; {% set probeZ = printer.probe.last_probe_position.z %}</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; # Clear the previous center point</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; CLEAR_TOOL_CENTER TOOL={tool}</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; # Set the Z position probed by the nozzle-limiting probe</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; SET_TOOL_Z TOOL={tool} Z={probeZ}</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; {% set tool0ProbeZ = 0.0 %}</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; {% if '0' in printer["tool_eddy_calibration calibrator_xy"] %}</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; &nbsp;
-            {% set tool0ProbeZ = printer["tool_eddy_calibration calibrator_xy"]["0"].z %}</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; {% endif %}</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; # Perform XY offset calibration, applying a Z offset relative to tool0 to avoid the
-            nozzle hitting the coil</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; TOOL_EDDY_CALIBRATE TOOL={tool} DIR=0,90 PAIR_CANCEL=0
-            SCAN_HEIGHT_OFFSET={probeZ-tool0ProbeZ}</span></div>
-        <br />
-        <div><span style="font-size: 12pt; color: #236fa1;">[gcode_macro _DO_SAVE_CALIB_RESULT]</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">gcode:</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; {% set tool = params.TOOL|int %}</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; {% set res0 = printer["tool_eddy_calibration calibrator_xy"]["0"] %}</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; {% set res = printer["tool_eddy_calibration calibrator_xy"][tool|string] %}</span>
-        </div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp;</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; {% if tool == 0 %}</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; &nbsp; &nbsp; # T0 always stores 0</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; &nbsp; &nbsp; SAVE_VARIABLE VARIABLE=t0_offset_x VALUE=0.0</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; &nbsp; &nbsp; SAVE_VARIABLE VARIABLE=t0_offset_y VALUE=0.0</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; &nbsp; &nbsp; SAVE_VARIABLE VARIABLE=t0_offset_z VALUE=0.0</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; &nbsp; &nbsp; {action_respond_info("✅ T0 reference point coordinates locked")}</span>
-        </div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; {% else %}</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; &nbsp; &nbsp; # Other tools store the probed result</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; &nbsp; &nbsp; SAVE_VARIABLE VARIABLE=t{tool}_offset_x
-            VALUE={(res.x-res0.x)|round(4)}</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; &nbsp; &nbsp; SAVE_VARIABLE VARIABLE=t{tool}_offset_y
-            VALUE={(res.y-res0.y)|round(4)}</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; &nbsp; &nbsp; SAVE_VARIABLE VARIABLE=t{tool}_offset_z
-            VALUE={(res.z-res0.z)|round(4)}</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; &nbsp; &nbsp; {action_respond_info("✅ T" ~ tool ~ " offsets saved
-            automatically")}</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; {% endif %}</span></div>
-        <br />
-        <div><span style="font-size: 12pt; color: #236fa1;"># ---------------------------------------------------------</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;"># Batch-calibrate all tools</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;"># ---------------------------------------------------------</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">[gcode_macro CALIBRATE_ALL_TOOLS]</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">gcode:</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; {% set vars = printer["gcode_macro _TOOL_CALIB_VARS"] %}</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; {action_respond_info("Starting fully automatic tool calibration...")}</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; # Pre-heat everything to 150C — mind your power supply capacity</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; {% for t in range(0, vars.tool_count) %}</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; &nbsp; &nbsp; M104 S150 T{t}</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; {% endfor %}</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; # Iterate over all tools (range(0, N) yields 0 to N-1)</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; {% for t in range(0, vars.tool_count) %}</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; &nbsp; &nbsp; CALIBRATE_TOOL TOOL={t}</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; {% endfor %}</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; # Turn heaters off</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; {% for t in range(0, vars.tool_count) %}</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; &nbsp; &nbsp; M104 S0 T{t}</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; {% endfor %}</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; untool</span></div>
-        <div><span style="font-size: 12pt; color: #236fa1;">&nbsp; &nbsp; {action_respond_info("All tools calibrated")}</span></div>
-      </div>
-    </div>
-  </blockquote>
-</div>
+<pre class="language-python highlighter-hljs"><code># Hotend-swapping project eddy tool calibration https://github.com/cx330-TXY/Simple-Multi-Hotend
+# Find the center point: TOOL_EDDY_CALIBRATE TOOL=0 DIR=45,135 REPEATS=1
+# Query calibration result: GET_TOOL_CENTER TOOL=0
+# Set tool Z coordinate: SET_TOOL_Z TOOL=0 Z=-0.1
+# Clear the scan center point: &nbsp;CLEAR_TOOL_CENTER TOOL=0
+# Coil drive-current calibration command: LDC_CALIBRATE_DRIVE_CURRENT CHIP=calibrator_xy
+
+
+[tool_eddy_calibration calibrator_xy]
+sensor_type: ldc1612
+frequency: 40000000
+reg_drive_current: 22 &nbsp; &nbsp; # comment this out if you use the drive-current calibration command
+max_sensor_hz: 3000000 &nbsp; &nbsp;# coil maximum frequency
+# LDC1612 I2C configuration
+i2c_speed: 400000
+i2c_address: 42 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # address jumper connection
+i2c_mcu: mcu &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# change to your own
+i2c_software_scl_pin: SCL # change to your own
+i2c_software_sda_pin: SDA # change to your own
+# PCB coil position, approximate
+coil_x: 28.7 &nbsp;# change to your own
+coil_y: 12.6 &nbsp;# change to your own
+coil_z: 0.4 &nbsp; # change to your own, Z coordinate of the coil plane
+coil_inner_diameter: 2.0 &nbsp; &nbsp;# coil inner diameter
+# Scanning parameters
+scan_height: 0.4 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# scanning height above the PCB coil center, added on top of coil_z; the nozzle should scan about 0.5 mm above the coil
+scan_speed: 4.0 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # scanning speed; slower is not necessarily better
+scan_length: 4.0 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# scan length, must at least cover the coil inner diameter
+scan_safe_z: 2.0 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;# safe Z height, just needs to be higher than scan_height
+travel_speed_xy: 100.0 &nbsp; &nbsp; &nbsp;# XY travel speed
+travel_speed_z: 10.0 &nbsp; &nbsp; &nbsp; &nbsp;# Z travel speed
+save_data: True &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # whether to save probe data to a CSV file
+
+
+[gcode_macro _TOOL_CALIB_VARS]
+variable_safe_x: 20.0 &nbsp; &nbsp; &nbsp; &nbsp;# change to your own, tool-change/parking safe-area X, where the nozzle pokes the bed
+variable_safe_y: 35.0 &nbsp; &nbsp; &nbsp; &nbsp;# change to your own, tool-change/parking safe-area Y, where the nozzle pokes the bed
+variable_safe_z: 5.0 &nbsp; &nbsp; &nbsp; &nbsp; # change to your own, tool-change/parking safe-area Z height
+variable_tool_count: 2 &nbsp; &nbsp; &nbsp; # change to your own, total number of tools (e.g. 0, 1, 2 in total)
+gcode:
+&nbsp; &nbsp; # No commands here; this macro only stores variables
+
+
+# ---------------------------------------------------------
+# Calibrate a single tool
+# Usage example: CALIBRATE_TOOL TOOL=1
+# ---------------------------------------------------------
+[gcode_macro CALIBRATE_TOOL]
+gcode:
+&nbsp; &nbsp; {% set tool = params.TOOL|default(0)|int %}
+&nbsp; &nbsp; {% set vars = printer["gcode_macro _TOOL_CALIB_VARS"] %}
+
+
+&nbsp; &nbsp; G1 X{vars.safe_x} Y{vars.safe_y} Z{vars.safe_z} F9000
+&nbsp; &nbsp; T{tool}
+&nbsp; &nbsp; SET_GCODE_OFFSET X=0 Y=0 Z=0 MOVE=0
+&nbsp; &nbsp; G1 X{vars.safe_x} Y{vars.safe_y} Z{vars.safe_z} F9000
+&nbsp; &nbsp; M109 S150 T{tool} &nbsp; &nbsp; # heat to 150C
+&nbsp; &nbsp; # CLEAN_NOZZLE # set up nozzle wiping yourself as needed, otherwise results are inaccurate
+&nbsp; &nbsp; # Get the Z offset using a nozzle-limiting probe
+&nbsp; &nbsp; PROBE METHOD=tap SAMPLES=3
+&nbsp; &nbsp; G1 X{vars.safe_x} Y{vars.safe_y} Z{vars.safe_z} F9000
+&nbsp; &nbsp; DO_CALIBRATE_TOOL TOOL={tool}
+&nbsp; &nbsp; _DO_SAVE_CALIB_RESULT TOOL={tool}
+&nbsp; &nbsp; M400 &nbsp; # [KEY] wait for all moves to finish
+&nbsp; &nbsp; G90
+
+
+[gcode_macro DO_CALIBRATE_TOOL]
+gcode:
+&nbsp; &nbsp; {% set tool = params.TOOL|default(0)|int %}
+&nbsp; &nbsp; {% set probeZ = printer.probe.last_probe_position.z %}
+&nbsp; &nbsp; # Clear the previous center point
+&nbsp; &nbsp; CLEAR_TOOL_CENTER TOOL={tool}
+&nbsp; &nbsp; # Set the Z position probed by the nozzle-limiting probe
+&nbsp; &nbsp; SET_TOOL_Z TOOL={tool} Z={probeZ}
+&nbsp; &nbsp; {% set tool0ProbeZ = 0.0 %}
+&nbsp; &nbsp; {% if '0' in printer["tool_eddy_calibration calibrator_xy"] %}
+&nbsp; &nbsp; &nbsp; {% set tool0ProbeZ = printer["tool_eddy_calibration calibrator_xy"]["0"].z %}
+&nbsp; &nbsp; {% endif %}
+&nbsp; &nbsp; # Perform XY offset calibration, applying a Z offset relative to tool0 to avoid the nozzle hitting the coil
+&nbsp; &nbsp; TOOL_EDDY_CALIBRATE TOOL={tool} DIR=0,90 PAIR_CANCEL=0 SCAN_HEIGHT_OFFSET={probeZ-tool0ProbeZ}
+
+
+[gcode_macro _DO_SAVE_CALIB_RESULT]
+gcode:
+&nbsp; &nbsp; {% set tool = params.TOOL|int %}
+&nbsp; &nbsp; {% set res0 = printer["tool_eddy_calibration calibrator_xy"]["0"] %}
+&nbsp; &nbsp; {% set res = printer["tool_eddy_calibration calibrator_xy"][tool|string] %}
+&nbsp; &nbsp;
+&nbsp; &nbsp; {% if tool == 0 %}
+&nbsp; &nbsp; &nbsp; &nbsp; # T0 always stores 0
+&nbsp; &nbsp; &nbsp; &nbsp; SAVE_VARIABLE VARIABLE=t0_offset_x VALUE=0.0
+&nbsp; &nbsp; &nbsp; &nbsp; SAVE_VARIABLE VARIABLE=t0_offset_y VALUE=0.0
+&nbsp; &nbsp; &nbsp; &nbsp; SAVE_VARIABLE VARIABLE=t0_offset_z VALUE=0.0
+&nbsp; &nbsp; &nbsp; &nbsp; {action_respond_info("✅ T0 reference point coordinates locked")}
+&nbsp; &nbsp; {% else %}
+&nbsp; &nbsp; &nbsp; &nbsp; # Other tools store the probed result
+&nbsp; &nbsp; &nbsp; &nbsp; SAVE_VARIABLE VARIABLE=t{tool}_offset_x VALUE={(res.x-res0.x)|round(4)}
+&nbsp; &nbsp; &nbsp; &nbsp; SAVE_VARIABLE VARIABLE=t{tool}_offset_y VALUE={(res.y-res0.y)|round(4)}
+&nbsp; &nbsp; &nbsp; &nbsp; SAVE_VARIABLE VARIABLE=t{tool}_offset_z VALUE={(res.z-res0.z)|round(4)}
+&nbsp; &nbsp; &nbsp; &nbsp; {action_respond_info("✅ T" ~ tool ~ " offsets saved automatically")}
+&nbsp; &nbsp; {% endif %}
+
+
+# ---------------------------------------------------------
+# Batch-calibrate all tools
+# ---------------------------------------------------------
+[gcode_macro CALIBRATE_ALL_TOOLS]
+gcode:
+&nbsp; &nbsp; {% set vars = printer["gcode_macro _TOOL_CALIB_VARS"] %}
+&nbsp; &nbsp; {action_respond_info("Starting fully automatic tool calibration...")}
+&nbsp; &nbsp; # Pre-heat everything to 150C — mind your power supply capacity
+&nbsp; &nbsp; {% for t in range(0, vars.tool_count) %}
+&nbsp; &nbsp; &nbsp; &nbsp; M104 S150 T{t}
+&nbsp; &nbsp; {% endfor %}
+&nbsp; &nbsp; # Iterate over all tools (range(0, N) yields 0 to N-1)
+&nbsp; &nbsp; {% for t in range(0, vars.tool_count) %}
+&nbsp; &nbsp; &nbsp; &nbsp; CALIBRATE_TOOL TOOL={t}
+&nbsp; &nbsp; {% endfor %}
+&nbsp; &nbsp; # Turn heaters off
+&nbsp; &nbsp; {% for t in range(0, vars.tool_count) %}
+&nbsp; &nbsp; &nbsp; &nbsp; M104 S0 T{t}
+&nbsp; &nbsp; {% endfor %}
+&nbsp; &nbsp; untool
+&nbsp; &nbsp; {action_respond_info("All tools calibrated")}</code></pre>
+<h2>&nbsp;</h2>
 <h2 id="algorithm"><span style="font-size: 18pt;">III. Scanning algorithm overview</span></h2>
 <h3><span style="font-size: 14pt;">1. Scanning process</span></h3>
 <p><span style="font-size: 12pt;">The scan in each direction is a straight-line move of length L at angle &theta; about the center point:</span></p>

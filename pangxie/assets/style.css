@@ -21,6 +21,8 @@
 body {
   min-height: 100vh;
   background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ec 100%);
+  /* 导航栏固定在顶部, body 留出等高空间 */
+  padding-top: 64px;
 }
 
 .page {
@@ -45,6 +47,11 @@ a:hover {
 /* ===== 导航栏 ===== */
 
 .navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   padding: 1rem 0;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
@@ -193,20 +200,6 @@ a:hover {
   font-size: 0.95rem;
 }
 
-@media (max-width: 768px) {
-  .works {
-    grid-template-columns: 1fr;
-  }
-
-  .nav-container {
-    padding: 0 1rem;
-  }
-
-  .nav-links {
-    gap: 1rem;
-  }
-}
-
 /* ===== 文章页 ===== */
 
 .article-detail {
@@ -296,6 +289,13 @@ a:hover {
   height: auto;
   display: block;
   margin: 1rem 0;
+}
+
+/* 宽表格在小屏上横向滚动, 不撑破版面 */
+.article-body table {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
 }
 
 .article-body .cm-editor {
@@ -407,4 +407,74 @@ a:hover {
 .not-found h2 {
   color: #999;
   margin-bottom: 1rem;
+}
+
+/* ===== 移动端适配 (必须放在所有基础样式之后, 同优先级时后者覆盖) ===== */
+
+@media (max-width: 768px) {
+  body {
+    padding-top: 60px;
+  }
+
+  .works {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .nav-container {
+    max-width: 100%;
+    padding: 0 1rem;
+  }
+
+  .nav-links {
+    gap: 1rem;
+  }
+
+  .logo {
+    font-size: 1.2rem;
+  }
+
+  .logo-image {
+    height: 28px;
+    width: 28px;
+  }
+
+  .home {
+    padding: 1rem;
+  }
+
+  .work-info {
+    padding: 1rem;
+  }
+
+  .article-detail {
+    max-width: 100%;
+    padding: 0;
+  }
+
+  .article-content {
+    padding: 0.75rem 0.6rem;
+    border-radius: 0;
+  }
+
+  .article-header h1 {
+    font-size: 1.4rem;
+  }
+
+  .article-body h2 {
+    font-size: 1.25rem;
+  }
+
+  .article-body h3 {
+    font-size: 1.1rem;
+  }
+
+  .article-attachments {
+    margin-top: 1.25rem;
+    padding-top: 1rem;
+  }
+
+  .footer {
+    padding: 1.25rem 1rem;
+  }
 }
