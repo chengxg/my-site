@@ -291,11 +291,37 @@ a:hover {
   margin: 1rem 0;
 }
 
-/* 宽表格在小屏上横向滚动, 不撑破版面 */
+/* ===== 文章表格 ===== */
+
+/* 固定布局 + 100% 宽度: 列宽按比例收缩, 内容自动换行, 不出横向滚动条 */
 .article-body table {
-  display: block;
-  max-width: 100%;
-  overflow-x: auto;
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  margin: 1rem 0;
+  font-size: 0.9rem;
+}
+
+.article-body table td,
+.article-body table th {
+  border: 1px solid #dfe3ea;
+  padding: 0.5rem 0.65rem;
+  vertical-align: top;
+  text-align: left;
+  line-height: 1.5 !important; /* 覆盖文档内联的 line-height:1 */
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+
+/* 首行为表头 (文档表格无 thead, 表头是第一个 tr) */
+.article-body table tr:first-child td {
+  background: linear-gradient(135deg, #eef0fb 0%, #f3eef8 100%);
+  font-weight: 600;
+}
+
+/* 斑马纹 */
+.article-body table tbody tr:nth-child(even) {
+  background: #f8fafc;
 }
 
 .article-body .cm-editor {
@@ -467,6 +493,15 @@ a:hover {
 
   .article-body h3 {
     font-size: 1.1rem;
+  }
+
+  .article-body table {
+    font-size: 0.8rem;
+  }
+
+  .article-body table td,
+  .article-body table th {
+    padding: 0.35rem 0.4rem;
   }
 
   .article-attachments {
